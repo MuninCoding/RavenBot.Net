@@ -217,6 +217,7 @@
     <Compile Include="BattleSystem\Entities\BaseArmor.cs" />
     <Compile Include="BattleSystem\Entities\BaseWeapons.cs" />
     <Compile Include="BattleSystem\Entities\BaseShield.cs" />
+    <Compile Include="BattleSystem\Entities\Shield\HandBlock.cs" />
     <Compile Include="BattleSystem\Entities\Weapons\Fist.cs" />
     <Compile Include="BattleSystem\Entities\Weapons\Rock.cs" />
     <Compile Include="Core\DataStorage.cs" />
@@ -248,7 +249,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BattleSystem\Entities\Armor\" />
-    <Folder Include="BattleSystem\Entities\Shield\" />
     <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

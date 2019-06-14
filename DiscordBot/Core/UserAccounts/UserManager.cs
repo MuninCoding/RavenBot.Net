@@ -1,6 +1,7 @@
 ﻿using Discord.WebSocket;
 using DiscordBot.BattleSystem;
 using DiscordBot.BattleSystem.Entities;
+using DiscordBot.BattleSystem.Entities.Shield;
 using DiscordBot.BattleSystem.Entities.Weapons;
 using System;
 using System.Collections.Generic;
@@ -60,7 +61,7 @@ namespace DiscordBot.Core.UserAccounts
             battleStats.BaseDefense = 0;
             battleStats.BaseHealth = 100;      
             battleStats.Weapon = new Fist();
-            battleStats.Shield = new BaseShield();
+            battleStats.Shield = new HandBlock();
             battleStats.Armor = new BaseArmor();
             var newAccount = new UserAccount()
             {
