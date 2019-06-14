@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace DiscordBot.BattleSystem.Entities.Shield
 {
-    [JsonObject]
     public class HandBlock : BaseShield
     {
         public override int DamageBlock { get; set; }

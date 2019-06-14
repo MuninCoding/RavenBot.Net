@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace DiscordBot.BattleSystem.Entities.Weapons
 {
-    [JsonObject]
     public class Fist : BaseWeapons
     {
         public override int Damage { get; set; }
