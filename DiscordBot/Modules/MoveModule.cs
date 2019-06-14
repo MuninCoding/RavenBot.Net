@@ -1,5 +1,4 @@
-﻿using DiscordBot.Discord;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
@@ -9,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiscordBot.Discord.Modules
+namespace DiscordBot.Modules
 {
     public class MoveModule : ModuleBase<SocketCommandContext>
     {

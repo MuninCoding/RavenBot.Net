@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using DiscordBot;
+using DiscordBot.Core.LevelSystem;
 
 namespace DiscordBot
 {
@@ -22,6 +23,7 @@ namespace DiscordBot
             await _service.AddModulesAsync(assembly: Assembly.GetEntryAssembly(),
                                 services: null);
             _client.MessageReceived += HandleCommandAsync;
+            
         }
 
         private async Task HandleCommandAsync(SocketMessage s)
@@ -30,6 +32,8 @@ namespace DiscordBot
             if (msg == null) return;
             var context = new SocketCommandContext(_client, msg);
             if (context.User.IsBot) return;
+
+             LevelSystem.AddXpForMessage((SocketGuildUser)context.User, (SocketTextChannel)context.Channel);
 
             int argPos = 0;
             if (msg.HasCharPrefix(ConfigHandler.config.Prefix, ref argPos)

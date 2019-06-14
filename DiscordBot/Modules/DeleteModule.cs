@@ -10,15 +10,18 @@ namespace DiscordBot.Modules
 {
     public class DeleteModule : ModuleBase<SocketCommandContext>
     {
-        [Command("delete")]
-        [Summary("Deletes messages from a channel. Ammount can be specified as argument. Defaults to 10, Maximum is 100")]
+        [Command("clear")]
+        [Summary("Clear messages from a channel. Ammount can be specified as argument. Defaults to 10, Maximum is 100")]
         [RequireUserPermission(GuildPermission.ManageMessages)]
         [RequireBotPermission(GuildPermission.ManageMessages)]
         public async Task DeleteMessageAsync(int amount = 10, bool pinned = false)
         {
+            const int delay = 5000;
             if (amount <= 0)
             {
-                await ReplyAsync("The amount of messages to remove must be positive.");
+                var botMsg = await ReplyAsync("The amount of messages to remove must be positive.");
+                await Task.Delay(delay);
+                await botMsg.DeleteAsync();
                 return;
             }
 
@@ -40,12 +43,18 @@ namespace DiscordBot.Modules
 
                 if (count == 0)
                 {
-                    await ReplyAsync("Nothing to delete.");
+                    var botMsg = await ReplyAsync("Nothing to delete.");
+                    await Task.Delay(delay);
+                    await botMsg.DeleteAsync();
                 }
                 else
                 {
                     await (Context.Channel as ITextChannel).DeleteMessagesAsync(filteredMessages);
-                    await ReplyAsync($"Done. Removed {count} {(count > 1 ? "messages" : "message")}.");
+                    var botMsg = await ReplyAsync($"Done. Removed {count} {(count > 1 ? "messages" : "message")}.");
+                    await Task.Delay(delay);
+                    await Context.Message.DeleteAsync();
+                    await botMsg.DeleteAsync();
+
                 }
             }
         }

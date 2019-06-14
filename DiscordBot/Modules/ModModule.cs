@@ -20,7 +20,8 @@ namespace DiscordBot.Modules
             if (user.GuildPermissions.KickMembers)
             {
                 await userAccount.KickAsync(reason);
-                await Context.Channel.SendMessageAsync($"The user {userAccount} has been kicked, for {reason}");
+                await Context.Channel.SendMessageAsync($"The user {userAccount} has been kicked, for {reason} from:{Context.Message.Author}");
+                await Context.Guild.GetTextChannel(525136686431207425).SendMessageAsync($"The user {userAccount} was kicked for the following reason:\n{reason} from:{Context.Message.Author}");
             }
             else
             {
@@ -33,26 +34,26 @@ namespace DiscordBot.Modules
         public async Task BanUser(IGuildUser userAccount, [Remainder]string reason = "No reason provided")
         {
             await Context.Guild.AddBanAsync(userAccount);
-            
-            //
-            //TODO Send info about Ban
+            await Context.Channel.SendMessageAsync($"The user {userAccount} has been Banned, for {reason} from:{Context.Message.Author}");
+            await Context.Guild.GetTextChannel(525136686431207425).SendMessageAsync($"The user {userAccount} was Banned for the following reason:\n{reason} from:{Context.Message.Author}");
         }
 
         [Command("mute")]
         [RequireUserPermission(GuildPermission.Administrator)]
-        public async Task MuteUser(IGuildUser user, bool muteState, [Remainder]string reason = "No reason provided")
+        public async Task MuteUser(IGuildUser userAccount, bool muteState, [Remainder]string reason = "No reason provided")
         {
-            if (!user.GuildPermissions.Administrator)
+            if (!userAccount.GuildPermissions.Administrator)
             {
-                await user.ModifyAsync(x => x.Mute = muteState);
+                await userAccount.ModifyAsync(x => x.Mute = muteState);
                 if (muteState)
                 {
-                    await Context.Guild.GetTextChannel(525136686431207425).SendMessageAsync($"The user {user.Username} was muted for the following reason:\n{reason}");
+                    await Context.Channel.SendMessageAsync($"The user {userAccount} was muted for the following reason:\n{reason} from:{Context.Message.Author}");
+                    await Context.Guild.GetTextChannel(525136686431207425).SendMessageAsync($"The user {userAccount} was muted for the following reason:\n{reason} from:{Context.Message.Author}");
                 }
                 else
                 {
-                    //TODO Send info about unmuting
-                    //await Context.Guild.GetTextChannel(id of the channel).SendMessageAsync(string to send)
+                    await Context.Channel.SendMessageAsync($"The user {userAccount.Username} was unmuted from:{Context.Message.Author}");
+                    await Context.Guild.GetTextChannel(525136686431207425).SendMessageAsync($"The user {userAccount.Username} was unmuted from:{Context.Message.Author}");
                 }
             }
             else

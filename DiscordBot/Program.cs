@@ -5,11 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Discord.Audio;
+
 
 namespace DiscordBot
 {
     class Program
     {
+
         DiscordSocketClient _client;
         CommandHandler _handler;
         static void Main(string[] args)
@@ -17,6 +20,7 @@ namespace DiscordBot
 
         public async Task StartAsync()
         {
+
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 LogLevel = LogSeverity.Verbose
@@ -36,3 +40,5 @@ namespace DiscordBot
         }
     }
 }
+
+    

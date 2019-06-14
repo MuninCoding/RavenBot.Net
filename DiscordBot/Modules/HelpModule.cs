@@ -23,6 +23,9 @@ namespace DiscordBot.Modules
                      .WithDescription("Below is a list with all currently available commands for Ravenplays Guardian Bot")
                      .AddField("Help", "?help - Shows bot information with all available commands")
                      .AddField("Share Rank", "?sharerank {user} - Shares your rank with the specified user")
+                     .AddField("Clear", "?clear - Clear the chat in the Channel there you write the Message")
+                     .AddField("Mute", "?mute<@playername><MuteState> - Mute player for Voicechannel (MuteState = True|False)")
+                     .AddField("Kick", "?kick<@playername><Reason> - Kick a player from Server with a specified reason")
                      .WithFooter(footer => footer.Text = "©RavenplaysGuardianBot")
                      .WithCurrentTimestamp();
 
