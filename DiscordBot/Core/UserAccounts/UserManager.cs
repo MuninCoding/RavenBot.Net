@@ -63,10 +63,10 @@ namespace DiscordBot.Core.UserAccounts
             battleStats.BaseHealth = 100;      
             battleStats.Weapon = new Fist();
             battleStats.Shield = new HandBlock();
-            battleStats.Armor = new Pants();
-            battleStats.Weapons = new List<IWeapon>();
-            battleStats.Shields = new List<IShield>();
-            battleStats.Armors = new List<IArmor>();
+            battleStats.Armor = new Naked();
+            battleStats.Weapons = new List<IWeapon>() { new Fist() };
+            battleStats.Shields = new List<IShield>() { new HandBlock() };
+            battleStats.Armors = new List<IArmor>() { new Naked() };
             var newAccount = new UserAccount()
             {
                 ID = id,

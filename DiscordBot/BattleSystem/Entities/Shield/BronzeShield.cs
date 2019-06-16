@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace DiscordBot.BattleSystem.Entities.Shield
 {
-    public class HandBlock : IShield
+    public class BronzeShield : IShield
     {
         public int DamageBlock { get; set; }
         public string Name { get; set; }
 
-        public HandBlock()
+        public BronzeShield()
         {
-            DamageBlock = 2;
-            Name = "HandBlock";
+            DamageBlock = 8;
+            Name = "BronzeShield";
         }
     }
 }

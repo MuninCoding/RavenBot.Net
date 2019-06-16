@@ -212,7 +212,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BattleSystem\Entities\Armor\Pants.cs" />
+    <Compile Include="BattleSystem\BattleUtilities.cs" />
+    <Compile Include="BattleSystem\Entities\Armor\Naked.cs" />
     <Compile Include="BattleSystem\Entities\IEnemy.cs" />
     <Compile Include="BattleSystem\Entities\Enemys\Creep.cs" />
     <Compile Include="BattleSystem\Entities\IArmor.cs" />

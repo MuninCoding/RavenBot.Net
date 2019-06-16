@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace DiscordBot.BattleSystem.Entities.Armor
 {
-    public class Pants : IArmor
+    public class Naked : IArmor
     {
         public int BonusHealth { get; set; }
         public string Name { get; set; }
-        public Pants()
+        public Naked()
         {
             BonusHealth = 0;
-            Name = "Pants"; 
+            Name = "Naked"; 
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using DiscordBot.BattleSystem;
 using DiscordBot.BattleSystem.Enemys;
 using DiscordBot.BattleSystem.Entities;
 using DiscordBot.BattleSystem.Entities.Weapons;
@@ -89,22 +90,8 @@ namespace DiscordBot.Modules
         [Command("equipweapon")]
         public async Task EquipWeapon(string weaponName)
         {
-            UserAccount account = UserManager.GetAccount(Context.Message.Author);
-            List<IWeapon> weapons = account.BattleStatistics.Weapons;
-
-            bool contains = weapons.Contains(new Rock());
-
-            if (weaponName.Equals("rock"))
-            {
-                foreach(IWeapon weapon in weapons)
-                {
-                    if (weapon.Name.Equals("Rock"))
-                    {
-                        account.BattleStatistics.Weapon = new Rock();
-                        await ReplyAsync("Rock equipped");
-                    }
-                }
-            }
+            var context = Context;
+            await BattleUtilities.EquipWeapon(weaponName, context);
         }
 
         [Command("battlestats")]
