@@ -34,10 +34,11 @@ namespace DiscordBot.Modules
             int enemyHealth = enemy.Health;
             int enemyDamage = enemy.Damage;
 
+            await ReplyAsync("A Wild enemy appeared!");
+
             //Simulating fight
             do
             {
-                await ReplyAsync("Starting round!");
                 await Task.Delay(2000);
                 playerHealth -= enemyDamage - playerDefense;
                 enemyHealth -= playerDamage;
@@ -61,7 +62,7 @@ namespace DiscordBot.Modules
             if (isWinner)
             {
                 account.BattleStatistics.Xp += 10;
-                await ReplyAsync("It`s unbelievable you Won this Fight!");
+                await ReplyAsync("You Won this Fight!");
                 await ReplyAsync("You gained 10 Xp for your Win! Congrats");
 
                 var generator = new Random();
@@ -88,10 +89,27 @@ namespace DiscordBot.Modules
         }
 
         [Command("equipweapon")]
+        [Alias("ew")]
         public async Task EquipWeapon(string weaponName)
         {
             var context = Context;
             await BattleUtilities.EquipWeapon(weaponName, context);
+        }
+
+        [Command("equipshield")]
+        [Alias("es")]
+        public async Task EquipShield(string shieldName)
+        {
+            var context = Context;
+            await BattleUtilities.EquipShield(shieldName, context);
+        }
+
+        [Command("equiparmor")]
+        [Alias("ea")]
+        public async Task EquipArmor(string armorName)
+        {
+            var context = Context;
+            await BattleUtilities.EquipArmor(armorName, context);
         }
 
         [Command("battlestats")]

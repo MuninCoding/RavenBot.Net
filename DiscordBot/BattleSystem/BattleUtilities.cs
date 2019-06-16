@@ -7,6 +7,7 @@ using DiscordBot.BattleSystem.Entities;
 using DiscordBot.BattleSystem.Entities.Weapons;
 using DiscordBot.Core.UserAccounts;
 using Discord;
+using Discord.Commands;
 
 namespace DiscordBot.BattleSystem
 {
@@ -43,6 +44,16 @@ namespace DiscordBot.BattleSystem
             {
                 await context.Channel.SendMessageAsync("Weapon not found");
             }
+        }
+
+        internal static Task EquipShield(string shieldName, SocketCommandContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static Task EquipArmor(string armorName, SocketCommandContext context)
+        {
+            throw new NotImplementedException();
         }
     }
 }
