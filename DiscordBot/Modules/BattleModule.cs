@@ -1,6 +1,9 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using DiscordBot.BattleSystem.Enemys;
+using DiscordBot.BattleSystem.Entities;
+using DiscordBot.BattleSystem.Entities.Weapons;
 using DiscordBot.Core.UserAccounts;
 using System;
 using System.Collections.Generic;
@@ -12,23 +15,100 @@ namespace DiscordBot.Modules
 {
     public class BattleModule : ModuleBase<SocketCommandContext>
     {
-        [Command("battle")]
+        [Command("farm", RunMode = RunMode.Async)]
         [RequireUserPermission(GuildPermission.Administrator)]
-        public async Task Battle(SocketGuildUser user)
+        public async Task Battle()
         {
-            if(user != null)
+            //Getting Playerstats and creating creeps
+            UserAccount account = UserManager.GetAccount(Context.Message.Author);
+            Creep enemy = new Creep();
+
+            int playerHealth = account.BattleStatistics.Health;
+            int playerDefense = account.BattleStatistics.Defense;
+            int playerDamage = account.BattleStatistics.Damage;
+            bool isWinner = false;
+            bool isDraw = false;
+            bool isFighting = true;
+
+            int enemyHealth = enemy.Health;
+            int enemyDamage = enemy.Damage;
+
+            //Simulating fight
+            do
             {
-                var account = UserManager.GetAccount(user);
-                
-            }
-            else
+                await ReplyAsync("Starting round!");
+                await Task.Delay(2000);
+                playerHealth -= enemyDamage - playerDefense;
+                enemyHealth -= playerDamage;
+                await ReplyAsync($"Player`s current Health is {playerHealth}!");
+                await ReplyAsync($"Enemy`s current Health is {enemyHealth}");
+                isFighting = !(enemyHealth <= 0 || playerHealth <= 0);
+
+            } while (isFighting);
+
+            //Checking for winner
+            if (enemyHealth <= 0 && playerHealth <= 0)
             {
-                await ReplyAsync("Please @ a username!");
+                isDraw = true;
             }
-           
+            else if(enemyHealth <= 0 && playerHealth > 0)
+            {
+                isWinner = true;
+            }
+
+            //Adding Xp and Rewards (?)
+            if (isWinner)
+            {
+                account.BattleStatistics.Xp += 10;
+                await ReplyAsync("It`s unbelievable you Won this Fight!");
+                await ReplyAsync("You gained 10 Xp for your Win! Congrats");
+
+                var generator = new Random();
+                double random = generator.NextDouble();
+                if (random >= 0.5)
+                {
+                    account.BattleStatistics.Weapons.Add(new Bat());
+                    await ReplyAsync("You Found a Bat with 15 Attack Damage!");
+                }
+                else if (random >= 0.2)
+                {
+                    account.BattleStatistics.Weapons.Add(new Rock());
+                    await ReplyAsync("You Found a Rock with 10 Attack Damage!");
+                }
+
+            }
+            else if (isDraw)
+            {
+                account.BattleStatistics.Xp += 5;
+                await ReplyAsync("It was a Draw Good Luck next time!");
+                await ReplyAsync("But you gained 5 Xp for your try!");
+            }
+            UserManager.SaveAccounts();
         }
 
-        [Command("bbs")]
+        [Command("equipweapon")]
+        public async Task EquipWeapon(string weaponName)
+        {
+            UserAccount account = UserManager.GetAccount(Context.Message.Author);
+            List<IWeapon> weapons = account.BattleStatistics.Weapons;
+
+            bool contains = weapons.Contains(new Rock());
+
+            if (weaponName.Equals("rock"))
+            {
+                foreach(IWeapon weapon in weapons)
+                {
+                    if (weapon.Name.Equals("Rock"))
+                    {
+                        account.BattleStatistics.Weapon = new Rock();
+                        await ReplyAsync("Rock equipped");
+                    }
+                }
+            }
+        }
+
+        [Command("battlestats")]
+        [Alias("bs")]
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task BattleStats(SocketGuildUser user = null)
         {
@@ -54,7 +134,7 @@ namespace DiscordBot.Modules
                  .WithTitle("Battle Stats")
                  .WithDescription("Get information of your battle stats")
                  .AddField("Health", account.BattleStatistics.Health.ToString(), true)
-                 .AddField("Attack", account.BattleStatistics.Attack.ToString(), true)
+                 .AddField("Damage", account.BattleStatistics.Damage.ToString(), true)
                  .AddField("Defense", account.BattleStatistics.Defense.ToString(), true)
                  .AddField("Level", account.BattleStatistics.Level.ToString(), true)
                  .AddField("XP", account.BattleStatistics.Xp.ToString(), true)

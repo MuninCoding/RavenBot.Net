@@ -26,6 +26,6 @@ namespace DiscordBot.Core.UserAccounts
 
         public uint NumberOfWarnings { get; set; }
 
-        public BattleStats BattleStatistics { get; set; }
+        public PlayerStatistics BattleStatistics { get; set; }
     }
 }

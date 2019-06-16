@@ -212,17 +212,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BattleSystem\Entities\BaseEnemy.cs" />
+    <Compile Include="BattleSystem\Entities\Armor\Pants.cs" />
+    <Compile Include="BattleSystem\Entities\IEnemy.cs" />
     <Compile Include="BattleSystem\Entities\Enemys\Creep.cs" />
-    <Compile Include="BattleSystem\Entities\BaseArmor.cs" />
-    <Compile Include="BattleSystem\Entities\BaseWeapons.cs" />
-    <Compile Include="BattleSystem\Entities\BaseShield.cs" />
+    <Compile Include="BattleSystem\Entities\IArmor.cs" />
+    <Compile Include="BattleSystem\Entities\IWeapon.cs" />
+    <Compile Include="BattleSystem\Entities\IShield.cs" />
     <Compile Include="BattleSystem\Entities\Shield\HandBlock.cs" />
+    <Compile Include="BattleSystem\Entities\Weapons\Bat.cs" />
     <Compile Include="BattleSystem\Entities\Weapons\Fist.cs" />
     <Compile Include="BattleSystem\Entities\Weapons\Rock.cs" />
     <Compile Include="Core\DataStorage.cs" />
     <Compile Include="Core\LevelSystem\LevelSystem.cs" />
-    <Compile Include="BattleSystem\BattleStats.cs" />
+    <Compile Include="BattleSystem\PlayerStatistics.cs" />
     <Compile Include="Core\UserAccounts\UserAccount.cs" />
     <Compile Include="Core\UserAccounts\UserManager.cs" />
     <Compile Include="Entities\BotConfig.cs" />
@@ -247,9 +249,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="BattleSystem\Entities\Armor\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

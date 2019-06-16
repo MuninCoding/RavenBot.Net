@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace DiscordBot.BattleSystem.Entities
 {
-    public abstract class BaseShield
+    public interface IShield
     {
-        public abstract int DamageBlock { get; set; }
+        int DamageBlock { get; set; }
+        string Name { get; set; }
     }
 }

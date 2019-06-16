@@ -1,6 +1,7 @@
 ﻿using Discord.WebSocket;
 using DiscordBot.BattleSystem;
 using DiscordBot.BattleSystem.Entities;
+using DiscordBot.BattleSystem.Entities.Armor;
 using DiscordBot.BattleSystem.Entities.Shield;
 using DiscordBot.BattleSystem.Entities.Weapons;
 using System;
@@ -55,14 +56,17 @@ namespace DiscordBot.Core.UserAccounts
 
         private static UserAccount CreateUserAccount(ulong id)
         {
-            BattleStats battleStats = new BattleStats();
+            PlayerStatistics battleStats = new PlayerStatistics();
             battleStats.SkillPoints = 0;
-            battleStats.BaseAttack = 0;
+            battleStats.BaseDamage = 0;
             battleStats.BaseDefense = 0;
             battleStats.BaseHealth = 100;      
             battleStats.Weapon = new Fist();
             battleStats.Shield = new HandBlock();
-            battleStats.Armor = new BaseArmor();
+            battleStats.Armor = new Pants();
+            battleStats.Weapons = new List<IWeapon>();
+            battleStats.Shields = new List<IShield>();
+            battleStats.Armors = new List<IArmor>();
             var newAccount = new UserAccount()
             {
                 ID = id,

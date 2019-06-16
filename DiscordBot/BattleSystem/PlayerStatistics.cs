@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace DiscordBot.BattleSystem
 {
     [JsonObject]
-    public class BattleStats
+    public class PlayerStatistics
     {
         public uint Xp { get; set; }
         public uint Level
@@ -23,7 +23,7 @@ namespace DiscordBot.BattleSystem
 
         public uint SkillPoints { get; set; }
         public int BaseHealth { get; set; }
-        public int BaseAttack { get; set; }
+        public int BaseDamage { get; set; }
         public int BaseDefense { get; set; }
         public int Health
         {
@@ -32,11 +32,11 @@ namespace DiscordBot.BattleSystem
                 return BaseHealth + Armor.BonusHealth;
             }
         }
-        public int Attack
+        public int Damage
         {
             get
             {
-                return BaseAttack + Weapon.Damage;
+                return BaseDamage + Weapon.Damage;
             }
         }
         public int Defense
@@ -47,9 +47,11 @@ namespace DiscordBot.BattleSystem
             }
         }
 
-        public BaseWeapons Weapon { get; set; }
-        public BaseShield Shield { get; set; }
-        public BaseArmor Armor { get; set; }
-        
+        public IWeapon Weapon { get; set; }
+        public IShield Shield { get; set; }
+        public IArmor Armor { get; set; }
+        public List<IWeapon> Weapons { get; set; }
+        public List<IShield> Shields { get; set; }
+        public List<IArmor> Armors { get; set; }
     }
 }

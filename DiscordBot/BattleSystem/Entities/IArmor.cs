@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace DiscordBot.BattleSystem.Entities
 {
-    public class BaseArmor
+    public interface IArmor
     {
-        public int BonusHealth{ get; private set; }
+        int BonusHealth{ get; set; }
+        string Name { get; set; }
     }
 }

@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace DiscordBot.BattleSystem.Entities.Shield
 {
-    public class HandBlock : BaseShield
+    public class HandBlock : IShield
     {
-        public override int DamageBlock { get; set; }
+        public int DamageBlock { get; set; }
+        public string Name { get; set; }
 
         public HandBlock()
         {

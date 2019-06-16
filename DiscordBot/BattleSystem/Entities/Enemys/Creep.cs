@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace DiscordBot.BattleSystem.Enemys
 {
-    public class Creep : BaseEnemy
+    public class Creep : IEnemy
     {
-        public override int Health { get; set; }
-        public override int Damage { get; set; }
-        public override int Defense { get; set; }
+        public int Health { get; set; }
+        public int Damage { get; set; }
+        public int Defense { get; set; }
 
         public Creep()
         {
@@ -20,7 +20,7 @@ namespace DiscordBot.BattleSystem.Enemys
             int randomNumber = generator.Next(15, 24);
             Health = randomNumber;
 
-            randomNumber = generator.Next(20, 26);
+            randomNumber = generator.Next(18, 24);
             Damage = randomNumber;
 
             Defense = 0;
