@@ -227,9 +227,6 @@
     <Compile Include="BattleSystem\Entities\Weapons\Bat.cs" />
     <Compile Include="BattleSystem\Entities\Weapons\Fist.cs" />
     <Compile Include="BattleSystem\Entities\Weapons\Rock.cs" />
-    <Compile Include="BattleSystem\Utilities\EquipArmorUtilities.cs" />
-    <Compile Include="BattleSystem\Utilities\EquipShieldUtilities.cs" />
-    <Compile Include="BattleSystem\Utilities\EquipWeaponUtilities.cs" />
     <Compile Include="Core\DataStorage.cs" />
     <Compile Include="Core\LevelSystem\LevelSystem.cs" />
     <Compile Include="BattleSystem\PlayerStatistics.cs" />
@@ -252,7 +249,6 @@
     <Compile Include="Modules\HelpModule.cs" />
     <Compile Include="Modules\RoleModule.cs" />
     <Compile Include="Modules\SetGameModule.cs" />
-    <Compile Include="Modules\WarnModule.cs" />
     <Compile Include="Modules\XPModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
