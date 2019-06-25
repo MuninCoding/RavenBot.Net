@@ -57,7 +57,7 @@ namespace DiscordBot.Core.UserAccounts
         private static UserAccount CreateUserAccount(ulong id)
         {
             PlayerStatistics battleStats = new PlayerStatistics();
-            battleStats.SkillPoints = 0;
+            battleStats.BattlePoints = 0;
             battleStats.BaseDamage = 0;
             battleStats.BaseDefense = 0;
             battleStats.BaseHealth = 100;      

@@ -21,7 +21,15 @@ namespace DiscordBot.BattleSystem
         }
 
 
-        public uint SkillPoints { get; set; }
+        public uint BattlePoints { get; set; }
+        public uint CreepBattlesFought { get; set; }
+        public uint CreepBattlesWon { get; set; }
+        public uint CreepBattlesLost { get; set; }
+        public uint PvPBattlesFought { get; set; }
+        public uint PvPBattlesWon { get; set; }
+        public uint PvPBattlesLost { get; set; }
+
+        public uint WinStreak { get; set; }
         public int BaseHealth { get; set; }
         public int BaseDamage { get; set; }
         public int BaseDefense { get; set; }

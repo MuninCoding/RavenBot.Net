@@ -212,17 +212,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BattleSystem\BattleUtilities.cs" />
+    <Compile Include="BattleSystem\Entities\Armor\LeatherArmor.cs" />
+    <Compile Include="BattleSystem\Entities\Weapons\DivineRapier.cs" />
+    <Compile Include="BattleSystem\Utilities\ItemUtilities.cs" />
     <Compile Include="BattleSystem\Entities\Armor\Naked.cs" />
     <Compile Include="BattleSystem\Entities\IEnemy.cs" />
-    <Compile Include="BattleSystem\Entities\Enemys\Creep.cs" />
+    <Compile Include="BattleSystem\Entities\Enemies\Creep.cs" />
     <Compile Include="BattleSystem\Entities\IArmor.cs" />
     <Compile Include="BattleSystem\Entities\IWeapon.cs" />
     <Compile Include="BattleSystem\Entities\IShield.cs" />
+    <Compile Include="BattleSystem\Entities\Shield\BronzeShield.cs" />
     <Compile Include="BattleSystem\Entities\Shield\HandBlock.cs" />
+    <Compile Include="BattleSystem\Entities\Shield\WoodenShield.cs" />
     <Compile Include="BattleSystem\Entities\Weapons\Bat.cs" />
     <Compile Include="BattleSystem\Entities\Weapons\Fist.cs" />
     <Compile Include="BattleSystem\Entities\Weapons\Rock.cs" />
+    <Compile Include="BattleSystem\Utilities\EquipArmorUtilities.cs" />
+    <Compile Include="BattleSystem\Utilities\EquipShieldUtilities.cs" />
+    <Compile Include="BattleSystem\Utilities\EquipWeaponUtilities.cs" />
     <Compile Include="Core\DataStorage.cs" />
     <Compile Include="Core\LevelSystem\LevelSystem.cs" />
     <Compile Include="BattleSystem\PlayerStatistics.cs" />
@@ -232,11 +239,15 @@
     <Compile Include="CommandHandler.cs" />
     <Compile Include="ConfigHandler.cs" />
     <Compile Include="DiscordUtilities.cs" />
+    <Compile Include="Modules\BattleModules\ItemModule.cs" />
+    <Compile Include="Modules\BattleModules\UserModule.cs" />
     <Compile Include="Modules\DeleteModule.cs" />
-    <Compile Include="Modules\BattleModule.cs" />
+    <Compile Include="Modules\BattleModules\FarmModule.cs" />
+    <Compile Include="Modules\Love.cs" />
     <Compile Include="Modules\Misc.cs" />
     <Compile Include="Modules\ModModule.cs" />
     <Compile Include="Modules\MoveModule.cs" />
+    <Compile Include="Modules\BattleModules\PvPModule.cs" />
     <Compile Include="Modules\RaffleModule.cs" />
     <Compile Include="Modules\HelpModule.cs" />
     <Compile Include="Modules\RoleModule.cs" />
