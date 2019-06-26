@@ -12,7 +12,6 @@ namespace DiscordBot.Modules.BattleModules
 {
     public class UserModule : ModuleBase<SocketCommandContext>
     {
-        int DelayInMs = 1000; 
         [Command("battlestats")]
         [Alias("bs")]
         [RequireUserPermission(GuildPermission.Administrator)]
