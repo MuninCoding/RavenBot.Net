@@ -13,8 +13,7 @@ namespace DiscordBot.Modules
     public class ModModule : ModuleBase<SocketCommandContext>
     {
         [Command("setgame")]
-
-
+        [Alias("sg")]
         public async Task SetGame([Remainder] string game)
         {
             if (Context.Message.Author.Id == 250370033216126977)
@@ -28,6 +27,29 @@ namespace DiscordBot.Modules
                 await Context.Message.DeleteAsync();
             }
 
+        }
+
+        [Command("setstatus")]
+        [Alias("ss")]
+        public async Task SetStatus([Remainder]string status)
+        {
+            await Context.Message.DeleteAsync();
+            if (status.Equals("afk"))
+            {
+                await Context.Client.SetStatusAsync(UserStatus.AFK);
+            }
+            else if(status.Equals("dnd"))
+            {
+                await Context.Client.SetStatusAsync(UserStatus.DoNotDisturb);
+            }
+            else if (status.Equals("invisible"))
+            {
+                await Context.Client.SetStatusAsync(UserStatus.Invisible);
+            }
+            else
+            {
+                await Context.Client.SetStatusAsync(UserStatus.Online);
+            }
         }
 
         [Command("clear")]
@@ -80,7 +102,6 @@ namespace DiscordBot.Modules
         }
 
         [Command("warn")]
-
         public async Task WarnUser(IGuildUser user, [Remainder]string reason = "No reason provided")
         {
             var userAccount = UserManager.GetAccount((SocketUser)user);

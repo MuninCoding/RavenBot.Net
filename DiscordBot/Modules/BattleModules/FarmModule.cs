@@ -20,6 +20,8 @@ namespace DiscordBot.Modules.BattleModules
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task Battle()
         {
+            await Context.Message.DeleteAsync();
+
             //Getting Playerstats and creating creeps
             UserAccount account = UserManager.GetAccount(Context.Message.Author);
             Creep enemy = new Creep();
@@ -30,11 +32,12 @@ namespace DiscordBot.Modules.BattleModules
             bool isWinner = true;
             bool isFighting = true;
 
+            int messageCount = 1;
+            bool leveledUp = false;
+
             int enemyHealth = enemy.Health;
             int enemyDamage = enemy.Damage;
-
             await ReplyAsync("A Wild enemy appeared!");
-
             //Simulating fight
             do
             {
@@ -43,6 +46,7 @@ namespace DiscordBot.Modules.BattleModules
                 if (playerHealth <= 0)
                 {
                     await ReplyAsync($"You died!");
+                    messageCount++;
                     isFighting = false;
                     isWinner = false;
                     continue;
@@ -50,6 +54,7 @@ namespace DiscordBot.Modules.BattleModules
                 enemyHealth -= playerDamage;
                 await ReplyAsync($"Player`s current Health is {playerHealth}!");
                 await ReplyAsync($"Enemy`s current Health is {enemyHealth}");
+                messageCount += 2;
                 isFighting = !(enemyHealth <= 0 || playerHealth <= 0);
 
             } while (isFighting);
@@ -64,6 +69,7 @@ namespace DiscordBot.Modules.BattleModules
 
                 await ReplyAsync("You Won this Fight!");
                 await ReplyAsync("You gained 10 Xp for your Win! Congrats");
+                messageCount += 2;
 
                 var generator = new Random();
                 double random = generator.NextDouble();
@@ -72,11 +78,13 @@ namespace DiscordBot.Modules.BattleModules
                 {
                     account.BattleStatistics.Weapons.Add(new Bat());
                     await ReplyAsync("You Found a Bat with 15 Attack Damage!");
+                    messageCount++;
                 }
                 else if (random >= 0.2)
                 {
                     account.BattleStatistics.Weapons.Add(new Rock());
                     await ReplyAsync("You Found a Rock with 10 Attack Damage!");
+                    messageCount++;
                 }
 
                 if (oldLevel < newLevel)
@@ -90,17 +98,29 @@ namespace DiscordBot.Modules.BattleModules
                     embed.AddField("XP", account.BattleStatistics.Xp);
                     var info = embed.Build();
                     await ReplyAsync(embed: info);
+                    messageCount++;
+                    leveledUp = true;
                 }
             }
             else
             {
                 await ReplyAsync("Good luck next time!");
+                messageCount++;
                 account.BattleStatistics.CreepBattlesLost++;
             }
             account.BattleStatistics.CreepBattlesFought++;
             UserManager.SaveAccounts();
-            await Task.Delay(60000);
-            await Context.Message.DeleteAsync();
+            await Task.Delay(1000);
+            var messages = await Context.Channel.GetMessagesAsync(messageCount).FlattenAsync();
+            var messageList = messages.ToList();
+            if (leveledUp)
+            {
+                messageList.RemoveAt(0);
+            }
+            foreach (var message in messageList)
+            {
+                await message.DeleteAsync();
+            }
         }
     }
 }
