@@ -238,9 +238,7 @@
     <Compile Include="DiscordUtilities.cs" />
     <Compile Include="Modules\BattleModules\ItemModule.cs" />
     <Compile Include="Modules\BattleModules\UserModule.cs" />
-    <Compile Include="Modules\DeleteModule.cs" />
     <Compile Include="Modules\BattleModules\FarmModule.cs" />
-    <Compile Include="Modules\Love.cs" />
     <Compile Include="Modules\Misc.cs" />
     <Compile Include="Modules\ModModule.cs" />
     <Compile Include="Modules\MoveModule.cs" />
@@ -248,7 +246,6 @@
     <Compile Include="Modules\RaffleModule.cs" />
     <Compile Include="Modules\HelpModule.cs" />
     <Compile Include="Modules\RoleModule.cs" />
-    <Compile Include="Modules\SetGameModule.cs" />
     <Compile Include="Modules\XPModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

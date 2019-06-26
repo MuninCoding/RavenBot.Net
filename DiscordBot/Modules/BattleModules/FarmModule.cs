@@ -99,6 +99,8 @@ namespace DiscordBot.Modules.BattleModules
             }
             account.BattleStatistics.CreepBattlesFought++;
             UserManager.SaveAccounts();
+            await Task.Delay(60000);
+            await Context.Message.DeleteAsync();
         }
     }
 }

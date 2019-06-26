@@ -12,6 +12,7 @@ namespace DiscordBot.Modules.BattleModules
 {
     public class UserModule : ModuleBase<SocketCommandContext>
     {
+        int DelayInMs = 1000; 
         [Command("battlestats")]
         [Alias("bs")]
         [RequireUserPermission(GuildPermission.Administrator)]
@@ -64,12 +65,34 @@ namespace DiscordBot.Modules.BattleModules
                 account = UserManager.GetAccount(user);
                 account.BattleStatistics.BattlePoints += amount;
                 await ReplyAsync($"{Context.Message.Author} add {amount} Battle Points {user.Mention} Account!");
+                
             }
             else
             {
                 account = UserManager.GetAccount(Context.Message.Author);
                 account.BattleStatistics.BattlePoints += amount;
                 await ReplyAsync($"You add {amount} Battle Points to your Account!");
+            }
+            UserManager.SaveAccounts();
+        }
+
+        [Command("removebattlepoints")]
+        [Alias("rbp")]
+
+        public async Task RemoveBattlePoints(uint amount, SocketGuildUser user = null)
+        {
+            UserAccount account;
+            if (user != null)
+            {
+                account = UserManager.GetAccount(user);
+                account.BattleStatistics.BattlePoints -= amount;
+                await ReplyAsync($"{Context.Message.Author} removed {amount} Battle Points {user.Mention} Account!");
+            }
+            else
+            {
+                account = UserManager.GetAccount(Context.Message.Author);
+                account.BattleStatistics.BattlePoints -= amount;
+                await ReplyAsync($"You removed {amount} Battle Points from your Account!");
             }
             UserManager.SaveAccounts();
         }

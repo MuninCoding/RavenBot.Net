@@ -17,7 +17,7 @@ namespace DiscordBot.BattleSystem.Enemies
         {
             var generator = new Random();
 
-            int randomNumber = generator.Next(18, 24);
+            int randomNumber = generator.Next(19, 24);
             Health = randomNumber;
 
             randomNumber = generator.Next(18, 24);
