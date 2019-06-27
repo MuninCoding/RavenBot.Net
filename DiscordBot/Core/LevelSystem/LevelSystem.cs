@@ -34,7 +34,7 @@ namespace DiscordBot.Core.LevelSystem
                 embed.AddField("XP", userAccount.XP);
                 var info = embed.Build();
                 await channel.SendMessageAsync(embed: info);
-                userAccount.BattleStatistics.BattlePoints += 0.3;
+                userAccount.BattleStatistics.BattlePoints += 0.25;
                 UserManager.SaveAccounts();
             }
         }

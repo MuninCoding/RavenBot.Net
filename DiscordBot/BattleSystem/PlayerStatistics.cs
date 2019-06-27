@@ -25,6 +25,9 @@ namespace DiscordBot.BattleSystem
         public uint CreepBattlesFought { get; set; }
         public uint CreepBattlesWon { get; set; }
         public uint CreepBattlesLost { get; set; }
+        public uint PvPChallengesRequests { get; set; }
+        public uint PvPBattlesDeclined { get; set; }
+        public uint PvPBattlesAccepted { get; set; }
         public uint PvPBattlesFought { get; set; }
         public uint PvPBattlesWon { get; set; }
         public uint PvPBattlesLost { get; set; }

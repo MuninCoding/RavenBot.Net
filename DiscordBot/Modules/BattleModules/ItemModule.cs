@@ -18,6 +18,7 @@ namespace DiscordBot.Modules.BattleModules
         [Command("equip")]
         public async Task EquipItem(string itemSlot, string itemName)
         {
+            await Context.Message.DeleteAsync();
             if (itemSlot.Equals("weapon"))
             {
                 switch (itemName)
@@ -76,19 +77,25 @@ namespace DiscordBot.Modules.BattleModules
             }
             else
             {
-                await ReplyAsync("Type not Found");
+                var botMsg = await ReplyAsync("Type not Found");
+                await Task.Delay(6000);
+                await botMsg.DeleteAsync();
             }
         }
 
         [Command("add")]
         public async Task AddItem(string itemSlot, string itemName)
         {
+            //TODO set option to add item to other!!
+            //create a message to! with delay to delete it
+            await Context.Message.DeleteAsync();
             if (itemSlot.Equals("weapon"))
             {
                 switch (itemName)
                 {
                     case "fist":
                         await ItemUtilities.AddItem(itemSlot, typeof(Fist), Context);
+                        await Context.Channel.SendMessageAsync("");
                         break;
                     case "rock":
                         await ItemUtilities.AddItem(itemSlot, typeof(Rock), Context);
@@ -141,7 +148,9 @@ namespace DiscordBot.Modules.BattleModules
             }
             else
             {
-                await ReplyAsync("Type not Found");
+                var botMsg = await ReplyAsync("Type not Found");
+                await Task.Delay(6000);
+                await botMsg.DeleteAsync();
             }
 
         }

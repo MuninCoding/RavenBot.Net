@@ -16,22 +16,105 @@ namespace DiscordBot.Modules.BattleModules
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task Fight(SocketGuildUser user)
         {
-            UserAccount account1 = UserManager.GetAccount(Context.Message.Author);
-            UserAccount account2 = UserManager.GetAccount(user);
-            await Context.Channel.SendMessageAsync($"{Context.Message.Author} want to fight with you!Do you want to accept the challenge?");
+            await Context.Message.DeleteAsync();
+            UserAccount authorAccount = UserManager.GetAccount(Context.Message.Author);
+            UserAccount socketUserAccount = UserManager.GetAccount(user);
+            authorAccount.BattleStatistics.PvPChallengesRequests++;
+
             var channel = await user.GetOrCreateDMChannelAsync();
-            await Task.Delay(1000);
+            await channel.SendMessageAsync($"{Context.Message.Author} want to fight with you!Do you want to accept the challenge?");
+            await Task.Delay(5000);
             var messages = await channel.GetMessagesAsync(1).FlattenAsync();
+            int messageCount = 1;
             foreach (var message in messages)
             {
+                
                 if (message.Content.Equals("yes"))
                 {
-                    await ReplyAsync("Battle was accept");
+                    authorAccount.BattleStatistics.PvPBattlesFought++;
+                    socketUserAccount.BattleStatistics.PvPBattlesFought++;
+                    socketUserAccount.BattleStatistics.PvPBattlesAccepted++;
+                    await ReplyAsync("Battle was accepted");
+                    await channel.SendMessageAsync("Battle was accepted");
+
+                    int player1Health = authorAccount.BattleStatistics.Health;
+                    int player1Defense = authorAccount.BattleStatistics.Defense;
+                    int player1Damage = authorAccount.BattleStatistics.Damage;
+
+                    int player2Health = socketUserAccount.BattleStatistics.Health;
+                    int player2Defense = socketUserAccount.BattleStatistics.Defense;
+                    int player2Damage = socketUserAccount.BattleStatistics.Damage;
+                   
+                    bool authorIsWinner = true;
+                    bool isFighting = true;
+                    bool leveledUp = false;
+
                     //StartFight();
+                    await ReplyAsync("Battle Beginns");
+                    messageCount++;
+                    await channel.SendMessageAsync("Battle Beginns");
+                    do
+                    {
+                        await Task.Delay(3000);
+                        player1Health -= player2Damage - player1Defense;
+                        if (player1Health <= 0)
+                        {
+                            await ReplyAsync("You died!");
+                            messageCount++;
+                            isFighting = false;
+                            authorIsWinner = false;
+                            continue;
+                        }
+
+                        player2Health -= player1Damage - player2Defense;
+                        await ReplyAsync($"{Context.Message.Author}´s current Health is {player1Health}!");
+                        await ReplyAsync($"{user}´s current Health is {player2Health}!");
+                        messageCount += 2;
+                        isFighting = !(player1Health <= 0 || player2Health <= 0);
+
+                    } while (isFighting);
+
+                    if (authorIsWinner)
+                    {
+                        await ReplyAsync("You won this Fight");
+                        authorAccount.BattleStatistics.PvPBattlesWon++;
+                        authorAccount.BattleStatistics.Xp += 50;
+                        messageCount++;
+                        await channel.SendMessageAsync("You lost this Fight sorry!");
+                        socketUserAccount.BattleStatistics.PvPBattlesLost++;
+                    }
+                    else
+                    {
+                        await channel.SendMessageAsync("You won this Fight!");
+                        socketUserAccount.BattleStatistics.PvPBattlesWon++;
+                        socketUserAccount.BattleStatistics.Xp += 50;
+                        await ReplyAsync("You lost Sorry!");
+                        authorAccount.BattleStatistics.PvPBattlesLost++;
+                        messageCount++;
+
+                    }
+                    UserManager.SaveAccounts();
+                    var message1 = await Context.Channel.GetMessagesAsync(messageCount).FlattenAsync();
+                    var messageList = message1.ToList();
+                    if (leveledUp)
+                    {
+                        messageList.RemoveAt(0);
+                    }
+                    foreach (var text in messageList)
+                    {
+                        await Task.Delay(60000);
+                        await text.DeleteAsync();
+                    }
+
                 }
                 else
                 {
-                    await ReplyAsync("Battle was declined");
+                    var botMsg = await ReplyAsync("Battle was declined");
+                    await Task.Delay(30000);
+                    await botMsg.DeleteAsync();
+                    await channel.SendMessageAsync("Battle was declined");
+                    socketUserAccount.BattleStatistics.PvPBattlesDeclined++;
+                    UserManager.SaveAccounts();
                 }
             }
         }

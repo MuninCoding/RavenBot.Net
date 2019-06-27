@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using DiscordBot.Core.UserAccounts;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace DiscordBot.Modules
             await Task.Delay(timeInMs);
 
             //Getting the messages sent to the channel
-            await Context.Channel.GetMessageAsync();
+            await Context.Channel.GetMessageAsync(593868788508786713);
             var messages = await Context.Channel.GetMessagesAsync().FlattenAsync();
             //Add a bit of delay because the async call can take time and we may get unwanted messages in our collection
             messages = messages.Where(x => (DateTimeOffset.UtcNow - x.Timestamp).TotalMilliseconds <= (timeInMs - delayInMs));

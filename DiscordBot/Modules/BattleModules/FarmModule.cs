@@ -26,6 +26,7 @@ namespace DiscordBot.Modules.BattleModules
             UserAccount account = UserManager.GetAccount(Context.Message.Author);
             Creep enemy = new Creep();
 
+            
             int playerHealth = account.BattleStatistics.Health;
             int playerDefense = account.BattleStatistics.Defense;
             int playerDamage = account.BattleStatistics.Damage;
@@ -37,6 +38,7 @@ namespace DiscordBot.Modules.BattleModules
 
             int enemyHealth = enemy.Health;
             int enemyDamage = enemy.Damage;
+            int enemyDefense = enemy.Defense;
             await ReplyAsync("A Wild enemy appeared!");
             //Simulating fight
             do
