@@ -13,6 +13,7 @@ namespace DiscordBot.Modules
         [Command("echo")]
         public async Task Echo([Remainder]string message)
         {
+            await Context.Message.DeleteAsync();
             var embed = new EmbedBuilder();
             embed.WithTitle("Message by " + Context.User.Username);
             embed.WithDescription(message);
@@ -25,6 +26,7 @@ namespace DiscordBot.Modules
         [Command("select")]
         public async Task PickOne([Remainder]string message)
         {
+            await Context.Message.DeleteAsync();
             string[] options = message.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
             Random r = new Random();
@@ -42,6 +44,7 @@ namespace DiscordBot.Modules
         [Command("love")]
         public async Task LoveMsg()
         {
+            await Context.Message.DeleteAsync();
             if (Context.Message.Author.Id == 250370033216126977)
             {
                 var embed = new EmbedBuilder

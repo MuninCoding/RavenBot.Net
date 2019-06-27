@@ -12,6 +12,14 @@ namespace DiscordBot.Modules
 {
     public class ModModule : ModuleBase<SocketCommandContext>
     {
+        /*
+        [Command("setactivity")]
+        [Alias("sa")]
+        public async Task SetActivity([Remainder] IActivity activity)
+        {
+             await Context.Client.SetActivityAsync(activity);
+        }
+        */
         [Command("setgame")]
         [Alias("sg")]
         public async Task SetGame([Remainder] string game)
@@ -104,6 +112,7 @@ namespace DiscordBot.Modules
         [Command("warn")]
         public async Task WarnUser(IGuildUser user, [Remainder]string reason = "No reason provided")
         {
+            await Context.Message.DeleteAsync();
             var userAccount = UserManager.GetAccount((SocketUser)user);
             userAccount.NumberOfWarnings++;
             UserManager.SaveAccounts();
@@ -131,6 +140,7 @@ namespace DiscordBot.Modules
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task MuteUser(IGuildUser userAccount, bool muteState, [Remainder]string reason = "No reason provided")
         {
+            await Context.Message.DeleteAsync();
             if (!userAccount.GuildPermissions.Administrator)
             {
                 await userAccount.ModifyAsync(x => x.Mute = muteState);
@@ -157,6 +167,7 @@ namespace DiscordBot.Modules
         [RequireUserPermission(GuildPermission.KickMembers)]
         public async Task KickUser(IGuildUser userAccount,[Remainder]string reason = "No reason provided")
         {
+            await Context.Message.DeleteAsync();
             var user = Context.User as IGuildUser;
             if (user.GuildPermissions.KickMembers)
             {
@@ -174,6 +185,7 @@ namespace DiscordBot.Modules
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task BanUser(IGuildUser userAccount, [Remainder]string reason = "No reason provided")
         {
+            await Context.Message.DeleteAsync();
             await Context.Guild.AddBanAsync(userAccount);
             await Context.Channel.SendMessageAsync($"The user {userAccount} has been Banned, for {reason} from:{Context.Message.Author}");
             await Context.Guild.GetTextChannel(525136686431207425).SendMessageAsync($"The user {userAccount} was Banned for the following reason:\n{reason} from:{Context.Message.Author}");

@@ -13,9 +13,9 @@ namespace DiscordBot.Modules
     public class XPModule : ModuleBase<SocketCommandContext>
     {
         [Command("stats")]
-
         public async Task XP(SocketGuildUser user = null)
         {
+            await Context.Message.DeleteAsync();
             UserAccount account;
             if(user != null)
             {
@@ -33,6 +33,7 @@ namespace DiscordBot.Modules
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task AddXP(uint xp, SocketGuildUser user = null)
         {
+            await Context.Message.DeleteAsync();
             UserAccount account;
             if (user != null)
             {
@@ -50,6 +51,7 @@ namespace DiscordBot.Modules
         [Command("level")]
         public async Task WhatLevelIs(SocketGuildUser user = null)
         {
+            await Context.Message.DeleteAsync();
             UserAccount account;
             if (user != null)
             {

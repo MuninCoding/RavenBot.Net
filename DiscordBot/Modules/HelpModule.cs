@@ -10,6 +10,7 @@ namespace DiscordBot.Modules
         [Summary("Prints an help embed")]
         public async Task SendHelpEmbed()
         {
+            await Context.Message.DeleteAsync();
             {
                 var embed = new EmbedBuilder
                 {
