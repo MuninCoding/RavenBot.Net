@@ -36,7 +36,9 @@ namespace DiscordBot.Modules.BattleModules
                         await ItemUtilities.EquipItem(itemSlot, typeof(DivineRapier), Context);
                         break;
                     default:
-                        await Context.Channel.SendMessageAsync("Weapon not found");
+                        var botMessage = await Context.Channel.SendMessageAsync("Weapon not found");
+                        await Task.Delay(10000);
+                        await botMessage.DeleteAsync();
                         break;
                 }
             }
@@ -55,6 +57,8 @@ namespace DiscordBot.Modules.BattleModules
                         break;
                     default:
                         await Context.Channel.SendMessageAsync("Shield not found");
+                        await Task.Delay(10000);
+                        await Context.Message.DeleteAsync();
                         break;
                 }
 
@@ -69,8 +73,13 @@ namespace DiscordBot.Modules.BattleModules
                     case "leatherarmor":
                         await ItemUtilities.EquipItem(itemSlot, typeof(LeatherArmor), Context);
                         break;
+                    case "divinearmor":
+                        await ItemUtilities.EquipItem(itemSlot, typeof(DivineArmor), Context);
+                        break;
                     default:
                         await Context.Channel.SendMessageAsync("Armor not found");
+                        await Task.Delay(10000);
+                        await Context.Message.DeleteAsync();
                         break;
                 }
 
@@ -87,7 +96,7 @@ namespace DiscordBot.Modules.BattleModules
         public async Task AddItem(string itemSlot, string itemName)
         {
             //TODO set option to add item to other!!
-            //create a message to! with delay to delete it
+            
             await Context.Message.DeleteAsync();
             if (itemSlot.Equals("weapon"))
             {
@@ -95,7 +104,6 @@ namespace DiscordBot.Modules.BattleModules
                 {
                     case "fist":
                         await ItemUtilities.AddItem(itemSlot, typeof(Fist), Context);
-                        await Context.Channel.SendMessageAsync("");
                         break;
                     case "rock":
                         await ItemUtilities.AddItem(itemSlot, typeof(Rock), Context);
@@ -108,6 +116,8 @@ namespace DiscordBot.Modules.BattleModules
                         break;
                     default:
                         await Context.Channel.SendMessageAsync("Weapon not found");
+                        await Task.Delay(10000);
+                        await Context.Message.DeleteAsync();
                         break;
                 }
             }
@@ -126,6 +136,8 @@ namespace DiscordBot.Modules.BattleModules
                         break;
                     default:
                         await Context.Channel.SendMessageAsync("Shield not found");
+                        await Task.Delay(10000);
+                        await Context.Message.DeleteAsync();
                         break;
                 }
 
@@ -140,8 +152,13 @@ namespace DiscordBot.Modules.BattleModules
                     case "leatherarmor":
                         await ItemUtilities.AddItem(itemSlot, typeof(LeatherArmor), Context);
                         break;
+                    case "divinearmor":
+                        await ItemUtilities.AddItem(itemSlot, typeof(DivineArmor), Context);
+                        break;
                     default:
                         await Context.Channel.SendMessageAsync("Armor not found");
+                        await Task.Delay(10000);
+                        await Context.Message.DeleteAsync();
                         break;
                 }
 

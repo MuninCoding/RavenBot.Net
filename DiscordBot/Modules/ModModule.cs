@@ -12,21 +12,36 @@ namespace DiscordBot.Modules
 {
     public class ModModule : ModuleBase<SocketCommandContext>
     {
-        /*
-        [Command("setactivity")]
-        [Alias("sa")]
-        public async Task SetActivity([Remainder] IActivity activity)
-        {
-             await Context.Client.SetActivityAsync(activity);
-        }
-        */
         [Command("setgame")]
         [Alias("sg")]
-        public async Task SetGame([Remainder] string game)
+        public async Task SetGame(string activityString, [Remainder] string game)
         {
             if (Context.Message.Author.Id == 250370033216126977)
             {
-                await Context.Client.SetGameAsync(game);
+                ActivityType activityType;
+                if (activityString.Equals("playing"))
+                {
+                    activityType = ActivityType.Playing;
+                }
+                else if (activityString.Equals("listening"))
+                {
+                    activityType = ActivityType.Listening;
+                }
+                else if (activityString.Equals("watching"))
+                {
+                    activityType = ActivityType.Watching;
+                }
+                else if (activityString.Equals("streaming"))
+                {
+                    activityType = ActivityType.Streaming;
+                }
+                else
+                {
+                    await ReplyAsync("Activitytype not found");
+                    return;
+                }
+                await Context.Client.SetGameAsync(game, null, activityType);
+
                 await Context.Message.DeleteAsync();
             }
             else

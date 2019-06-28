@@ -36,7 +36,7 @@ namespace DiscordBot.Modules.BattleModules
                      .AddField("Creep Battles Fought", account.BattleStatistics.CreepBattlesFought.ToString(), true)
                      .AddField("Creep Battles Won", account.BattleStatistics.CreepBattlesWon.ToString(), true)
                      .AddField("Creep Battles Lost", account.BattleStatistics.CreepBattlesLost.ToString(), true)
-                     .AddField("PvP Battles Requests", account.BattleStatistics.PvPChallengesRequests.ToString(), true)
+                     .AddField("PvP Battles Requested", account.BattleStatistics.PvPChallengesRequests.ToString(), true)
                      .AddField("PvP Battles Accepted", account.BattleStatistics.PvPBattlesAccepted.ToString(), true)
                      .AddField("PvP Battles Declined", account.BattleStatistics.PvPBattlesDeclined.ToString(), true)
                      .AddField("PvP Battles Fought", account.BattleStatistics.PvPBattlesFought.ToString(), true)
@@ -103,7 +103,6 @@ namespace DiscordBot.Modules.BattleModules
 
         [Command("removebattlepoints")]
         [Alias("rbp")]
-
         public async Task RemoveBattlePoints(uint amount, SocketGuildUser user = null)
         {
             await Context.Message.DeleteAsync();

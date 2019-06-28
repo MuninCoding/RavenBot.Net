@@ -11,27 +11,27 @@ namespace DiscordBot.BattleSystem
     [JsonObject]
     public class PlayerStatistics
     {
-        public uint Xp { get; set; }
         public uint Level
         {
             get
             {
-                return (uint)Math.Sqrt(Xp/ 50);
+                return (uint)Math.Sqrt(BattleXp/ 50);
             }
         }
 
-
         public double BattlePoints { get; set; }
+        public double BattleXp { get; set; }
         public uint CreepBattlesFought { get; set; }
         public uint CreepBattlesWon { get; set; }
         public uint CreepBattlesLost { get; set; }
+        public uint CreepWinStreak { get; set; }
         public uint PvPChallengesRequests { get; set; }
         public uint PvPBattlesDeclined { get; set; }
         public uint PvPBattlesAccepted { get; set; }
         public uint PvPBattlesFought { get; set; }
         public uint PvPBattlesWon { get; set; }
         public uint PvPBattlesLost { get; set; }
-        public uint WinStreak { get; set; }
+        public uint PvPWinStreak { get; set; }
         public int BaseHealth { get; set; }
         public int BaseDamage { get; set; }
         public int BaseDefense { get; set; }

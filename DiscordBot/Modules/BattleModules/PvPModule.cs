@@ -2,6 +2,7 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using DiscordBot.Core.UserAccounts;
+using DiscordBot.BattleSystem.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,22 +78,41 @@ namespace DiscordBot.Modules.BattleModules
                     if (authorIsWinner)
                     {
                         await ReplyAsync("You won this Fight");
-                        authorAccount.BattleStatistics.PvPBattlesWon++;
-                        authorAccount.BattleStatistics.Xp += 50;
                         messageCount++;
                         await channel.SendMessageAsync("You lost this Fight sorry!");
+
+                        authorAccount.BattleStatistics.PvPBattlesWon++;
                         socketUserAccount.BattleStatistics.PvPBattlesLost++;
+
+                        uint oldLevel = authorAccount.BattleStatistics.Level;
+                        authorAccount.BattleStatistics.BattleXp += 50;
+                        uint newLevel = authorAccount.BattleStatistics.Level;
+
+
+                        leveledUp = await StatisticUtilites.CheckForLevelUp(oldLevel, newLevel, Context, authorAccount);
+
+                        if (leveledUp)
+                            messageCount++;
                     }
                     else
                     {
                         await channel.SendMessageAsync("You won this Fight!");
-                        socketUserAccount.BattleStatistics.PvPBattlesWon++;
-                        socketUserAccount.BattleStatistics.Xp += 50;
                         await ReplyAsync("You lost Sorry!");
-                        authorAccount.BattleStatistics.PvPBattlesLost++;
                         messageCount++;
 
+                        socketUserAccount.BattleStatistics.PvPBattlesWon++;
+                        authorAccount.BattleStatistics.PvPBattlesLost++;
+
+                        uint oldLevel = socketUserAccount.BattleStatistics.Level;
+                        socketUserAccount.BattleStatistics.BattleXp += 50;
+                        uint newLevel = socketUserAccount.BattleStatistics.Level;
+
+                        leveledUp = await StatisticUtilites.CheckForLevelUp(oldLevel, newLevel, Context, socketUserAccount);
+
+                        if (leveledUp)
+                            messageCount++;
                     }
+
                     UserManager.SaveAccounts();
                     var message1 = await Context.Channel.GetMessagesAsync(messageCount).FlattenAsync();
                     var messageList = message1.ToList();

@@ -1,30 +1,29 @@
-﻿using DiscordBot.BattleSystem.Entities;
-using DiscordBot.BattleSystem.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiscordBot.BattleSystem.Enemies
+namespace DiscordBot.BattleSystem.Entities.Enemies
 {
-    public class Creep : IEnemy
+    public class Creep3 : IEnemy
     {
         public int Health { get; set; }
         public int Damage { get; set; }
         public int Defense { get; set; }
         public string Name { get; set; }
-        public Creep()
+
+        public Creep3()
         {
             var generator = new Random();
 
-            int randomNumber = generator.Next(19, 24);
+            int randomNumber = generator.Next(24, 31);
             Health = randomNumber;
 
-            randomNumber = generator.Next(18, 24);
+            randomNumber = generator.Next(21, 34);
             Damage = randomNumber;
-            Defense = 0;
-            Name = ""; 
+            Defense = 3;
+            Name = "";
 
         }
     }

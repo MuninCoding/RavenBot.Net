@@ -12,6 +12,7 @@ namespace DiscordBot.BattleSystem.Enemies
         public int Health { get; set; }
         public int Damage { get; set; }
         public int Defense { get; set; }
+        public string Name { get; set; }
 
         public Creep2()
         {
@@ -22,8 +23,8 @@ namespace DiscordBot.BattleSystem.Enemies
 
             randomNumber = generator.Next(21, 34);
             Damage = randomNumber;
-
             Defense = 3;
+            Name = "";
 
         }
     }

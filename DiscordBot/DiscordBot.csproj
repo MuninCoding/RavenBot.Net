@@ -212,9 +212,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BattleSystem\Entities\Armor\DivineArmor.cs" />
     <Compile Include="BattleSystem\Entities\Armor\LeatherArmor.cs" />
     <Compile Include="BattleSystem\Entities\Enemies\Creep2.cs" />
+    <Compile Include="BattleSystem\Entities\Enemies\Creep3.cs" />
     <Compile Include="BattleSystem\Entities\Weapons\DivineRapier.cs" />
+    <Compile Include="BattleSystem\Utilities\EnemyUtilites.cs" />
     <Compile Include="BattleSystem\Utilities\ItemUtilities.cs" />
     <Compile Include="BattleSystem\Entities\Armor\Naked.cs" />
     <Compile Include="BattleSystem\Entities\IEnemy.cs" />
@@ -228,6 +231,7 @@
     <Compile Include="BattleSystem\Entities\Weapons\Bat.cs" />
     <Compile Include="BattleSystem\Entities\Weapons\Fist.cs" />
     <Compile Include="BattleSystem\Entities\Weapons\Rock.cs" />
+    <Compile Include="BattleSystem\Utilities\StatisticUtilites.cs" />
     <Compile Include="Core\DataStorage.cs" />
     <Compile Include="Core\LevelSystem\LevelSystem.cs" />
     <Compile Include="BattleSystem\PlayerStatistics.cs" />

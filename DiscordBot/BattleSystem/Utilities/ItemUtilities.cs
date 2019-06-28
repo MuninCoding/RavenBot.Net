@@ -25,7 +25,10 @@ namespace DiscordBot.BattleSystem.Utilities
 
                 userAccount.BattleStatistics.Weapons.Add((IWeapon)itemToAdd);
 
-                await context.Channel.SendMessageAsync($"Added {itemTypeString} of type {itemType.ToString()}");
+                var botMessage = await context.Channel.SendMessageAsync($"Added {itemTypeString} of type {itemType.ToString()}");
+                await Task.Delay(5000);
+                await botMessage.DeleteAsync();
+
             }
             else if (itemTypeString.Equals("shield"))
             {
@@ -33,7 +36,10 @@ namespace DiscordBot.BattleSystem.Utilities
 
                 userAccount.BattleStatistics.Shields.Add((IShield)itemToAdd);
 
-                await context.Channel.SendMessageAsync($"Added {itemTypeString} of type {itemType.ToString()}");
+                var botMessage = await context.Channel.SendMessageAsync($"Added {itemTypeString} of type {itemType.ToString()}");
+                await Task.Delay(5000);
+                await botMessage.DeleteAsync();
+
             }
             else if (itemTypeString.Equals("armor"))
             {
@@ -41,11 +47,16 @@ namespace DiscordBot.BattleSystem.Utilities
 
                 userAccount.BattleStatistics.Armors.Add((IArmor)itemToAdd);
 
-                await context.Channel.SendMessageAsync($"Added {itemTypeString} of type {itemType.ToString()}");
+                var botMessage = await context.Channel.SendMessageAsync($"Added {itemTypeString} of type {itemType.ToString()}");
+                await Task.Delay(5000);
+                await context.Message.DeleteAsync();
             }
             else
             {
-                await context.Channel.SendMessageAsync("Item type not found");
+                var botMessage = await context.Channel.SendMessageAsync("Item type not found");
+                await Task.Delay(5000);
+                await botMessage.DeleteAsync();
+
             }
 
             UserManager.SaveAccounts();
@@ -61,7 +72,10 @@ namespace DiscordBot.BattleSystem.Utilities
 
                 userAccount.BattleStatistics.Weapon = (IWeapon)itemToAdd;
 
-                await context.Channel.SendMessageAsync($"Equipped {itemTypeString} of type {itemType.ToString()}");
+                var botMessage = await context.Channel.SendMessageAsync($"Equipped {itemTypeString} of type {itemType.ToString()}");
+                await Task.Delay(5000);
+                await botMessage.DeleteAsync();
+
             }
             else if (itemTypeString.Equals("shield"))
             {
@@ -69,7 +83,10 @@ namespace DiscordBot.BattleSystem.Utilities
 
                 userAccount.BattleStatistics.Shield = (IShield)itemToAdd;
 
-                await context.Channel.SendMessageAsync($"Equipped {itemTypeString} of type {itemType.ToString()}");
+                var botMessage = await context.Channel.SendMessageAsync($"Equipped {itemTypeString} of type {itemType.ToString()}");
+                await Task.Delay(5000);
+                await botMessage.DeleteAsync();
+
             }
             else if (itemTypeString.Equals("armor"))
             {
@@ -77,11 +94,17 @@ namespace DiscordBot.BattleSystem.Utilities
 
                 userAccount.BattleStatistics.Armor = (IArmor)itemToAdd;
 
-                await context.Channel.SendMessageAsync($"Equipped {itemTypeString} of type {itemType.ToString()}");
+                var botMessage = await context.Channel.SendMessageAsync($"Equipped {itemTypeString} of type {itemType.ToString()}");
+                await Task.Delay(5000);
+                await botMessage.DeleteAsync();
+
             }
             else
             {
-                await context.Channel.SendMessageAsync("Item type not found");
+                var botMessage = await context.Channel.SendMessageAsync("Item type not found");
+                await Task.Delay(5000);
+                await botMessage.DeleteAsync();
+
             }
 
             UserManager.SaveAccounts();
