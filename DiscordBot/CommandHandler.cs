@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using DiscordBot;
 using DiscordBot.Core.LevelSystem;
+using DiscordBot.Core.UserAccounts;
 
 namespace DiscordBot
 {
@@ -33,7 +34,10 @@ namespace DiscordBot
             var context = new SocketCommandContext(_client, msg);
             if (context.User.IsBot) return;
 
-             LevelSystem.AddXpForMessage((SocketGuildUser)context.User, (SocketTextChannel)context.Channel);
+            LevelSystem.AddXpForMessage((SocketGuildUser)context.User, (SocketTextChannel)context.Channel);
+            UserAccount account = UserManager.GetAccount(context.User);
+            account.MessageCount++;
+            UserManager.SaveAccounts();
 
             int argPos = 0;
             if (msg.HasCharPrefix(ConfigHandler.config.Prefix, ref argPos)

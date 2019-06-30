@@ -24,9 +24,49 @@ namespace DiscordBot.BattleSystem.Utilities
                 embed.WithTitle("LEVEL UP!");
                 embed.WithDescription(context.Message.Author.Username + " just leveled up!");
                 embed.AddField("LEVEL", newLevel);
-                embed.AddField("XP", account.BattleStatistics.Xp);
+                embed.AddField("XP", account.BattleStatistics.BattleXp);
                 var info = embed.Build();
                 await context.Channel.SendMessageAsync(embed: info);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        internal static async Task<bool> CheckForCreepWinstreak(uint CurrentCreepWinStreak, uint BestCreepWinStreak, SocketCommandContext context, UserAccount account)
+        {
+            if (CurrentCreepWinStreak > BestCreepWinStreak)
+            {
+                account.BattleStatistics.BestCreepWinStreak = account.BattleStatistics.CurrentCreepWinStreak;
+                await context.Channel.SendMessageAsync($"You get a new Creep Winstreak with {account.BattleStatistics.BestCreepWinStreak}!");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        internal static async Task<bool> CheckForPvpWinstreak(uint CurrentPvPWinStreak, uint BestPvPWinStreak, SocketCommandContext context, UserAccount account)
+        {
+            if (CurrentPvPWinStreak > BestPvPWinStreak)
+            {
+                account.BattleStatistics.BestPvPWinStreak = account.BattleStatistics.CurrentPvPWinStreak;
+                await context.Channel.SendMessageAsync($"You get a new PvP Winstreak with {account.BattleStatistics.BestPvPWinStreak}!");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+        internal static async Task<bool> CheckForEnemiesKilled(uint currentEnemiesKilled, uint highestEnemiesKilled, SocketCommandContext context, UserAccount account)
+        {
+            if (currentEnemiesKilled > highestEnemiesKilled)
+            {
+                account.BattleStatistics.HighestEnemiesKilled = account.BattleStatistics.CurrentEnemiesKilled;
+                await context.Channel.SendMessageAsync($"Your scored a new Enemies {account.BattleStatistics.HighestEnemiesKilled} Killingstreak!");
                 return true;
             }
             else

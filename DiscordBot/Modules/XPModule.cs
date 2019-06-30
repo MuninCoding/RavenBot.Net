@@ -26,7 +26,7 @@ namespace DiscordBot.Modules
                 account = UserManager.GetAccount(Context.Message.Author);
             }
 
-            await Context.Channel.SendMessageAsync($"{user} have {account.XP} XP, and {account.NumberOfWarnings} Warnings!");
+            await Context.Channel.SendMessageAsync($"{user} have {account.XP} XP, and {account.NumberOfWarnings} Warnings!Written Messages {account.MessageCount} !");
         }
 
         [Command("addXP")]

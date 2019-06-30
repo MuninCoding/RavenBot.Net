@@ -25,7 +25,7 @@ namespace DiscordBot.Core.UserAccounts
         public bool IsMuted { get; set; }
 
         public uint NumberOfWarnings { get; set; }
-        public uint CountOfMessages { get; set; }
+        public uint MessageCount { get; set; }
 
         public PlayerStatistics BattleStatistics { get; set; }
     }

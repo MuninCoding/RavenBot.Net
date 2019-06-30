@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,7 +51,7 @@ namespace DiscordBot.Modules
                 var embed = new EmbedBuilder
                 {
                     Title = "Aww i can´t believe",
-                    Description = "Munin love a Very Important Person "
+                    Description = $"{Context.Message.Author.Mention} love a Very Important Person "
                 };
 
                 var Munin = embed.Build();
@@ -61,7 +62,7 @@ namespace DiscordBot.Modules
                 var embed = new EmbedBuilder
                 {
                     Title = "Aww i can´t believe",
-                    Description = "Lu love a Very Important Person "
+                    Description = $"{Context.Message.Author.Mention} love a Very Important Person "
                 };
                 var Lilly = embed.Build();
 

@@ -82,7 +82,9 @@ namespace DiscordBot.Modules.BattleModules
                         await channel.SendMessageAsync("You lost this Fight sorry!");
 
                         authorAccount.BattleStatistics.PvPBattlesWon++;
+                        authorAccount.BattleStatistics.CurrentPvPWinStreak++;
                         socketUserAccount.BattleStatistics.PvPBattlesLost++;
+                        socketUserAccount.BattleStatistics.CurrentPvPWinStreak = 0;
 
                         uint oldLevel = authorAccount.BattleStatistics.Level;
                         authorAccount.BattleStatistics.BattleXp += 50;
@@ -101,7 +103,9 @@ namespace DiscordBot.Modules.BattleModules
                         messageCount++;
 
                         socketUserAccount.BattleStatistics.PvPBattlesWon++;
+                        socketUserAccount.BattleStatistics.CurrentPvPWinStreak++;
                         authorAccount.BattleStatistics.PvPBattlesLost++;
+                        authorAccount.BattleStatistics.CurrentPvPWinStreak = 0;
 
                         uint oldLevel = socketUserAccount.BattleStatistics.Level;
                         socketUserAccount.BattleStatistics.BattleXp += 50;
