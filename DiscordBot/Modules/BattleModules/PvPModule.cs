@@ -106,7 +106,7 @@ namespace DiscordBot.Modules.BattleModules
                             messageCount++;
 
                         uint currentWinStreak = authorAccount.BattleStatistics.CurrentPvPWinStreak;
-                        uint highestWinStreak = authorAccount.BattleStatistics.BestPvPWinStreak;
+                        uint highestWinStreak = authorAccount.BattleStatistics.HighestPvPWinStreak;
                         isNewWinStreak = await StatisticUtilites.CheckForPvpWinstreak(currentWinStreak, highestWinStreak, Context, authorAccount);
                         if (isNewWinStreak)
                             messageCount++;
@@ -139,7 +139,7 @@ namespace DiscordBot.Modules.BattleModules
                             messageCount++;
                         
                         uint currentWinStreak = socketUserAccount.BattleStatistics.CurrentPvPWinStreak;
-                        uint highestWinStreak = socketUserAccount.BattleStatistics.BestPvPWinStreak;
+                        uint highestWinStreak = socketUserAccount.BattleStatistics.HighestPvPWinStreak;
                         isNewWinStreak = await StatisticUtilites.CheckForPvpWinstreak(currentWinStreak, highestWinStreak, Context, socketUserAccount);
                         if (isNewWinStreak)
                             messageCount++;

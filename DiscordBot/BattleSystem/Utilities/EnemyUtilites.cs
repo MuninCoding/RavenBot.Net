@@ -17,16 +17,12 @@ namespace DiscordBot.BattleSystem.Utilities
             if (level <= 2 || damage <= 10)
             {
                 enemies.Add(new Creep());
-                enemies.Add(new Creep());
             }
             else if (level <= 5 || damage <= 15)
             {
+                enemies.Add(new Creep());
                 enemies.Add(new Creep2());
             }
-            
-
-            
-
             return enemies;
         }
     }

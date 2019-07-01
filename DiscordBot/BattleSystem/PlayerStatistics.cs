@@ -36,7 +36,7 @@ namespace DiscordBot.BattleSystem
         public uint CurrentEnemiesKilled { get; set; }
         public uint HighestEnemiesKilled { get; set; }
         public uint BestCreepWinStreak { get; set; }
-        public uint BestPvPWinStreak { get; set; }
+        public uint HighestPvPWinStreak { get; set; }
         public uint HighestPlayerKillStreak { get; set; }
         public int BaseHealth { get; set; }
         public int BaseDamage { get; set; }

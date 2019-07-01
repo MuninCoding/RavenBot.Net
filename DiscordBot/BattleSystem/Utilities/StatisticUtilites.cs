@@ -51,8 +51,8 @@ namespace DiscordBot.BattleSystem.Utilities
         {
             if (CurrentPvPWinStreak > BestPvPWinStreak)
             {
-                account.BattleStatistics.BestPvPWinStreak = account.BattleStatistics.CurrentPvPWinStreak;
-                await context.Channel.SendMessageAsync($"You get a new PvP Winstreak with {account.BattleStatistics.BestPvPWinStreak}!");
+                account.BattleStatistics.HighestPvPWinStreak = account.BattleStatistics.CurrentPvPWinStreak;
+                await context.Channel.SendMessageAsync($"You get a new PvP Winstreak with {account.BattleStatistics.HighestPvPWinStreak}!");
                 return true;
             }
             else
