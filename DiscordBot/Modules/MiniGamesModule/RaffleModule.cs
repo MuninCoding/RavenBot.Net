@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiscordBot.Modules
+namespace DiscordBot.Modules.MiniGamesModule
 {
     public class RaffleModule : ModuleBase<SocketCommandContext>
     {

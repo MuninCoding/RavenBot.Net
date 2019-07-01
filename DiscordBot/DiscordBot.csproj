@@ -250,7 +250,7 @@
     <Compile Include="Modules\ModModule.cs" />
     <Compile Include="Modules\MoveModule.cs" />
     <Compile Include="Modules\BattleModules\PvPModule.cs" />
-    <Compile Include="Modules\RaffleModule.cs" />
+    <Compile Include="Modules\MiniGamesModule\RaffleModule.cs" />
     <Compile Include="Modules\HelpModule.cs" />
     <Compile Include="Modules\RoleModule.cs" />
     <Compile Include="Modules\XPModule.cs" />
