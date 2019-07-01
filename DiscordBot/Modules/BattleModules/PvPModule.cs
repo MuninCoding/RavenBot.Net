@@ -49,6 +49,9 @@ namespace DiscordBot.Modules.BattleModules
                     bool authorIsWinner = true;
                     bool isFighting = true;
                     bool leveledUp = false;
+                    bool isNewKillstreak = false;
+                    bool isNewWinStreak = false;
+
 
                     //StartFight();
                     await ReplyAsync("Battle Beginns");
@@ -68,8 +71,8 @@ namespace DiscordBot.Modules.BattleModules
                         }
 
                         player2Health -= player1Damage - player2Defense;
-                        await ReplyAsync($"{Context.Message.Author}´s current Health is {player1Health}!");
-                        await ReplyAsync($"{user}´s current Health is {player2Health}!");
+                        await ReplyAsync($"{authorAccount}´s current Health is {player1Health}!");
+                        await ReplyAsync($"{socketUserAccount}´s current Health is {player2Health}!");
                         messageCount += 2;
                         isFighting = !(player1Health <= 0 || player2Health <= 0);
 
@@ -83,17 +86,29 @@ namespace DiscordBot.Modules.BattleModules
 
                         authorAccount.BattleStatistics.PvPBattlesWon++;
                         authorAccount.BattleStatistics.CurrentPvPWinStreak++;
+                        authorAccount.BattleStatistics.CurrentPlayerKillStreak++;
+
                         socketUserAccount.BattleStatistics.PvPBattlesLost++;
                         socketUserAccount.BattleStatistics.CurrentPvPWinStreak = 0;
+                        socketUserAccount.BattleStatistics.CurrentPlayerKillStreak = 0;
 
                         uint oldLevel = authorAccount.BattleStatistics.Level;
                         authorAccount.BattleStatistics.BattleXp += 50;
                         uint newLevel = authorAccount.BattleStatistics.Level;
-
-
                         leveledUp = await StatisticUtilites.CheckForLevelUp(oldLevel, newLevel, Context, authorAccount);
-
                         if (leveledUp)
+                            messageCount++;
+
+                        uint currentPlayerKillStreak = authorAccount.BattleStatistics.CurrentPlayerKillStreak;
+                        uint highestPlayerKillStreak = authorAccount.BattleStatistics.HighestPlayerKillStreak;
+                        isNewKillstreak = await StatisticUtilites.CheckForPlayerKills(currentPlayerKillStreak, highestPlayerKillStreak, Context, authorAccount);
+                        if (isNewKillstreak)
+                            messageCount++;
+
+                        uint currentWinStreak = authorAccount.BattleStatistics.CurrentPvPWinStreak;
+                        uint highestWinStreak = authorAccount.BattleStatistics.BestPvPWinStreak;
+                        isNewWinStreak = await StatisticUtilites.CheckForPvpWinstreak(currentWinStreak, highestWinStreak, Context, authorAccount);
+                        if (isNewWinStreak)
                             messageCount++;
                     }
                     else
@@ -104,16 +119,29 @@ namespace DiscordBot.Modules.BattleModules
 
                         socketUserAccount.BattleStatistics.PvPBattlesWon++;
                         socketUserAccount.BattleStatistics.CurrentPvPWinStreak++;
+                        socketUserAccount.BattleStatistics.CurrentPlayerKillStreak++;
+
                         authorAccount.BattleStatistics.PvPBattlesLost++;
                         authorAccount.BattleStatistics.CurrentPvPWinStreak = 0;
+                        authorAccount.BattleStatistics.CurrentPlayerKillStreak = 0;
 
                         uint oldLevel = socketUserAccount.BattleStatistics.Level;
                         socketUserAccount.BattleStatistics.BattleXp += 50;
                         uint newLevel = socketUserAccount.BattleStatistics.Level;
-
                         leveledUp = await StatisticUtilites.CheckForLevelUp(oldLevel, newLevel, Context, socketUserAccount);
-
                         if (leveledUp)
+                            messageCount++;
+
+                        uint currentPlayerKillStreak = socketUserAccount.BattleStatistics.CurrentPlayerKillStreak;
+                        uint highestPlayerKillStreak = socketUserAccount.BattleStatistics.HighestPlayerKillStreak;
+                        isNewKillstreak = await StatisticUtilites.CheckForEnemiesKilled(currentPlayerKillStreak, highestPlayerKillStreak, Context, socketUserAccount);
+                        if (isNewKillstreak)
+                            messageCount++;
+                        
+                        uint currentWinStreak = socketUserAccount.BattleStatistics.CurrentPvPWinStreak;
+                        uint highestWinStreak = socketUserAccount.BattleStatistics.BestPvPWinStreak;
+                        isNewWinStreak = await StatisticUtilites.CheckForPvpWinstreak(currentWinStreak, highestWinStreak, Context, socketUserAccount);
+                        if (isNewWinStreak)
                             messageCount++;
                     }
 
@@ -129,7 +157,6 @@ namespace DiscordBot.Modules.BattleModules
                         await Task.Delay(60000);
                         await text.DeleteAsync();
                     }
-
                 }
                 else
                 {

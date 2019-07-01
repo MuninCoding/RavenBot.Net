@@ -20,11 +20,11 @@ namespace DiscordBot.BattleSystem.Utilities
             {
                 account.BattleStatistics.BattlePoints++;
                 var embed = new EmbedBuilder();
-                embed.WithColor(67, 160, 71);
+                embed.WithColor(Color.DarkRed);
                 embed.WithTitle("LEVEL UP!");
                 embed.WithDescription(context.Message.Author.Username + " just leveled up!");
                 embed.AddField("LEVEL", newLevel);
-                embed.AddField("XP", account.BattleStatistics.BattleXp);
+                embed.AddField("Battle XP", account.BattleStatistics.BattleXp);
                 var info = embed.Build();
                 await context.Channel.SendMessageAsync(embed: info);
                 return true;
@@ -73,6 +73,20 @@ namespace DiscordBot.BattleSystem.Utilities
             {
                 return false;
             }
+        }
+        internal static async Task<bool> CheckForPlayerKills(uint currentPlayerKilled, uint highestPlayerKilled, SocketCommandContext context, UserAccount account)
+        {
+            if (currentPlayerKilled > highestPlayerKilled)
+            {
+                account.BattleStatistics.HighestPlayerKillStreak = account.BattleStatistics.CurrentPlayerKillStreak;
+                await context.Channel.SendMessageAsync($"Your scored a new Enemies {account.BattleStatistics.HighestEnemiesKilled} Killingstreak!");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
         }
     }
 }

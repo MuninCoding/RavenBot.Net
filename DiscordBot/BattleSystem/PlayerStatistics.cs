@@ -31,11 +31,13 @@ namespace DiscordBot.BattleSystem
         public uint PvPBattlesWon { get; set; }
         public uint PvPBattlesLost { get; set; }
         public uint CurrentPvPWinStreak { get; set; }
+        public uint CurrentPlayerKillStreak { get; set; }
         public uint CurrentCreepWinStreak { get; set; }
         public uint CurrentEnemiesKilled { get; set; }
         public uint HighestEnemiesKilled { get; set; }
         public uint BestCreepWinStreak { get; set; }
         public uint BestPvPWinStreak { get; set; }
+        public uint HighestPlayerKillStreak { get; set; }
         public int BaseHealth { get; set; }
         public int BaseDamage { get; set; }
         public int BaseDefense { get; set; }

@@ -24,14 +24,14 @@ namespace DiscordBot.Modules.BattleModules
                 account = UserManager.GetAccount(user);
                 var embed1 = new EmbedBuilder();
 
-                embed1.WithColor(Color.Blue)
+                embed1.WithColor(Color.DarkRed)
                      .WithTitle("Battle Stats")
                      .WithDescription($"Get information of {Context.Message}`s battle stats")
                      .AddField("Health", account.BattleStatistics.Health.ToString(), true)
                      .AddField("Damage", account.BattleStatistics.Damage.ToString(), true)
                      .AddField("Defense", account.BattleStatistics.Defense.ToString(), true)
                      .AddField("Level", account.BattleStatistics.Level.ToString(), true)
-                     .AddField("XP", account.BattleStatistics.BattleXp.ToString(), true)
+                     .AddField("Battle XP", account.BattleStatistics.BattleXp.ToString(), true)
                      .AddField("Battle Points", account.BattleStatistics.BattlePoints.ToString(), true)
                      .AddField("Creep Battles Fought", account.BattleStatistics.CreepBattlesFought.ToString(), true)
                      .AddField("Creep Battles Won", account.BattleStatistics.CreepBattlesWon.ToString(), true)
@@ -58,14 +58,14 @@ namespace DiscordBot.Modules.BattleModules
             {
                 account = UserManager.GetAccount(Context.Message.Author);
                 var embed = new EmbedBuilder();
-                embed.WithColor(Color.Blue)
+                embed.WithColor(Color.DarkRed)
                      .WithTitle("Battle Stats")
-                     .WithDescription($"Get information of {user}`s battle stats")
+                     .WithDescription($"Get information of {account}`s battle stats")
                      .AddField("Health", account.BattleStatistics.Health.ToString(), true)
                      .AddField("Damage", account.BattleStatistics.Damage.ToString(), true)
                      .AddField("Defense", account.BattleStatistics.Defense.ToString(), true)
                      .AddField("Level", account.BattleStatistics.Level.ToString(), true)
-                     .AddField("XP", account.BattleStatistics.BattleXp.ToString(), true)
+                     .AddField("Battle XP", account.BattleStatistics.BattleXp.ToString(), true)
                      .AddField("Battle Points", account.BattleStatistics.BattlePoints.ToString(), true)
                      .AddField("Creep Battles Fought", account.BattleStatistics.CreepBattlesFought.ToString(), true)
                      .AddField("Creep Battles Won", account.BattleStatistics.CreepBattlesWon.ToString(), true)

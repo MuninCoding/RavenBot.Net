@@ -50,11 +50,13 @@ namespace DiscordBot.Modules
                     closestDifference = playerDifference;
                     closestNumber = playerNumber;
                     winnerName = message.Author.Username;
-                    
-                    
+                    SocketUser user = message.Author as SocketUser;
+                    var winner = UserManager.GetAccount(user);
+                    winner.XP += 10;
+                    UserManager.SaveAccounts();
                 }
             }
-            await ReplyAsync($"The winner is {winnerName} with a difference of {closestDifference} from {closestNumber} to {randomNumber}.");
+            await ReplyAsync($"The winner is {winnerName} with a difference of {closestDifference} from {closestNumber} to {randomNumber} ,you gained 10 XP for your Win.");
             
 
         }
