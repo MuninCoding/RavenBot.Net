@@ -34,9 +34,9 @@ namespace DiscordBot.BattleSystem.Utilities
                 return false;
             }
         }
-        internal static async Task<bool> CheckForCreepWinstreak(uint CurrentCreepWinStreak, uint BestCreepWinStreak, SocketCommandContext context, UserAccount account)
+        internal static async Task<bool> CheckForCreepWinstreak(uint currentCreepWinStreak, uint highestCreepWinStreak, SocketCommandContext context, UserAccount account)
         {
-            if (CurrentCreepWinStreak > BestCreepWinStreak)
+            if (currentCreepWinStreak > highestCreepWinStreak)
             {
                 account.BattleStatistics.BestCreepWinStreak = account.BattleStatistics.CurrentCreepWinStreak;
                 await context.Channel.SendMessageAsync($"You get a new Creep Winstreak with {account.BattleStatistics.BestCreepWinStreak}!");
@@ -47,9 +47,9 @@ namespace DiscordBot.BattleSystem.Utilities
                 return false;
             }
         }
-        internal static async Task<bool> CheckForPvpWinstreak(uint CurrentPvPWinStreak, uint BestPvPWinStreak, SocketCommandContext context, UserAccount account)
+        internal static async Task<bool> CheckForPvpWinstreak(uint currentPvPWinStreak, uint highestPvPWinStreak, SocketCommandContext context, UserAccount account)
         {
-            if (CurrentPvPWinStreak > BestPvPWinStreak)
+            if (currentPvPWinStreak > highestPvPWinStreak)
             {
                 account.BattleStatistics.HighestPvPWinStreak = account.BattleStatistics.CurrentPvPWinStreak;
                 await context.Channel.SendMessageAsync($"You get a new PvP Winstreak with {account.BattleStatistics.HighestPvPWinStreak}!");
@@ -60,6 +60,19 @@ namespace DiscordBot.BattleSystem.Utilities
                 return false;
             }
 
+        }
+        internal static async Task<bool> CheckForBossWinStreak(uint currentBossWinStreak, uint highestBossWinStreak, SocketCommandContext context, UserAccount account)
+        {
+            if (currentBossWinStreak > highestBossWinStreak)
+            {
+                account.BattleStatistics.HighestBossWinStreak = account.BattleStatistics.CurrentBossWinStreak;
+                await context.Channel.SendMessageAsync($"Your scored a new Boss Killingstreak with {account.BattleStatistics.HighestEnemiesKilled} Kills !");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         internal static async Task<bool> CheckForEnemiesKilled(uint currentEnemiesKilled, uint highestEnemiesKilled, SocketCommandContext context, UserAccount account)
         {
@@ -86,7 +99,7 @@ namespace DiscordBot.BattleSystem.Utilities
             {
                 return false;
             }
-
         }
+
     }
 }
