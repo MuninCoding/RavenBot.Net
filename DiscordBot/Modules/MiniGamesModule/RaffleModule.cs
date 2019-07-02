@@ -20,7 +20,7 @@ namespace DiscordBot.Modules.MiniGamesModule
             int delayInMs = 500;
 
             //Start the gamble and wait for x seconds
-            await ReplyAsync("Gambling started - Please enter a Number between 1 and 100!");
+            await ReplyAsync("Gambling started - Please enter a Number between 1 and 50!");
             await Task.Delay(timeInMs);
 
             //Getting the messages sent to the channel
@@ -28,16 +28,16 @@ namespace DiscordBot.Modules.MiniGamesModule
             var messages = await Context.Channel.GetMessagesAsync().FlattenAsync();
             //Add a bit of delay because the async call can take time and we may get unwanted messages in our collection
             messages = messages.Where(x => (DateTimeOffset.UtcNow - x.Timestamp).TotalMilliseconds <= (timeInMs - delayInMs));
-
+            
             //Generate the random number
-            int maxAmount = 100;
+            int maxAmount = 50;
             var generator = new Random();
             int randomNumber = generator.Next(1, maxAmount);
             await ReplyAsync($"The random number between 1 and {maxAmount} is: {randomNumber}!");
 
             //Check for winner
             string winnerName = "No Entry";
-            int closestDifference = 100;
+            int closestDifference = 50;
             int closestNumber = 0;
             foreach (var message in messages)
             {
@@ -58,8 +58,6 @@ namespace DiscordBot.Modules.MiniGamesModule
             }
             await ReplyAsync($"The winner is {winnerName} with a difference of {closestDifference} from {closestNumber} to {randomNumber} ,you gained 10 XP for your Win.");
             
-
         }
-
     }
 }

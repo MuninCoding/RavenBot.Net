@@ -40,21 +40,28 @@ namespace DiscordBot.Core.UserAccounts
 
         public static UserAccount GetAccount(SocketUser user)
         {
-            return GetOrCreateAccount(user.Id);
+            return GetOrCreateAccount(user.Id, user.Username);
         }
 
-        private static UserAccount GetOrCreateAccount(ulong id)
+        private static UserAccount GetOrCreateAccount(ulong id, string userName)
         {
             var result = from a in accounts
                          where a.ID == id
                          select a;
 
             var account = result.FirstOrDefault();
-            if (account == null) account = CreateUserAccount(id);
+            if (account == null)
+            {
+                account = CreateUserAccount(id, userName);
+            }
+            else
+            {
+                account.Name = userName;
+            }
             return account;
         }
 
-        private static UserAccount CreateUserAccount(ulong id)
+        private static UserAccount CreateUserAccount(ulong id, string userName)
         {
             PlayerStatistics battleStats = new PlayerStatistics();
             battleStats.BattlePoints = 0;
@@ -70,6 +77,7 @@ namespace DiscordBot.Core.UserAccounts
             var newAccount = new UserAccount()
             {
                 ID = id,
+                Name = userName,
                 BattleStatistics = battleStats,
                 XP = 0
             };
@@ -79,6 +87,10 @@ namespace DiscordBot.Core.UserAccounts
             return newAccount;
         }
 
+        internal static List<UserAccount> GetAccounts()
+        {
+            return accounts;
+        }
     }
 
 }

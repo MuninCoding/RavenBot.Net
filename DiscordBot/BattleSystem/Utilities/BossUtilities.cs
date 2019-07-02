@@ -10,7 +10,7 @@ namespace DiscordBot.BattleSystem.Utilities
 {
     public class BossUtilities
     {
-        internal static List<IEnemy> SpawnBoss(uint level, int damage)
+        internal static List<IEnemy> SpawnBoss(uint level)
         {
             List<IEnemy> boss = new List<IEnemy>();
 

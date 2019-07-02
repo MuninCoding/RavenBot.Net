@@ -11,9 +11,9 @@ namespace DiscordBot.Core.UserAccounts
     public class UserAccount
     {
         public ulong ID { get; set; }
+        public string Name { get; set; }
 
         public uint XP { get; set; }
-
         public uint LevelNumber
         {
             get

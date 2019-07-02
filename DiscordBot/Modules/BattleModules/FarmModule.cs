@@ -22,7 +22,6 @@ namespace DiscordBot.Modules.BattleModules
         public async Task Battle()
         {
             await Context.Message.DeleteAsync();
-            await ReplyAsync("Starting fight");
             int messageCount = 1;
 
             //Getting Playerstats and creating creeps
@@ -41,9 +40,9 @@ namespace DiscordBot.Modules.BattleModules
             
             bool isWinner = true;
             bool isFighting = true;
-            bool isNewWinStreak = false;
             bool leveledUp = false;
-            bool isNewHighestEnemiesKilled = false;
+            bool isNewCreepWinStreak = false;
+            bool isNewHighestEnemyKillStreak = false;
 
             int playerHealth = account.BattleStatistics.Health;
             int playerDefense = account.BattleStatistics.Defense;
@@ -81,7 +80,7 @@ namespace DiscordBot.Modules.BattleModules
                 //If the enemies health is 0 or below
                 if (enemies[0].Health <= 0)
                 {
-                    account.BattleStatistics.CurrentEnemiesKilled++;
+                    account.BattleStatistics.CurrentCreepKillStreak++;
                     await ReplyAsync("Enemy died!");
                     messageCount++;
                     //Remove this enemy from the list
@@ -113,7 +112,7 @@ namespace DiscordBot.Modules.BattleModules
                     await ReplyAsync("You Found a Bat with 15 Attack Damage!");
                     messageCount++;
                 }
-                else if (random <= 0.2)
+                else if (random <= 0.5)
                 {
                     account.BattleStatistics.Weapons.Add(new Rock());
                     await ReplyAsync("You Found a Rock with 10 Attack Damage!");
@@ -127,24 +126,23 @@ namespace DiscordBot.Modules.BattleModules
                 }
 
                 uint oldLevel = account.BattleStatistics.Level;
-                account.BattleStatistics.BattleXp += 10;
+                account.BattleStatistics.Xp += 10;
                 uint newLevel = account.BattleStatistics.Level;
                 leveledUp = await StatisticUtilites.CheckForLevelUp(oldLevel, newLevel, Context, account);
                 if (leveledUp)
                     messageCount++;
 
                 uint currentCreepWinStreak = account.BattleStatistics.CurrentCreepWinStreak;
-                uint HighestCreepWinStreak = account.BattleStatistics.BestCreepWinStreak;
-                isNewWinStreak = await StatisticUtilites.CheckForCreepWinstreak(currentCreepWinStreak, HighestCreepWinStreak, Context, account);
-                if (isNewWinStreak)
+                uint HighestCreepWinStreak = account.BattleStatistics.HighestCreepWinStreak;
+                isNewCreepWinStreak = await StatisticUtilites.CheckForCreepWinstreak(currentCreepWinStreak, HighestCreepWinStreak, Context, account);
+                if (isNewCreepWinStreak)
                     messageCount++;
 
-                uint currentEnemiesKilled = account.BattleStatistics.CurrentEnemiesKilled;
-                uint highestEnemiesKilled = account.BattleStatistics.HighestEnemiesKilled;
-                isNewHighestEnemiesKilled = await StatisticUtilites.CheckForEnemiesKilled(currentEnemiesKilled, highestEnemiesKilled, Context, account);
-                if (isNewHighestEnemiesKilled)          
-                    messageCount++;
-                
+                uint currentEnemiesKilled = account.BattleStatistics.CurrentCreepKillStreak;
+                uint highestEnemiesKilled = account.BattleStatistics.HighestCreepKillStreak;
+                isNewHighestEnemyKillStreak = await StatisticUtilites.CheckForEnemiesKilled(currentEnemiesKilled, highestEnemiesKilled, Context, account);
+                if (isNewHighestEnemyKillStreak)          
+                    messageCount++;                
             }
             else
             {
@@ -152,11 +150,12 @@ namespace DiscordBot.Modules.BattleModules
                 messageCount++;
                 account.BattleStatistics.CreepBattlesLost++;
                 account.BattleStatistics.CurrentCreepWinStreak = 0;
-                account.BattleStatistics.CurrentEnemiesKilled = 0;
+                account.BattleStatistics.CurrentCreepKillStreak = 0;
             }
 
             account.BattleStatistics.CreepBattlesFought++;
             UserManager.SaveAccounts();
+            StatisticUtilites.RewriteHighscores();
             await Task.Delay(1000);
             var messages = await Context.Channel.GetMessagesAsync(messageCount).FlattenAsync();
             var messageList = messages.ToList();

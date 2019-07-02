@@ -84,29 +84,28 @@ namespace DiscordBot.Modules.BattleModules
                         messageCount++;
                         await channel.SendMessageAsync("You lost this Fight sorry!");
 
-                        authorAccount.BattleStatistics.PvPBattlesWon++;
-                        authorAccount.BattleStatistics.CurrentPvPWinStreak++;
-                        authorAccount.BattleStatistics.CurrentPlayerKillStreak++;
-
+                        authorAccount.BattleStatistics.PvPBattlesWon++; 
                         socketUserAccount.BattleStatistics.PvPBattlesLost++;
-                        socketUserAccount.BattleStatistics.CurrentPvPWinStreak = 0;
-                        socketUserAccount.BattleStatistics.CurrentPlayerKillStreak = 0;
+                        socketUserAccount.BattleStatistics.CurrentPvpWinStreak = 0;
+                        socketUserAccount.BattleStatistics.CurrentPvpKillStreak = 0;
 
                         uint oldLevel = authorAccount.BattleStatistics.Level;
-                        authorAccount.BattleStatistics.BattleXp += 50;
+                        authorAccount.BattleStatistics.Xp += 50;
                         uint newLevel = authorAccount.BattleStatistics.Level;
                         leveledUp = await StatisticUtilites.CheckForLevelUp(oldLevel, newLevel, Context, authorAccount);
                         if (leveledUp)
                             messageCount++;
 
-                        uint currentPlayerKillStreak = authorAccount.BattleStatistics.CurrentPlayerKillStreak;
-                        uint highestPlayerKillStreak = authorAccount.BattleStatistics.HighestPlayerKillStreak;
+                        uint currentPlayerKillStreak = authorAccount.BattleStatistics.CurrentPvpKillStreak;
+                        authorAccount.BattleStatistics.CurrentPvpKillStreak++;
+                        uint highestPlayerKillStreak = authorAccount.BattleStatistics.HighestPvpKillStreak;
                         isNewKillstreak = await StatisticUtilites.CheckForPlayerKills(currentPlayerKillStreak, highestPlayerKillStreak, Context, authorAccount);
                         if (isNewKillstreak)
                             messageCount++;
 
-                        uint currentWinStreak = authorAccount.BattleStatistics.CurrentPvPWinStreak;
-                        uint highestWinStreak = authorAccount.BattleStatistics.HighestPvPWinStreak;
+                        uint currentWinStreak = authorAccount.BattleStatistics.CurrentPvpWinStreak;
+                        authorAccount.BattleStatistics.CurrentPvpWinStreak++;
+                        uint highestWinStreak = authorAccount.BattleStatistics.HighestPvpWinStreak;
                         isNewWinStreak = await StatisticUtilites.CheckForPvpWinstreak(currentWinStreak, highestWinStreak, Context, authorAccount);
                         if (isNewWinStreak)
                             messageCount++;
@@ -118,28 +117,27 @@ namespace DiscordBot.Modules.BattleModules
                         messageCount++;
 
                         socketUserAccount.BattleStatistics.PvPBattlesWon++;
-                        socketUserAccount.BattleStatistics.CurrentPvPWinStreak++;
-                        socketUserAccount.BattleStatistics.CurrentPlayerKillStreak++;
-
                         authorAccount.BattleStatistics.PvPBattlesLost++;
-                        authorAccount.BattleStatistics.CurrentPvPWinStreak = 0;
-                        authorAccount.BattleStatistics.CurrentPlayerKillStreak = 0;
+                        authorAccount.BattleStatistics.CurrentPvpWinStreak = 0;
+                        authorAccount.BattleStatistics.CurrentPvpKillStreak = 0;
 
                         uint oldLevel = socketUserAccount.BattleStatistics.Level;
-                        socketUserAccount.BattleStatistics.BattleXp += 50;
+                        socketUserAccount.BattleStatistics.Xp += 50;
                         uint newLevel = socketUserAccount.BattleStatistics.Level;
                         leveledUp = await StatisticUtilites.CheckForLevelUp(oldLevel, newLevel, Context, socketUserAccount);
                         if (leveledUp)
                             messageCount++;
 
-                        uint currentPlayerKillStreak = socketUserAccount.BattleStatistics.CurrentPlayerKillStreak;
-                        uint highestPlayerKillStreak = socketUserAccount.BattleStatistics.HighestPlayerKillStreak;
+                        uint currentPlayerKillStreak = socketUserAccount.BattleStatistics.CurrentPvpKillStreak;
+                        socketUserAccount.BattleStatistics.CurrentPvpKillStreak++;
+                        uint highestPlayerKillStreak = socketUserAccount.BattleStatistics.HighestPvpKillStreak;
                         isNewKillstreak = await StatisticUtilites.CheckForEnemiesKilled(currentPlayerKillStreak, highestPlayerKillStreak, Context, socketUserAccount);
                         if (isNewKillstreak)
                             messageCount++;
                         
-                        uint currentWinStreak = socketUserAccount.BattleStatistics.CurrentPvPWinStreak;
-                        uint highestWinStreak = socketUserAccount.BattleStatistics.HighestPvPWinStreak;
+                        uint currentWinStreak = socketUserAccount.BattleStatistics.CurrentPvpWinStreak;
+                        socketUserAccount.BattleStatistics.CurrentPvpWinStreak++;
+                        uint highestWinStreak = socketUserAccount.BattleStatistics.HighestPvpWinStreak;
                         isNewWinStreak = await StatisticUtilites.CheckForPvpWinstreak(currentWinStreak, highestWinStreak, Context, socketUserAccount);
                         if (isNewWinStreak)
                             messageCount++;

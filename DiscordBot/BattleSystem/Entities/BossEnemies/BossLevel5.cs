@@ -15,16 +15,12 @@ namespace DiscordBot.BattleSystem.Entities.BossEnemies
 
         public BossLevel5()
         {
-            var generator = new Random();
-
-            int randomNumber = generator.Next(24, 31);
-            Health = randomNumber;
-
-            randomNumber = generator.Next(21, 34);
-            Damage = randomNumber;
-            Defense = 3;
-            Name = "";
-
+            var random = new Random();
+            int defense = random.Next(3, 10);
+            Health = 125;         
+            Damage = 25;
+            Defense = defense;
+            Name = "Ogre";
         }
     }
 }
