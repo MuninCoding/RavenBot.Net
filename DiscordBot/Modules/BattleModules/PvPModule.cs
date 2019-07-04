@@ -2,7 +2,7 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using DiscordBot.Core.UserAccounts;
-using DiscordBot.BattleSystem.Utilities;
+using DiscordBot.BattleSystem.Handlers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,6 +84,7 @@ namespace DiscordBot.Modules.BattleModules
                         messageCount++;
                         await channel.SendMessageAsync("You lost this Fight sorry!");
 
+                        authorAccount.BattleStatistics.AmountOfPlayersKilled++;
                         authorAccount.BattleStatistics.PvPBattlesWon++; 
                         socketUserAccount.BattleStatistics.PvPBattlesLost++;
                         socketUserAccount.BattleStatistics.CurrentPvpWinStreak = 0;
@@ -92,21 +93,21 @@ namespace DiscordBot.Modules.BattleModules
                         uint oldLevel = authorAccount.BattleStatistics.Level;
                         authorAccount.BattleStatistics.Xp += 50;
                         uint newLevel = authorAccount.BattleStatistics.Level;
-                        leveledUp = await StatisticUtilites.CheckForLevelUp(oldLevel, newLevel, Context, authorAccount);
+                        leveledUp = await StatisticHandler.CheckForLevelUp(oldLevel, newLevel, Context, authorAccount);
                         if (leveledUp)
                             messageCount++;
 
                         uint currentPlayerKillStreak = authorAccount.BattleStatistics.CurrentPvpKillStreak;
                         authorAccount.BattleStatistics.CurrentPvpKillStreak++;
                         uint highestPlayerKillStreak = authorAccount.BattleStatistics.HighestPvpKillStreak;
-                        isNewKillstreak = await StatisticUtilites.CheckForPlayerKills(currentPlayerKillStreak, highestPlayerKillStreak, Context, authorAccount);
+                        isNewKillstreak = await StatisticHandler.CheckForPlayerKills(currentPlayerKillStreak, highestPlayerKillStreak, Context, authorAccount);
                         if (isNewKillstreak)
                             messageCount++;
 
                         uint currentWinStreak = authorAccount.BattleStatistics.CurrentPvpWinStreak;
                         authorAccount.BattleStatistics.CurrentPvpWinStreak++;
                         uint highestWinStreak = authorAccount.BattleStatistics.HighestPvpWinStreak;
-                        isNewWinStreak = await StatisticUtilites.CheckForPvpWinstreak(currentWinStreak, highestWinStreak, Context, authorAccount);
+                        isNewWinStreak = await StatisticHandler.CheckForPvpWinstreak(currentWinStreak, highestWinStreak, Context, authorAccount);
                         if (isNewWinStreak)
                             messageCount++;
                     }
@@ -116,6 +117,7 @@ namespace DiscordBot.Modules.BattleModules
                         await ReplyAsync("You lost Sorry!");
                         messageCount++;
 
+                        socketUserAccount.BattleStatistics.AmountOfPlayersKilled++;
                         socketUserAccount.BattleStatistics.PvPBattlesWon++;
                         authorAccount.BattleStatistics.PvPBattlesLost++;
                         authorAccount.BattleStatistics.CurrentPvpWinStreak = 0;
@@ -124,21 +126,21 @@ namespace DiscordBot.Modules.BattleModules
                         uint oldLevel = socketUserAccount.BattleStatistics.Level;
                         socketUserAccount.BattleStatistics.Xp += 50;
                         uint newLevel = socketUserAccount.BattleStatistics.Level;
-                        leveledUp = await StatisticUtilites.CheckForLevelUp(oldLevel, newLevel, Context, socketUserAccount);
+                        leveledUp = await StatisticHandler.CheckForLevelUp(oldLevel, newLevel, Context, socketUserAccount);
                         if (leveledUp)
                             messageCount++;
 
                         uint currentPlayerKillStreak = socketUserAccount.BattleStatistics.CurrentPvpKillStreak;
                         socketUserAccount.BattleStatistics.CurrentPvpKillStreak++;
                         uint highestPlayerKillStreak = socketUserAccount.BattleStatistics.HighestPvpKillStreak;
-                        isNewKillstreak = await StatisticUtilites.CheckForEnemiesKilled(currentPlayerKillStreak, highestPlayerKillStreak, Context, socketUserAccount);
+                        isNewKillstreak = await StatisticHandler.CheckForEnemiesKilled(currentPlayerKillStreak, highestPlayerKillStreak, Context, socketUserAccount);
                         if (isNewKillstreak)
                             messageCount++;
                         
                         uint currentWinStreak = socketUserAccount.BattleStatistics.CurrentPvpWinStreak;
                         socketUserAccount.BattleStatistics.CurrentPvpWinStreak++;
                         uint highestWinStreak = socketUserAccount.BattleStatistics.HighestPvpWinStreak;
-                        isNewWinStreak = await StatisticUtilites.CheckForPvpWinstreak(currentWinStreak, highestWinStreak, Context, socketUserAccount);
+                        isNewWinStreak = await StatisticHandler.CheckForPvpWinstreak(currentWinStreak, highestWinStreak, Context, socketUserAccount);
                         if (isNewWinStreak)
                             messageCount++;
                     }

@@ -4,7 +4,7 @@ using Discord.WebSocket;
 using DiscordBot.BattleSystem.Entities.Armor;
 using DiscordBot.BattleSystem.Entities.Shield;
 using DiscordBot.BattleSystem.Entities.Weapons;
-using DiscordBot.BattleSystem.Utilities;
+using DiscordBot.BattleSystem.Handlers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,16 +24,16 @@ namespace DiscordBot.Modules.BattleModules
                 switch (itemName)
                 {
                     case "fist":
-                        await ItemUtilities.EquipItem(itemSlot, typeof(Fist), Context);
+                        await ItemHandler.EquipItem(itemSlot, typeof(Fist), Context);
                         break;
                     case "rock":
-                        await ItemUtilities.EquipItem(itemSlot, typeof(Rock), Context);
+                        await ItemHandler.EquipItem(itemSlot, typeof(Rock), Context);
                         break;
                     case "bat":
-                        await ItemUtilities.EquipItem(itemSlot, typeof(Bat), Context);
+                        await ItemHandler.EquipItem(itemSlot, typeof(Bat), Context);
                         break;
                     case "divinerapier":
-                        await ItemUtilities.EquipItem(itemSlot, typeof(DivineRapier), Context);
+                        await ItemHandler.EquipItem(itemSlot, typeof(DivineRapier), Context);
                         break;
                     default:
                         var botMessage = await Context.Channel.SendMessageAsync("Weapon not found");
@@ -47,13 +47,13 @@ namespace DiscordBot.Modules.BattleModules
                 switch (itemName)
                 {
                     case "handblock":
-                        await ItemUtilities.EquipItem(itemSlot, typeof(HandBlock), Context);
+                        await ItemHandler.EquipItem(itemSlot, typeof(HandBlock), Context);
                         break;
                     case "woodenshield":
-                        await ItemUtilities.EquipItem(itemSlot, typeof(WoodenShield), Context);
+                        await ItemHandler.EquipItem(itemSlot, typeof(WoodenShield), Context);
                         break;
                     case "bronzeshield":
-                        await ItemUtilities.EquipItem(itemSlot, typeof(BronzeShield), Context);
+                        await ItemHandler.EquipItem(itemSlot, typeof(BronzeShield), Context);
                         break;
                     default:
                         await Context.Channel.SendMessageAsync("Shield not found");
@@ -68,13 +68,13 @@ namespace DiscordBot.Modules.BattleModules
                 switch (itemName)
                 {
                     case "naked":
-                        await ItemUtilities.EquipItem(itemSlot, typeof(Naked), Context);
+                        await ItemHandler.EquipItem(itemSlot, typeof(Naked), Context);
                         break;
                     case "leatherarmor":
-                        await ItemUtilities.EquipItem(itemSlot, typeof(LeatherArmor), Context);
+                        await ItemHandler.EquipItem(itemSlot, typeof(LeatherArmor), Context);
                         break;
                     case "divinearmor":
-                        await ItemUtilities.EquipItem(itemSlot, typeof(DivineArmor), Context);
+                        await ItemHandler.EquipItem(itemSlot, typeof(DivineArmor), Context);
                         break;
                     default:
                         await Context.Channel.SendMessageAsync("Armor not found");
@@ -92,6 +92,8 @@ namespace DiscordBot.Modules.BattleModules
             }
         }
 
+        //TODO Split Class
+
         [Command("add")]
         public async Task AddItem(string itemSlot, string itemName)
         {
@@ -103,16 +105,16 @@ namespace DiscordBot.Modules.BattleModules
                 switch (itemName)
                 {
                     case "fist":
-                        await ItemUtilities.AddItem(itemSlot, typeof(Fist), Context);
+                        await ItemHandler.AddItem(itemSlot, typeof(Fist), Context);
                         break;
                     case "rock":
-                        await ItemUtilities.AddItem(itemSlot, typeof(Rock), Context);
+                        await ItemHandler.AddItem(itemSlot, typeof(Rock), Context);
                         break;
                     case "bat":
-                        await ItemUtilities.AddItem(itemSlot, typeof(Bat), Context);
+                        await ItemHandler.AddItem(itemSlot, typeof(Bat), Context);
                         break;
                     case "divinerapier":
-                        await ItemUtilities.AddItem(itemSlot, typeof(DivineRapier), Context);
+                        await ItemHandler.AddItem(itemSlot, typeof(DivineRapier), Context);
                         break;
                     default:
                         await Context.Channel.SendMessageAsync("Weapon not found");
@@ -126,13 +128,13 @@ namespace DiscordBot.Modules.BattleModules
                 switch (itemName)
                 {
                     case "handblock":
-                        await ItemUtilities.AddItem(itemSlot, typeof(HandBlock), Context);
+                        await ItemHandler.AddItem(itemSlot, typeof(HandBlock), Context);
                         break;
                     case "woodenshield":
-                        await ItemUtilities.AddItem(itemSlot, typeof(WoodenShield), Context);
+                        await ItemHandler.AddItem(itemSlot, typeof(WoodenShield), Context);
                         break;
                     case "bronzeshield":
-                        await ItemUtilities.AddItem(itemSlot, typeof(BronzeShield), Context);
+                        await ItemHandler.AddItem(itemSlot, typeof(BronzeShield), Context);
                         break;
                     default:
                         await Context.Channel.SendMessageAsync("Shield not found");
@@ -147,13 +149,13 @@ namespace DiscordBot.Modules.BattleModules
                 switch (itemName)
                 {
                     case "naked":
-                        await ItemUtilities.AddItem(itemSlot, typeof(Naked), Context);
+                        await ItemHandler.AddItem(itemSlot, typeof(Naked), Context);
                         break;
                     case "leatherarmor":
-                        await ItemUtilities.AddItem(itemSlot, typeof(LeatherArmor), Context);
+                        await ItemHandler.AddItem(itemSlot, typeof(LeatherArmor), Context);
                         break;
                     case "divinearmor":
-                        await ItemUtilities.AddItem(itemSlot, typeof(DivineArmor), Context);
+                        await ItemHandler.AddItem(itemSlot, typeof(DivineArmor), Context);
                         break;
                     default:
                         await Context.Channel.SendMessageAsync("Armor not found");

@@ -1,7 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using DiscordBot.BattleSystem.Utilities;
+using DiscordBot.BattleSystem.Handlers;
 using DiscordBot.Core.UserAccounts;
 using System;
 using System.Collections.Generic;
@@ -34,7 +34,7 @@ namespace DiscordBot.Modules.BattleModules
                          .AddField("Level", account.BattleStatistics.Level.ToString(), true)
                          .AddField("Battle XP", account.BattleStatistics.Xp.ToString(), true)
                          .AddField("Battle Points", account.BattleStatistics.BattlePoints.ToString(), true)
-                         .WithFooter(footer => footer.Text = "©RavenplaysGuardianBot")
+                         .WithFooter(footer => footer.Text = "©DivineGuardian")
                          .WithCurrentTimestamp();
 
                     var playerEmbed = embed.Build();
@@ -53,8 +53,8 @@ namespace DiscordBot.Modules.BattleModules
                          .AddField("Totally killed creeps", account.BattleStatistics.AmountOfCreepsKilled.ToString(), true)
                          .AddField("Highest Creep Winstreak", account.BattleStatistics.HighestCreepWinStreak.ToString(), true)
                          .AddField("Highest Creep Killstreak", account.BattleStatistics.HighestCreepKillStreak.ToString(), true)
-                         .AddField("Creep Rank placement", account.BattleStatistics.CreepRankPlacement.ToString(), true)
-                         .WithFooter(footer => footer.Text = "©RavenplaysGuardianBot")
+                         .AddField("Creep Rank placement", account.BattleStatistics.LeaderboardPositionCreepKills.ToString(), true)
+                         .WithFooter(footer => footer.Text = "©DivineGuardian")
                          .WithCurrentTimestamp();
 
                     var creepEmbed = embed.Build();
@@ -73,9 +73,9 @@ namespace DiscordBot.Modules.BattleModules
                          .AddField("Totally killed Bosses", account.BattleStatistics.AmountOfBossesKilled.ToString(), true)
                          .AddField("Highest Boss Winstreak", account.BattleStatistics.HighestBossWinStreak.ToString(), true)
                          .AddField("Highest Boss Killstreak", account.BattleStatistics.HighestBossKillStreak.ToString(), true)
-                         .AddField("Boss Rank placement", account.BattleStatistics.BossRankPlacement.ToString(), true)
+                         .AddField("Boss Rank placement", account.BattleStatistics.LeaderboardPositionBossKills.ToString(), true)
 
-                         .WithFooter(footer => footer.Text = "©RavenplaysGuardianBot")
+                         .WithFooter(footer => footer.Text = "©DivineGuardian")
                          .WithCurrentTimestamp();
 
                     var creepEmbed = embed.Build();
@@ -94,10 +94,10 @@ namespace DiscordBot.Modules.BattleModules
                          .AddField("Totally killed Players", account.BattleStatistics.AmountOfPlayersKilled.ToString(), true)
                          .AddField("Highest PVP Winstreak", account.BattleStatistics.HighestPvpWinStreak.ToString(), true)
                          .AddField("Highest Players Killstreak", account.BattleStatistics.HighestPvpKillStreak.ToString(), true)
-                         .AddField("PVP Rank placement", account.BattleStatistics.PvPRankPlacement.ToString(), true)
+                         .AddField("PVP Rank placement", account.BattleStatistics.LeaderboardPositionPvpKills.ToString(), true)
 
 
-                         .WithFooter(footer => footer.Text = "©RavenplaysGuardianBot")
+                         .WithFooter(footer => footer.Text = "©DivineGuardian")
                          .WithCurrentTimestamp();
 
                     var creepEmbed = embed.Build();
@@ -107,7 +107,9 @@ namespace DiscordBot.Modules.BattleModules
                 {
                     List<UserAccount> userAccounts = UserManager.GetAccounts();
 
+                    //Filter accoutns by Leaderboard position one
                     var levelAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardPositionLevel == 1);
+                    //Get the remaining object from the list to use its information in the embed
                     var hightestLevelAccount = levelAccountList.SingleOrDefault();
 
                     var xpAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardPositionXp == 1);
@@ -146,7 +148,7 @@ namespace DiscordBot.Modules.BattleModules
                          .AddField("Highest Creep Drops", $"{hightestCreepDropAccount.Name} with {hightestCreepDropAccount.BattleStatistics.CreepDrops}")
                          .AddField("Highest Boss Drops", $"{hightestBossDropAccount.Name} with {hightestBossDropAccount.BattleStatistics.BossDrops}")
                          .AddField("Highest PvP Drops", $"{hightestPvpDropAccount.Name} with {hightestPvpDropAccount.BattleStatistics.PvpDrops}")
-                         .WithFooter(footer => footer.Text = "©RavenplaysGuardianBot")
+                         .WithFooter(footer => footer.Text = "©DivineGuardian")
                          .WithCurrentTimestamp();
                     var creepEmbed = embed.Build();
                     await ReplyAsync(embed: creepEmbed);
@@ -166,7 +168,7 @@ namespace DiscordBot.Modules.BattleModules
                          .AddField("Level", account.BattleStatistics.Level.ToString(), true)
                          .AddField("Battle XP", account.BattleStatistics.Xp.ToString(), true)
                          .AddField("Battle Points", account.BattleStatistics.BattlePoints.ToString(), true)
-                         .WithFooter(footer => footer.Text = "©RavenplaysGuardianBot")
+                         .WithFooter(footer => footer.Text = "©DivineGuardian")
                          .WithCurrentTimestamp();
 
                     var playerEmbed = embed.Build();
@@ -185,8 +187,8 @@ namespace DiscordBot.Modules.BattleModules
                          .AddField("Totally killed creeps", account.BattleStatistics.AmountOfCreepsKilled.ToString(), true)
                          .AddField("Highest Creep Winstreak", account.BattleStatistics.HighestCreepWinStreak.ToString(), true)
                          .AddField("Highest Creep Killstreak", account.BattleStatistics.HighestCreepKillStreak.ToString(), true)
-                         .AddField("Creep Rank placement", account.BattleStatistics.CreepRankPlacement.ToString(), true)
-                         .WithFooter(footer => footer.Text = "©RavenplaysGuardianBot")
+                         .AddField("Creep Rank placement", account.BattleStatistics.LeaderboardPositionCreepKills.ToString(), true)
+                         .WithFooter(footer => footer.Text = "©DivineGuardian")
                          .WithCurrentTimestamp();
 
                     var creepEmbed = embed.Build();
@@ -205,9 +207,9 @@ namespace DiscordBot.Modules.BattleModules
                          .AddField("Totally killed Bosses", account.BattleStatistics.AmountOfBossesKilled.ToString(), true)
                          .AddField("Highest Boss Winstreak", account.BattleStatistics.HighestBossWinStreak.ToString(), true)
                          .AddField("Highest Boss Killstreak", account.BattleStatistics.HighestBossKillStreak.ToString(), true)
-                         .AddField("Boss Rank placement", account.BattleStatistics.BossRankPlacement.ToString(), true)
+                         .AddField("Boss Rank placement", account.BattleStatistics.LeaderboardPositionBossKills.ToString(), true)
 
-                         .WithFooter(footer => footer.Text = "©RavenplaysGuardianBot")
+                         .WithFooter(footer => footer.Text = "©DivineGuardian")
                          .WithCurrentTimestamp();
 
                     var creepEmbed = embed.Build();
@@ -226,10 +228,10 @@ namespace DiscordBot.Modules.BattleModules
                          .AddField("Totally killed Players", account.BattleStatistics.AmountOfPlayersKilled.ToString(), true)
                          .AddField("Highest PVP Winstreak", account.BattleStatistics.HighestPvpWinStreak.ToString(), true)
                          .AddField("Highest Players Killstreak", account.BattleStatistics.HighestPvpKillStreak.ToString(), true)
-                         .AddField("PVP Rank placement", account.BattleStatistics.PvPRankPlacement.ToString(), true)
+                         .AddField("PVP Rank placement", account.BattleStatistics.LeaderboardPositionPvpKills.ToString(), true)
 
 
-                         .WithFooter(footer => footer.Text = "©RavenplaysGuardianBot")
+                         .WithFooter(footer => footer.Text = "©DivineGuardian")
                          .WithCurrentTimestamp();
 
                     var creepEmbed = embed.Build();

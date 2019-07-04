@@ -25,8 +25,10 @@ namespace DiscordBot.Modules
             {
                 account = UserManager.GetAccount(Context.Message.Author);
             }
+            uint xp = account.XP;
+            uint level = (uint)Math.Sqrt(xp / 50);
 
-            await Context.Channel.SendMessageAsync($"{user} have {account.XP} XP, and {account.NumberOfWarnings} Warnings!Written Messages {account.MessageCount} !");
+            await Context.Channel.SendMessageAsync($"{account.Name} has {account.XP} XP, and is level {level},\n{account.Name} has {account.NumberOfWarnings} Warnings and has written {account.MessageCount} Messages!");
         }
 
         [Command("addXP")]
@@ -47,27 +49,5 @@ namespace DiscordBot.Modules
             UserManager.SaveAccounts();
             await Context.Channel.SendMessageAsync($"{user} gained {xp} XP.");
         }
-
-        [Command("level")]
-        public async Task WhatLevelIs(SocketGuildUser user = null)
-        {
-            await Context.Message.DeleteAsync();
-            UserAccount account;
-            if (user != null)
-            {
-                account = UserManager.GetAccount(user);
-            }
-            else
-            {
-                account = UserManager.GetAccount(Context.Message.Author);
-            }
-            uint xp = account.XP;
-            uint level = (uint)Math.Sqrt(xp / 50);
-            await Context.Channel.SendMessageAsync("The level is " + level);
-
-        }
     }
-
-
-
 }
