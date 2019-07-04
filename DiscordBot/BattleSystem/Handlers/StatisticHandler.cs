@@ -7,9 +7,9 @@ using Discord;
 using Discord.Commands;
 using DiscordBot.Core.UserAccounts;
 
-namespace DiscordBot.BattleSystem.Utilities
+namespace DiscordBot.BattleSystem.Handlers
 {
-    class StatisticUtilites
+    class StatisticHandler
     {
         /*CheckForLevelUp is a static method 
         returns bool if user leveledUp
@@ -103,11 +103,15 @@ namespace DiscordBot.BattleSystem.Utilities
 
         internal static void RewriteHighscores()
         {
+            //Get all useraccounts
             List<UserAccount> accounts = UserManager.GetAccounts();
 
+            //Sort the accounts by descending order(100->0) and make a list out of it with toList()
             List<UserAccount> accountsSortedByLevel = accounts.OrderByDescending(x => x.BattleStatistics.Level).ToList();
+            //Loop over the sorted array
             for (int i = 0; i < accountsSortedByLevel.Count; i++)
             {
+                //And set the leaderboard position to index +1 because we want the first place to be 1 not 0
                 accountsSortedByLevel[i].BattleStatistics.LeaderboardPositionLevel = (uint)i + 1;
             }
 

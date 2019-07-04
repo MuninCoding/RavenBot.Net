@@ -12,6 +12,21 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -217,10 +232,12 @@
     <Compile Include="BattleSystem\Entities\BossEnemies\BossLevel5.cs" />
     <Compile Include="BattleSystem\Entities\Enemies\Creep2.cs" />
     <Compile Include="BattleSystem\Entities\Enemies\Creep3.cs" />
+    <Compile Include="BattleSystem\Entities\Shield\VikingShield.cs" />
+    <Compile Include="BattleSystem\Entities\Shield\SilberShield.cs" />
     <Compile Include="BattleSystem\Entities\Weapons\DivineRapier.cs" />
-    <Compile Include="BattleSystem\Utilities\BossUtilities.cs" />
-    <Compile Include="BattleSystem\Utilities\EnemyUtilites.cs" />
-    <Compile Include="BattleSystem\Utilities\ItemUtilities.cs" />
+    <Compile Include="BattleSystem\Entities\Weapons\Hoe.cs" />
+    <Compile Include="BattleSystem\Handlers\SpawnHandler.cs" />
+    <Compile Include="BattleSystem\Handlers\ItemHandler.cs" />
     <Compile Include="BattleSystem\Entities\Armor\Naked.cs" />
     <Compile Include="BattleSystem\Entities\IEnemy.cs" />
     <Compile Include="BattleSystem\Entities\Enemies\Creep.cs" />
@@ -233,7 +250,7 @@
     <Compile Include="BattleSystem\Entities\Weapons\Bat.cs" />
     <Compile Include="BattleSystem\Entities\Weapons\Fist.cs" />
     <Compile Include="BattleSystem\Entities\Weapons\Rock.cs" />
-    <Compile Include="BattleSystem\Utilities\StatisticUtilites.cs" />
+    <Compile Include="BattleSystem\Handlers\StatisticHandler.cs" />
     <Compile Include="Core\DataStorage.cs" />
     <Compile Include="Core\LevelSystem\LevelSystem.cs" />
     <Compile Include="BattleSystem\PlayerStatistics.cs" />
@@ -261,6 +278,17 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

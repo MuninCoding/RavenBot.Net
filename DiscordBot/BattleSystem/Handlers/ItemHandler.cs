@@ -11,9 +11,9 @@ using Discord.Commands;
 using DiscordBot.BattleSystem.Entities.Shield;
 using DiscordBot.BattleSystem.Entities.Armor;
 
-namespace DiscordBot.BattleSystem.Utilities
+namespace DiscordBot.BattleSystem.Handlers
 {
-    public class ItemUtilities
+    public class ItemHandler
     {
         internal static async Task AddItem(string itemTypeString, Type itemType, SocketCommandContext context)
         {
