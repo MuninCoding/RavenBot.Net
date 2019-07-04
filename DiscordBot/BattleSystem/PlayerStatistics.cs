@@ -47,9 +47,6 @@ namespace DiscordBot.BattleSystem
         public double BattlePoints { get; set; }
         public double Xp { get; set; }
 
-
-
-        public uint CreepRankPlacement { get; set; }
         public uint CreepBattlesFought { get; set; }
         public uint CreepBattlesWon { get; set; }
         public uint CreepBattlesLost { get; set; }
@@ -65,7 +62,6 @@ namespace DiscordBot.BattleSystem
         public uint PvPBattlesFought { get; set; }
         public uint PvPBattlesWon { get; set; }
         public uint PvPBattlesLost { get; set; }
-        public uint PvPRankPlacement { get; set; }
         public uint CurrentPvpKillStreak { get; set; }
         public uint HighestPvpKillStreak { get; set; }
         public uint CurrentPvpWinStreak { get; set; }
@@ -80,7 +76,7 @@ namespace DiscordBot.BattleSystem
         public uint CurrentBossKillStreak { get; set; }
         public uint HighestBossKillStreak { get; set; }
         public uint AmountOfBossesKilled { get; set; }
-        public uint BossRankPlacement { get; set; }
+        public bool BossBattleFoughtOrDeclined { get; set; }
 
         public uint CreepDrops { get; set; }
         public uint BossDrops { get; set; }
