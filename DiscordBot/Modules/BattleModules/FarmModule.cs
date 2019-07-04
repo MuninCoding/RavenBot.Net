@@ -2,7 +2,7 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using DiscordBot.BattleSystem;
-using DiscordBot.BattleSystem.Utilities;
+using DiscordBot.BattleSystem.Handlers;
 using DiscordBot.BattleSystem.Enemies;
 using DiscordBot.BattleSystem.Entities;
 using DiscordBot.BattleSystem.Entities.Weapons;
@@ -24,25 +24,61 @@ namespace DiscordBot.Modules.BattleModules
             await Context.Message.DeleteAsync();
             int messageCount = 1;
 
+            bool playerWantsToFightBoss = false;
+
             //Getting Playerstats and creating creeps
             UserAccount account = UserManager.GetAccount(Context.Message.Author);
             //Getting a list of enemies form the EnemyUtilites class with the level of the user
-            List<IEnemy> enemies = EnemyUtilites.SpawnEnemies(account.BattleStatistics.Level, account.BattleStatistics.Damage);
-            if(enemies.Count == 1)
+            if (account.BattleStatistics.Level == 5 && !account.BattleStatistics.BossBattleFoughtOrDeclined)
             {
-                await ReplyAsync("A Wild enemy appeared!");
+                var channel = await Context.Message.Author.GetOrCreateDMChannelAsync();
+                await channel.SendMessageAsync($"A boss appeared, do you want to fight it?");
+                await Task.Delay(5000);
+                var dmMessages = await channel.GetMessagesAsync(1).FlattenAsync();
+                foreach (var message in dmMessages)
+                {
+
+                    if (message.Content.Equals("yes"))
+                    {
+                        playerWantsToFightBoss = true;
+                    }
+                    else if (message.Content.Equals("no"))
+                    {
+                        playerWantsToFightBoss = false;
+                        account.BattleStatistics.BossBattleFoughtOrDeclined = true;
+
+                    }
+
+                }
+            }
+
+            List<IEnemy> enemies = SpawnHandler.SpawnEnemies(account.BattleStatistics.Level, account.BattleStatistics.Damage, account.BattleStatistics.BossBattleFoughtOrDeclined, playerWantsToFightBoss);
+
+            if (!playerWantsToFightBoss)
+            {
+                if (enemies.Count == 1)
+                {
+                    await ReplyAsync("A Wild enemy appeared!");
+                    messageCount++;
+                }
+                else
+                {
+                    await ReplyAsync($"{enemies.Count} enemies appeared!");
+                    messageCount++;
+                }
             }
             else
             {
-                await ReplyAsync($"{enemies.Count} enemies appeared!");
+                await ReplyAsync($"A Boss appeared. Good Luck!");
                 messageCount++;
             }
-            
+
+
             bool isWinner = true;
             bool isFighting = true;
             bool leveledUp = false;
             bool isNewCreepWinStreak = false;
-            bool isNewHighestEnemyKillStreak = false;
+            bool isNewHighesthighestCreepKillStreak = false;
 
             int playerHealth = account.BattleStatistics.Health;
             int playerDefense = account.BattleStatistics.Defense;
@@ -81,6 +117,7 @@ namespace DiscordBot.Modules.BattleModules
                 if (enemies[0].Health <= 0)
                 {
                     account.BattleStatistics.CurrentCreepKillStreak++;
+                    account.BattleStatistics.AmountOfCreepsKilled++;
                     await ReplyAsync("Enemy died!");
                     messageCount++;
                     //Remove this enemy from the list
@@ -97,65 +134,83 @@ namespace DiscordBot.Modules.BattleModules
             //Adding Xp and Rewards (?)
             if (isWinner)
             {
-                await ReplyAsync("You Won this Fight!");
-                await ReplyAsync("You gained 10 Xp for your Win! Congrats");
-                messageCount += 2;
-
-                account.BattleStatistics.CreepBattlesWon++;
-                account.BattleStatistics.CurrentCreepWinStreak++;
-
-                var generator = new Random();
-                double random = generator.NextDouble();
-                if (random <= 0.25)
+                if (!playerWantsToFightBoss)
                 {
-                    account.BattleStatistics.Weapons.Add(new Bat());
-                    await ReplyAsync("You Found a Bat with 15 Attack Damage!");
-                    messageCount++;
+                    await ReplyAsync("You Won this Fight!");
+                    await ReplyAsync("You gained 10 Xp for your Win! Congrats");
+                    messageCount += 2;
+
+                    account.BattleStatistics.CreepBattlesWon++;
+                    account.BattleStatistics.CurrentCreepWinStreak++;
+
+                    var generator = new Random();
+                    double random = generator.NextDouble();
+                    if (random <= 0.25)
+                    {
+                        account.BattleStatistics.Weapons.Add(new Bat());
+                        await ReplyAsync("You Found a Bat with 15 Attack Damage!");
+                        account.BattleStatistics.CreepDrops++;
+                        messageCount++;
+                    }
+                    else if (random <= 0.5)
+                    {
+                        account.BattleStatistics.Weapons.Add(new Rock());
+                        await ReplyAsync("You Found a Rock with 10 Attack Damage!");
+                        account.BattleStatistics.CreepDrops++;
+                        messageCount++;
+                    }
+                    else if (random <= 0.0001)
+                    {
+                        account.BattleStatistics.Weapons.Add(new DivineRapier());
+                        await ReplyAsync("You Found a DivineRapier with 1000 Attack Damage!");
+                        account.BattleStatistics.CreepDrops++;
+                        messageCount++;
+                    }
+
+                    uint oldLevel = account.BattleStatistics.Level;
+                    account.BattleStatistics.Xp += 10;
+                    uint newLevel = account.BattleStatistics.Level;
+                    leveledUp = await StatisticHandler.CheckForLevelUp(oldLevel, newLevel, Context, account);
+                    if (leveledUp)
+                        messageCount++;
+
+                    uint currentCreepWinStreak = account.BattleStatistics.CurrentCreepWinStreak;
+                    uint HighestCreepWinStreak = account.BattleStatistics.HighestCreepWinStreak;
+                    isNewCreepWinStreak = await StatisticHandler.CheckForCreepWinstreak(currentCreepWinStreak, HighestCreepWinStreak, Context, account);
+                    if (isNewCreepWinStreak)
+                        messageCount++;
+
+                    uint currentCreepKills = account.BattleStatistics.CurrentCreepKillStreak;
+                    uint highestCreepKills = account.BattleStatistics.HighestCreepKillStreak;
+                    isNewHighesthighestCreepKillStreak = await StatisticHandler.CheckForEnemiesKilled(currentCreepKills, highestCreepKills, Context, account);
+                    if (isNewHighesthighestCreepKillStreak)
+                        messageCount++;
+
                 }
-                else if (random <= 0.5)
+                else
                 {
-                    account.BattleStatistics.Weapons.Add(new Rock());
-                    await ReplyAsync("You Found a Rock with 10 Attack Damage!");
-                    messageCount++;
+                    //TODO Reward player for Boss Win
                 }
-                else if (random <= 0.01)
-                {
-                    account.BattleStatistics.Weapons.Add(new DivineRapier());
-                    await ReplyAsync("You Found a DivineRapier with 1000 Attack Damage!");
-                    messageCount++;
-                }
-
-                uint oldLevel = account.BattleStatistics.Level;
-                account.BattleStatistics.Xp += 10;
-                uint newLevel = account.BattleStatistics.Level;
-                leveledUp = await StatisticUtilites.CheckForLevelUp(oldLevel, newLevel, Context, account);
-                if (leveledUp)
-                    messageCount++;
-
-                uint currentCreepWinStreak = account.BattleStatistics.CurrentCreepWinStreak;
-                uint HighestCreepWinStreak = account.BattleStatistics.HighestCreepWinStreak;
-                isNewCreepWinStreak = await StatisticUtilites.CheckForCreepWinstreak(currentCreepWinStreak, HighestCreepWinStreak, Context, account);
-                if (isNewCreepWinStreak)
-                    messageCount++;
-
-                uint currentEnemiesKilled = account.BattleStatistics.CurrentCreepKillStreak;
-                uint highestEnemiesKilled = account.BattleStatistics.HighestCreepKillStreak;
-                isNewHighestEnemyKillStreak = await StatisticUtilites.CheckForEnemiesKilled(currentEnemiesKilled, highestEnemiesKilled, Context, account);
-                if (isNewHighestEnemyKillStreak)          
-                    messageCount++;                
             }
             else
             {
-                await ReplyAsync("Good luck next time!");
-                messageCount++;
-                account.BattleStatistics.CreepBattlesLost++;
-                account.BattleStatistics.CurrentCreepWinStreak = 0;
-                account.BattleStatistics.CurrentCreepKillStreak = 0;
+                if (!playerWantsToFightBoss)
+                {
+                    await ReplyAsync("Good luck next time!");
+                    messageCount++;
+                    account.BattleStatistics.CreepBattlesLost++;
+                    account.BattleStatistics.CurrentCreepWinStreak = 0;
+                    account.BattleStatistics.CurrentCreepKillStreak = 0;
+                }
+                else
+                {
+                    //TODO Inform the player about the boss loss
+                }
             }
 
             account.BattleStatistics.CreepBattlesFought++;
             UserManager.SaveAccounts();
-            StatisticUtilites.RewriteHighscores();
+            StatisticHandler.RewriteHighscores();
             await Task.Delay(1000);
             var messages = await Context.Channel.GetMessagesAsync(messageCount).FlattenAsync();
             var messageList = messages.ToList();
