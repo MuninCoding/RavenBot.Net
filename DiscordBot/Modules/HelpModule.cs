@@ -18,7 +18,7 @@ namespace DiscordBot.Modules
                     Description = "Displays all commands"
                 };
                 // Or with methods
-                //TODO UPDATE
+                //TODO Update the help embed
                 embed.WithColor(Color.Blue)
                      .WithTitle("Bot Help")
                      .WithDescription("Below is a list with all currently available commands for Ravenplays Guardian Bot")

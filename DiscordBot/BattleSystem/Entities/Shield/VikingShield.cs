@@ -13,7 +13,7 @@ namespace DiscordBot.BattleSystem.Entities.Shield
 
         public VikingShield()
         {
-            DamageBlock = 8;
+            DamageBlock = 15;
             Name = "VikingShield";
         }
     }

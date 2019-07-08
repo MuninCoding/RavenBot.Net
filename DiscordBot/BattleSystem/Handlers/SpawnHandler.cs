@@ -11,7 +11,7 @@ namespace DiscordBot.BattleSystem.Handlers
 {
     class SpawnHandler
     {
-        internal static List<IEnemy> SpawnEnemies(uint level, int damage, bool bossBattleFoughtOrDeclined, bool playerWantsToFightBoss)
+        internal static List<IEnemy> SpawnEnemies(uint level, float damage, bool bossBattleFoughtOrDeclined, bool playerWantsToFightBoss)
         {
             List<IEnemy> enemies = new List<IEnemy>();
 

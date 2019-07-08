@@ -8,11 +8,30 @@ namespace DiscordBot.BattleSystem.Entities.Weapons
 {
     public class DivineRapier : IWeapon
     {
-        public int Damage { get; set; }
+        private float damage;
+
+        public float Damage
+        {
+            get
+            {
+                var generator = new Random();
+                double random = generator.NextDouble();
+                if (random <= 0.15)
+                {
+                    return damage * 2.25f;
+                }
+                else
+                {
+                    return damage;
+                }
+            }
+            set { damage = 322; }
+        }
+
         public string Name { get; set; }
         public DivineRapier()
         {
-            Damage = 1000;
+            Damage = 322;
             Name = "DivineRapier";
         }
     }

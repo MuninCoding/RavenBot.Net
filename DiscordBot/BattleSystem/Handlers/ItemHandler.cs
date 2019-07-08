@@ -10,14 +10,31 @@ using Discord;
 using Discord.Commands;
 using DiscordBot.BattleSystem.Entities.Shield;
 using DiscordBot.BattleSystem.Entities.Armor;
+using Discord.WebSocket;
 
 namespace DiscordBot.BattleSystem.Handlers
 {
     public class ItemHandler
     {
-        internal static async Task AddItem(string itemTypeString, Type itemType, SocketCommandContext context)
+        internal static async Task AddItem(string itemTypeString, Type itemType, SocketCommandContext context, SocketUser user = null)
         {
-            var userAccount = UserManager.GetAccount(context.Message.Author);
+            //Create empty field to set the user to
+            SocketUser userToAdd;
+
+            //If there was a user passed in the function call
+            if (user != null)
+            {
+                //Set the passed user as user to add
+                userToAdd = user;
+            }
+            else
+            {
+                //Else set the message author as user to add
+                userToAdd = context.Message.Author;
+            }
+
+            //Then we can get the account of the desired user
+            var userAccount = UserManager.GetAccount(userToAdd);
 
             if (itemTypeString.Equals("weapon"))
             {
@@ -49,7 +66,7 @@ namespace DiscordBot.BattleSystem.Handlers
 
                 var botMessage = await context.Channel.SendMessageAsync($"Added {itemTypeString} of type {itemType.ToString()}");
                 await Task.Delay(5000);
-                await context.Message.DeleteAsync();
+                await botMessage.DeleteAsync();
             }
             else
             {
@@ -58,7 +75,6 @@ namespace DiscordBot.BattleSystem.Handlers
                 await botMessage.DeleteAsync();
 
             }
-
             UserManager.SaveAccounts();
         }
 
@@ -106,7 +122,6 @@ namespace DiscordBot.BattleSystem.Handlers
                 await botMessage.DeleteAsync();
 
             }
-
             UserManager.SaveAccounts();
         }
     }

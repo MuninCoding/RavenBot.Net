@@ -8,22 +8,22 @@ namespace DiscordBot.BattleSystem.Entities.Enemies
 {
     public class Creep3 : IEnemy
     {
-        public int Health { get; set; }
-        public int Damage { get; set; }
-        public int Defense { get; set; }
+        public float Health { get; set; }
+        public float Damage { get; set; }
+        public float Defense { get; set; }
         public string Name { get; set; }
 
         public Creep3()
         {
             var generator = new Random();
 
-            int randomNumber = generator.Next(24, 31);
+            int randomNumber = generator.Next(31, 51);
             Health = randomNumber;
 
-            randomNumber = generator.Next(21, 34);
+            randomNumber = generator.Next(34, 54);
             Damage = randomNumber;
-            Defense = 3;
-            Name = "";
+            Defense = 12;
+            Name = "Big Creep";
 
         }
     }

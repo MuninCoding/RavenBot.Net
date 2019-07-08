@@ -13,10 +13,6 @@ namespace DiscordBot.Core.LevelSystem
     {
         internal static async void AddXpForMessage(SocketGuildUser user, SocketTextChannel channel)
         {
-            // if the user has a timeout, ignore them
-            // TODO: This feature should be implemented
-            //          by a viewer.
-            
             var userAccount = UserManager.GetAccount(user);
             uint oldLevel = userAccount.LevelNumber;
             userAccount.XP += 5;
@@ -28,8 +24,8 @@ namespace DiscordBot.Core.LevelSystem
                 // the user leveled up
                 var embed = new EmbedBuilder();
                 embed.WithColor(67, 160, 71);
-                embed.WithTitle("LEVEL UP!");
-                embed.WithDescription(user.Username + " just leveled up!");
+                embed.WithTitle("LEVEL UP!"); 
+                embed.WithDescription(user.Username + " just leveled up\nand gained 0.25 BattlePoints!");
                 embed.AddField("LEVEL", newLevel);
                 embed.AddField("XP", userAccount.XP);
                 var info = embed.Build();

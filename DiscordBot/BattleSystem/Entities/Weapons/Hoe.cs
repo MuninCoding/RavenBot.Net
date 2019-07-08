@@ -8,11 +8,11 @@ namespace DiscordBot.BattleSystem.Entities.Weapons
 {
     public class Hoe : IWeapon
     {
-        public int Damage { get; set; }
+        public float Damage { get; set; }
         public string Name { get; set; }
         public Hoe()
         {
-            Damage = 10;
+            Damage = 20;
             Name = "Hoe";
         }
     }

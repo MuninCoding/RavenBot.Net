@@ -8,7 +8,7 @@ namespace DiscordBot.BattleSystem.Entities
 {
     public interface IWeapon
     {
-        int Damage{ get; set; }
+        float Damage{ get; set; }
         string Name { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using DiscordBot.BattleSystem.Entities;
 using DiscordBot.BattleSystem.Entities.Armor;
 using DiscordBot.BattleSystem.Entities.Shield;
 using DiscordBot.BattleSystem.Entities.Weapons;
+using DiscordBot.BattleSystem.Statistics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,17 +64,22 @@ namespace DiscordBot.Core.UserAccounts
 
         private static UserAccount CreateUserAccount(ulong id, string userName)
         {
-            PlayerStatistics battleStats = new PlayerStatistics();
+            var battleStats = new PlayerStatistics();
             battleStats.BattlePoints = 0;
             battleStats.BaseDamage = 0;
             battleStats.BaseDefense = 0;
-            battleStats.BaseHealth = 100;      
+            battleStats.BaseHealth = 100;
             battleStats.Weapon = new Fist();
             battleStats.Shield = new HandBlock();
             battleStats.Armor = new Naked();
             battleStats.Weapons = new List<IWeapon>() { new Fist() };
             battleStats.Shields = new List<IShield>() { new HandBlock() };
             battleStats.Armors = new List<IArmor>() { new Naked() };
+            battleStats.CreepStatistics = new CreepStatistics();
+            battleStats.BossStatistics = new BossStatistics();
+            battleStats.PvpStatistics = new PvpStatistics();
+            battleStats.DropStatistics = new DropStatistics();
+            battleStats.LeaderboardStatistics = new LeaderboardStatistics();
             var newAccount = new UserAccount()
             {
                 ID = id,

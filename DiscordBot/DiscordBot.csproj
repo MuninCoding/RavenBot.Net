@@ -229,6 +229,8 @@
   <ItemGroup>
     <Compile Include="BattleSystem\Entities\Armor\DivineArmor.cs" />
     <Compile Include="BattleSystem\Entities\Armor\LeatherArmor.cs" />
+    <Compile Include="BattleSystem\Entities\Armor\BronzeArmor.cs" />
+    <Compile Include="BattleSystem\Entities\Armor\WoodenArmor.cs" />
     <Compile Include="BattleSystem\Entities\BossEnemies\BossLevel5.cs" />
     <Compile Include="BattleSystem\Entities\Enemies\Creep2.cs" />
     <Compile Include="BattleSystem\Entities\Enemies\Creep3.cs" />
@@ -251,6 +253,11 @@
     <Compile Include="BattleSystem\Entities\Weapons\Fist.cs" />
     <Compile Include="BattleSystem\Entities\Weapons\Rock.cs" />
     <Compile Include="BattleSystem\Handlers\StatisticHandler.cs" />
+    <Compile Include="BattleSystem\Statistics\BossStatistics.cs" />
+    <Compile Include="BattleSystem\Statistics\CreepStatistics.cs" />
+    <Compile Include="BattleSystem\Statistics\DropStatistics.cs" />
+    <Compile Include="BattleSystem\Statistics\LeaderboardStatistics.cs" />
+    <Compile Include="BattleSystem\Statistics\PvpStatistics.cs" />
     <Compile Include="Core\DataStorage.cs" />
     <Compile Include="Core\LevelSystem\LevelSystem.cs" />
     <Compile Include="BattleSystem\PlayerStatistics.cs" />
@@ -260,7 +267,9 @@
     <Compile Include="CommandHandler.cs" />
     <Compile Include="ConfigHandler.cs" />
     <Compile Include="DiscordUtilities.cs" />
-    <Compile Include="Modules\BattleModules\ItemModule.cs" />
+    <Compile Include="Modules\BattleModules\BattlePointsModule.cs" />
+    <Compile Include="Modules\BattleModules\AddItemModule.cs" />
+    <Compile Include="Modules\BattleModules\EquipItemModule.cs" />
     <Compile Include="Modules\BattleModules\UserModule.cs" />
     <Compile Include="Modules\BattleModules\FarmModule.cs" />
     <Compile Include="Modules\Misc.cs" />

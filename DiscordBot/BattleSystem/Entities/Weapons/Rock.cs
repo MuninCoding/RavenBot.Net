@@ -8,7 +8,7 @@ namespace DiscordBot.BattleSystem.Entities.Weapons
 {
     public class Rock : IWeapon
     {
-        public int Damage { get; set; }
+        public float Damage { get; set; }
         public string Name { get; set; }
         public Rock()
         {

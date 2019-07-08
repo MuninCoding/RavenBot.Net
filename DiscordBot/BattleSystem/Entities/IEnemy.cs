@@ -8,9 +8,9 @@ namespace DiscordBot.BattleSystem.Entities
 {
     public interface IEnemy
     {
-        int Health { get; set; }
-        int Damage { get; set; }
-        int Defense { get; set; }
+        float Health { get; set; }
+        float Damage { get; set; }
+        float Defense { get; set; }
         string Name { get; set; }
     }
 }

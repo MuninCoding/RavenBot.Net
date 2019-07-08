@@ -8,9 +8,9 @@ namespace DiscordBot.BattleSystem.Entities.BossEnemies
 {
     public class BossLevel5 : IEnemy
     {
-        public int Health { get; set; }
-        public int Damage { get; set; }
-        public int Defense { get; set; }
+        public float Health { get; set; }
+        public float Damage { get; set; }
+        public float Defense { get; set; }
         public string Name { get; set; }
 
         public BossLevel5()

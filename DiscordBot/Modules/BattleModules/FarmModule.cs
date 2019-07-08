@@ -29,7 +29,7 @@ namespace DiscordBot.Modules.BattleModules
             //Getting Playerstats and creating creeps
             UserAccount account = UserManager.GetAccount(Context.Message.Author);
             //Getting a list of enemies form the EnemyUtilites class with the level of the user
-            if (account.BattleStatistics.Level == 5 && !account.BattleStatistics.BossBattleFoughtOrDeclined)
+            if (account.BattleStatistics.Level == 5 && !account.BattleStatistics.BossStatistics.BossBattleFoughtOrDeclined)
             {
                 var channel = await Context.Message.Author.GetOrCreateDMChannelAsync();
                 await channel.SendMessageAsync($"A boss appeared, do you want to fight it?");
@@ -45,14 +45,13 @@ namespace DiscordBot.Modules.BattleModules
                     else if (message.Content.Equals("no"))
                     {
                         playerWantsToFightBoss = false;
-                        account.BattleStatistics.BossBattleFoughtOrDeclined = true;
+                        account.BattleStatistics.BossStatistics.BossBattleFoughtOrDeclined = true;
 
                     }
-
                 }
             }
 
-            List<IEnemy> enemies = SpawnHandler.SpawnEnemies(account.BattleStatistics.Level, account.BattleStatistics.Damage, account.BattleStatistics.BossBattleFoughtOrDeclined, playerWantsToFightBoss);
+            List<IEnemy> enemies = SpawnHandler.SpawnEnemies(account.BattleStatistics.Level, account.BattleStatistics.Damage, account.BattleStatistics.BossStatistics.BossBattleFoughtOrDeclined, playerWantsToFightBoss);
 
             if (!playerWantsToFightBoss)
             {
@@ -80,19 +79,20 @@ namespace DiscordBot.Modules.BattleModules
             bool isNewCreepWinStreak = false;
             bool isNewHighesthighestCreepKillStreak = false;
 
-            int playerHealth = account.BattleStatistics.Health;
-            int playerDefense = account.BattleStatistics.Defense;
-            int playerDamage = account.BattleStatistics.Damage;
+            float playerHealth = account.BattleStatistics.Health;
+            float playerDefense = account.BattleStatistics.Defense;
+            float playerDamage = account.BattleStatistics.Damage;
 
             //Simulating fight
             do
             {
-           
                 //Looping through all enemies in the returned array from EnemyUtilites
                 foreach (var enemy in enemies)
                 {
                     //And letting all of them attack the player
                     playerHealth -= enemy.Damage - playerDefense;
+                    await ReplyAsync($"Player was hit for {enemy.Damage} damage and blocked {playerDefense} damage. Player`s current Health is {playerHealth}!");
+                    messageCount++;
 
                 }
                 //If playerhealth is less the 0
@@ -109,15 +109,14 @@ namespace DiscordBot.Modules.BattleModules
                 //Attack the first enemy in the enemies list
                 enemies[0].Health -= playerDamage;
                 //Write health of player and the currently attack creep
-                await ReplyAsync($"Player`s current Health is {playerHealth}!");
-                await ReplyAsync($"Enemy`s current Health is {enemies[0].Health}");
-                messageCount += 2;
+                await ReplyAsync($"Enemy was hit for {playerDamage} damage. Enemy`s current Health is {enemies[0].Health}");
+                messageCount++;
 
                 //If the enemies health is 0 or below
                 if (enemies[0].Health <= 0)
                 {
-                    account.BattleStatistics.CurrentCreepKillStreak++;
-                    account.BattleStatistics.AmountOfCreepsKilled++;
+                    account.BattleStatistics.CreepStatistics.CurrentCreepKillStreak++;
+                    account.BattleStatistics.CreepStatistics.AmountOfCreepsKilled++;
                     await ReplyAsync("Enemy died!");
                     messageCount++;
                     //Remove this enemy from the list
@@ -140,8 +139,8 @@ namespace DiscordBot.Modules.BattleModules
                     await ReplyAsync("You gained 10 Xp for your Win! Congrats");
                     messageCount += 2;
 
-                    account.BattleStatistics.CreepBattlesWon++;
-                    account.BattleStatistics.CurrentCreepWinStreak++;
+                    account.BattleStatistics.CreepStatistics.CreepBattlesWon++;
+                    account.BattleStatistics.CreepStatistics.CurrentCreepWinStreak++;
 
                     var generator = new Random();
                     double random = generator.NextDouble();
@@ -149,21 +148,21 @@ namespace DiscordBot.Modules.BattleModules
                     {
                         account.BattleStatistics.Weapons.Add(new Bat());
                         await ReplyAsync("You Found a Bat with 15 Attack Damage!");
-                        account.BattleStatistics.CreepDrops++;
+                        account.BattleStatistics.DropStatistics.CreepDrops++;
                         messageCount++;
                     }
                     else if (random <= 0.5)
                     {
                         account.BattleStatistics.Weapons.Add(new Rock());
                         await ReplyAsync("You Found a Rock with 10 Attack Damage!");
-                        account.BattleStatistics.CreepDrops++;
+                        account.BattleStatistics.DropStatistics.CreepDrops++;
                         messageCount++;
                     }
                     else if (random <= 0.0001)
                     {
                         account.BattleStatistics.Weapons.Add(new DivineRapier());
                         await ReplyAsync("You Found a DivineRapier with 1000 Attack Damage!");
-                        account.BattleStatistics.CreepDrops++;
+                        account.BattleStatistics.DropStatistics.CreepDrops++;
                         messageCount++;
                     }
 
@@ -174,15 +173,15 @@ namespace DiscordBot.Modules.BattleModules
                     if (leveledUp)
                         messageCount++;
 
-                    uint currentCreepWinStreak = account.BattleStatistics.CurrentCreepWinStreak;
-                    uint HighestCreepWinStreak = account.BattleStatistics.HighestCreepWinStreak;
+                    uint currentCreepWinStreak = account.BattleStatistics.CreepStatistics.CurrentCreepWinStreak;
+                    uint HighestCreepWinStreak = account.BattleStatistics.CreepStatistics.HighestCreepWinStreak;
                     isNewCreepWinStreak = await StatisticHandler.CheckForCreepWinstreak(currentCreepWinStreak, HighestCreepWinStreak, Context, account);
                     if (isNewCreepWinStreak)
                         messageCount++;
 
-                    uint currentCreepKills = account.BattleStatistics.CurrentCreepKillStreak;
-                    uint highestCreepKills = account.BattleStatistics.HighestCreepKillStreak;
-                    isNewHighesthighestCreepKillStreak = await StatisticHandler.CheckForEnemiesKilled(currentCreepKills, highestCreepKills, Context, account);
+                    uint currentCreepKills = account.BattleStatistics.CreepStatistics.CurrentCreepKillStreak;
+                    uint highestCreepKills = account.BattleStatistics.CreepStatistics.HighestCreepKillStreak;
+                    isNewHighesthighestCreepKillStreak = await StatisticHandler.CheckForCreepKillStreak(currentCreepKills, highestCreepKills, Context, account);
                     if (isNewHighesthighestCreepKillStreak)
                         messageCount++;
 
@@ -198,9 +197,9 @@ namespace DiscordBot.Modules.BattleModules
                 {
                     await ReplyAsync("Good luck next time!");
                     messageCount++;
-                    account.BattleStatistics.CreepBattlesLost++;
-                    account.BattleStatistics.CurrentCreepWinStreak = 0;
-                    account.BattleStatistics.CurrentCreepKillStreak = 0;
+                    account.BattleStatistics.BossStatistics.BossBattlesLost++;
+                    account.BattleStatistics.BossStatistics.CurrentBossWinStreak = 0;
+                    account.BattleStatistics.BossStatistics.CurrentBossKillStreak = 0;
                 }
                 else
                 {
@@ -208,7 +207,7 @@ namespace DiscordBot.Modules.BattleModules
                 }
             }
 
-            account.BattleStatistics.CreepBattlesFought++;
+            account.BattleStatistics.CreepStatistics.CreepBattlesFought++;
             UserManager.SaveAccounts();
             StatisticHandler.RewriteHighscores();
             await Task.Delay(1000);

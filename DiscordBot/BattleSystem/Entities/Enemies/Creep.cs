@@ -10,9 +10,9 @@ namespace DiscordBot.BattleSystem.Enemies
 {
     public class Creep : IEnemy
     {
-        public int Health { get; set; }
-        public int Damage { get; set; }
-        public int Defense { get; set; }
+        public float Health { get; set; }
+        public float Damage { get; set; }
+        public float Defense { get; set; }
         public string Name { get; set; }
         public Creep()
         {
@@ -24,7 +24,7 @@ namespace DiscordBot.BattleSystem.Enemies
             randomNumber = generator.Next(18, 24);
             Damage = randomNumber;
             Defense = 0;
-            Name = ""; 
+            Name = "Creep baby"; 
 
         }
     }

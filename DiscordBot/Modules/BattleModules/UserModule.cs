@@ -24,7 +24,7 @@ namespace DiscordBot.Modules.BattleModules
             {
                 account = UserManager.GetAccount(user);
                 if (stats.Equals("player"))
-                {                   
+                {
                     var embed = new EmbedBuilder();
                     embed.WithColor(Color.DarkRed)
                          .WithTitle("Player Stats")
@@ -45,15 +45,15 @@ namespace DiscordBot.Modules.BattleModules
                     var embed = new EmbedBuilder();
                     embed.WithColor(Color.DarkRed)
                          .WithTitle("Creep Stats")
-                         .AddField("Creep Battles Fought", account.BattleStatistics.CreepBattlesFought.ToString(), true)
-                         .AddField("Creep Battles Won", account.BattleStatistics.CreepBattlesWon.ToString(), true)
-                         .AddField("Creep Battles Lost", account.BattleStatistics.CreepBattlesLost.ToString(), true)
-                         .AddField("Current Creep Winstreak", account.BattleStatistics.CurrentCreepWinStreak.ToString(), true)
-                         .AddField("Current Creep Killstreak", account.BattleStatistics.CurrentCreepKillStreak.ToString(), true)
-                         .AddField("Totally killed creeps", account.BattleStatistics.AmountOfCreepsKilled.ToString(), true)
-                         .AddField("Highest Creep Winstreak", account.BattleStatistics.HighestCreepWinStreak.ToString(), true)
-                         .AddField("Highest Creep Killstreak", account.BattleStatistics.HighestCreepKillStreak.ToString(), true)
-                         .AddField("Creep Rank placement", account.BattleStatistics.LeaderboardPositionCreepKills.ToString(), true)
+                         .AddField("Creep Battles Fought", account.BattleStatistics.CreepStatistics.CreepBattlesFought.ToString(), true)
+                         .AddField("Creep Battles Won", account.BattleStatistics.CreepStatistics.CreepBattlesWon.ToString(), true)
+                         .AddField("Creep Battles Lost", account.BattleStatistics.CreepStatistics.CreepBattlesLost.ToString(), true)
+                         .AddField("Current Creep Winstreak", account.BattleStatistics.CreepStatistics.CurrentCreepWinStreak.ToString(), true)
+                         .AddField("Current Creep Killstreak", account.BattleStatistics.CreepStatistics.CurrentCreepKillStreak.ToString(), true)
+                         .AddField("Totally killed creeps", account.BattleStatistics.CreepStatistics.AmountOfCreepsKilled.ToString(), true)
+                         .AddField("Highest Creep Winstreak", account.BattleStatistics.CreepStatistics.HighestCreepWinStreak.ToString(), true)
+                         .AddField("Highest Creep Killstreak", account.BattleStatistics.CreepStatistics.HighestCreepKillStreak.ToString(), true)
+                         .AddField("Creep Rank placement", account.BattleStatistics.LeaderboardStatistics.LeaderboardPositionCreepKills.ToString(), true)
                          .WithFooter(footer => footer.Text = "©DivineGuardian")
                          .WithCurrentTimestamp();
 
@@ -65,75 +65,75 @@ namespace DiscordBot.Modules.BattleModules
                     var embed = new EmbedBuilder();
                     embed.WithColor(Color.DarkRed)
                          .WithTitle("Boss Stats")
-                         .AddField("Boss Battles Fought", account.BattleStatistics.BossBattlesFought.ToString(), true)
-                         .AddField("Boss Battles Won", account.BattleStatistics.BossBattlesWon.ToString(), true)   
-                         .AddField("Boss Battles Lost", account.BattleStatistics.BossBattlesLost.ToString(), true)
-                         .AddField("Current Boss Winstreak", account.BattleStatistics.CurrentBossWinStreak.ToString(), true)
-                         .AddField("Current Boss Killstreak", account.BattleStatistics.CurrentBossKillStreak.ToString(), true)
-                         .AddField("Totally killed Bosses", account.BattleStatistics.AmountOfBossesKilled.ToString(), true)
-                         .AddField("Highest Boss Winstreak", account.BattleStatistics.HighestBossWinStreak.ToString(), true)
-                         .AddField("Highest Boss Killstreak", account.BattleStatistics.HighestBossKillStreak.ToString(), true)
-                         .AddField("Boss Rank placement", account.BattleStatistics.LeaderboardPositionBossKills.ToString(), true)
+                         .AddField("Boss Battles Fought", account.BattleStatistics.BossStatistics.BossBattlesFought.ToString(), true)
+                         .AddField("Boss Battles Won", account.BattleStatistics.BossStatistics.BossBattlesWon.ToString(), true)
+                         .AddField("Boss Battles Lost", account.BattleStatistics.BossStatistics.BossBattlesLost.ToString(), true)
+                         .AddField("Current Boss Winstreak", account.BattleStatistics.BossStatistics.CurrentBossWinStreak.ToString(), true)
+                         .AddField("Current Boss Killstreak", account.BattleStatistics.BossStatistics.CurrentBossKillStreak.ToString(), true)
+                         .AddField("Totally killed Bosses", account.BattleStatistics.BossStatistics.AmountOfBossesKilled.ToString(), true)
+                         .AddField("Highest Boss Winstreak", account.BattleStatistics.BossStatistics.HighestBossWinStreak.ToString(), true)
+                         .AddField("Highest Boss Killstreak", account.BattleStatistics.BossStatistics.HighestBossKillStreak.ToString(), true)
+                         .AddField("Boss Rank placement", account.BattleStatistics.LeaderboardStatistics.LeaderboardPositionBossKills.ToString(), true)
 
                          .WithFooter(footer => footer.Text = "©DivineGuardian")
                          .WithCurrentTimestamp();
 
-                    var creepEmbed = embed.Build();
-                    await ReplyAsync(embed: creepEmbed);
+                    var bossEmbed = embed.Build();
+                    await ReplyAsync(embed: bossEmbed);
                 }
                 else if (stats.Equals("pvp"))
                 {
                     var embed = new EmbedBuilder();
                     embed.WithColor(Color.DarkRed)
                          .WithTitle("PvP Stats")
-                         .AddField("PVP Battles Fought", account.BattleStatistics.PvPBattlesFought.ToString(), true)
-                         .AddField("PVP Battles Won", account.BattleStatistics.PvPBattlesWon.ToString(), true)
-                         .AddField("PVP Battles Lost", account.BattleStatistics.PvPBattlesLost.ToString(), true)
-                         .AddField("Current PVP Winstreak", account.BattleStatistics.CurrentPvpWinStreak.ToString(), true)
-                         .AddField("Current PVP Killstreak", account.BattleStatistics.CurrentPvpKillStreak.ToString(), true)
-                         .AddField("Totally killed Players", account.BattleStatistics.AmountOfPlayersKilled.ToString(), true)
-                         .AddField("Highest PVP Winstreak", account.BattleStatistics.HighestPvpWinStreak.ToString(), true)
-                         .AddField("Highest Players Killstreak", account.BattleStatistics.HighestPvpKillStreak.ToString(), true)
-                         .AddField("PVP Rank placement", account.BattleStatistics.LeaderboardPositionPvpKills.ToString(), true)
+                         .AddField("PVP Battles Fought", account.BattleStatistics.PvpStatistics.PvPBattlesFought.ToString(), true)
+                         .AddField("PVP Battles Won", account.BattleStatistics.PvpStatistics.PvPBattlesWon.ToString(), true)
+                         .AddField("PVP Battles Lost", account.BattleStatistics.PvpStatistics.PvPBattlesLost.ToString(), true)
+                         .AddField("Current PVP Winstreak", account.BattleStatistics.PvpStatistics.CurrentPvpWinStreak.ToString(), true)
+                         .AddField("Current PVP Killstreak", account.BattleStatistics.PvpStatistics.CurrentPvpKillStreak.ToString(), true)
+                         .AddField("Totally killed Players", account.BattleStatistics.PvpStatistics.AmountOfPlayersKilled.ToString(), true)
+                         .AddField("Highest PVP Winstreak", account.BattleStatistics.PvpStatistics.HighestPvpWinStreak.ToString(), true)
+                         .AddField("Highest Players Killstreak", account.BattleStatistics.PvpStatistics.HighestPvpKillStreak.ToString(), true)
+                         .AddField("PVP Rank placement", account.BattleStatistics.LeaderboardStatistics.LeaderboardPositionPvpKills.ToString(), true)
 
 
                          .WithFooter(footer => footer.Text = "©DivineGuardian")
                          .WithCurrentTimestamp();
 
-                    var creepEmbed = embed.Build();
-                    await ReplyAsync(embed: creepEmbed);
+                    var pvpEmbed = embed.Build();
+                    await ReplyAsync(embed: pvpEmbed);
                 }
                 else if (stats.Equals("best"))
                 {
                     List<UserAccount> userAccounts = UserManager.GetAccounts();
 
                     //Filter accoutns by Leaderboard position one
-                    var levelAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardPositionLevel == 1);
+                    var levelAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardStatistics.LeaderboardPositionLevel == 1);
                     //Get the remaining object from the list to use its information in the embed
                     var hightestLevelAccount = levelAccountList.SingleOrDefault();
 
-                    var xpAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardPositionXp == 1);
+                    var xpAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardStatistics.LeaderboardPositionXp == 1);
                     var hightestXpAccount = xpAccountList.SingleOrDefault();
 
-                    var skillAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardPositionBattlepoints == 1);
+                    var skillAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardStatistics.LeaderboardPositionBattlepoints == 1);
                     var hightestSkillAccount = skillAccountList.SingleOrDefault();
 
-                    var creepKillAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardPositionCreepKills == 1);
+                    var creepKillAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardStatistics.LeaderboardPositionCreepKills == 1);
                     var hightestCreepKillAccount = creepKillAccountList.SingleOrDefault();
 
-                    var bossKillAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardPositionBossKills == 1);
+                    var bossKillAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardStatistics.LeaderboardPositionBossKills == 1);
                     var hightestBossKillAccount = bossKillAccountList.SingleOrDefault();
 
-                    var pvpKillAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardPositionPvpKills == 1);
+                    var pvpKillAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardStatistics.LeaderboardPositionPvpKills == 1);
                     var hightestPvpKillAccount = pvpKillAccountList.SingleOrDefault();
 
-                    var creepDropAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardPositionCreepDrops == 1);
+                    var creepDropAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardStatistics.LeaderboardPositionCreepDrops == 1);
                     var hightestCreepDropAccount = creepDropAccountList.SingleOrDefault();
 
-                    var bossDropAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardPositionBossDrops == 1);
+                    var bossDropAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardStatistics.LeaderboardPositionBossDrops == 1);
                     var hightestBossDropAccount = bossDropAccountList.SingleOrDefault();
 
-                    var pvpDropAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardPositionPvpDrops == 1);
+                    var pvpDropAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardStatistics.LeaderboardPositionPvpDrops == 1);
                     var hightestPvpDropAccount = pvpDropAccountList.SingleOrDefault();
 
                     var embed = new EmbedBuilder();
@@ -142,16 +142,16 @@ namespace DiscordBot.Modules.BattleModules
                          .AddField("Highest Level", $"{hightestLevelAccount.Name} with {hightestLevelAccount.LevelNumber} Levels")
                          .AddField("Highest XP", $"{hightestXpAccount.Name} with {hightestXpAccount.BattleStatistics.Xp}")
                          .AddField("Highest Battlepoints", $"{hightestSkillAccount.Name} with {hightestSkillAccount.BattleStatistics.BattlePoints}")
-                         .AddField("Highest Creeps Killed", $"{hightestCreepKillAccount.Name} with {hightestCreepKillAccount.BattleStatistics.AmountOfCreepsKilled}")
-                         .AddField("Highest Bosses Killed", $"{hightestBossKillAccount.Name} with {hightestBossKillAccount.BattleStatistics.AmountOfBossesKilled}")
-                         .AddField("Highest Players Killed", $"{hightestPvpKillAccount.Name} with {hightestPvpKillAccount.BattleStatistics.AmountOfPlayersKilled}")
-                         .AddField("Highest Creep Drops", $"{hightestCreepDropAccount.Name} with {hightestCreepDropAccount.BattleStatistics.CreepDrops}")
-                         .AddField("Highest Boss Drops", $"{hightestBossDropAccount.Name} with {hightestBossDropAccount.BattleStatistics.BossDrops}")
-                         .AddField("Highest PvP Drops", $"{hightestPvpDropAccount.Name} with {hightestPvpDropAccount.BattleStatistics.PvpDrops}")
+                         .AddField("Highest Creeps Killed", $"{hightestCreepKillAccount.Name} with {hightestCreepKillAccount.BattleStatistics.CreepStatistics.AmountOfCreepsKilled}")
+                         .AddField("Highest Bosses Killed", $"{hightestBossKillAccount.Name} with {hightestBossKillAccount.BattleStatistics.BossStatistics.AmountOfBossesKilled}")
+                         .AddField("Highest Players Killed", $"{hightestPvpKillAccount.Name} with {hightestPvpKillAccount.BattleStatistics.PvpStatistics.AmountOfPlayersKilled}")
+                         .AddField("Highest Creep Drops", $"{hightestCreepDropAccount.Name} with {hightestCreepDropAccount.BattleStatistics.DropStatistics.CreepDrops}")
+                         .AddField("Highest Boss Drops", $"{hightestBossDropAccount.Name} with {hightestBossDropAccount.BattleStatistics.DropStatistics.BossDrops}")
+                         .AddField("Highest PvP Drops", $"{hightestPvpDropAccount.Name} with {hightestPvpDropAccount.BattleStatistics.DropStatistics.PvpDrops}")
                          .WithFooter(footer => footer.Text = "©DivineGuardian")
                          .WithCurrentTimestamp();
-                    var creepEmbed = embed.Build();
-                    await ReplyAsync(embed: creepEmbed);
+                    var highscoreEmbed = embed.Build();
+                    await ReplyAsync(embed: highscoreEmbed);
                 }
             }
             else
@@ -179,15 +179,15 @@ namespace DiscordBot.Modules.BattleModules
                     var embed = new EmbedBuilder();
                     embed.WithColor(Color.DarkRed)
                          .WithTitle("Creep Stats")
-                         .AddField("Creep Battles Fought", account.BattleStatistics.CreepBattlesFought.ToString(), true)
-                         .AddField("Creep Battles Won", account.BattleStatistics.CreepBattlesWon.ToString(), true)
-                         .AddField("Creep Battles Lost", account.BattleStatistics.CreepBattlesLost.ToString(), true)
-                         .AddField("Current Creep Winstreak", account.BattleStatistics.CurrentCreepWinStreak.ToString(), true)
-                         .AddField("Current Creep Killstreak", account.BattleStatistics.CurrentCreepKillStreak.ToString(), true)
-                         .AddField("Totally killed creeps", account.BattleStatistics.AmountOfCreepsKilled.ToString(), true)
-                         .AddField("Highest Creep Winstreak", account.BattleStatistics.HighestCreepWinStreak.ToString(), true)
-                         .AddField("Highest Creep Killstreak", account.BattleStatistics.HighestCreepKillStreak.ToString(), true)
-                         .AddField("Creep Rank placement", account.BattleStatistics.LeaderboardPositionCreepKills.ToString(), true)
+                         .AddField("Creep Battles Fought", account.BattleStatistics.CreepStatistics.CreepBattlesFought.ToString(), true)
+                         .AddField("Creep Battles Won", account.BattleStatistics.CreepStatistics.CreepBattlesWon.ToString(), true)
+                         .AddField("Creep Battles Lost", account.BattleStatistics.CreepStatistics.CreepBattlesLost.ToString(), true)
+                         .AddField("Current Creep Winstreak", account.BattleStatistics.CreepStatistics.CurrentCreepWinStreak.ToString(), true)
+                         .AddField("Current Creep Killstreak", account.BattleStatistics.CreepStatistics.CurrentCreepKillStreak.ToString(), true)
+                         .AddField("Totally killed creeps", account.BattleStatistics.CreepStatistics.AmountOfCreepsKilled.ToString(), true)
+                         .AddField("Highest Creep Winstreak", account.BattleStatistics.CreepStatistics.HighestCreepWinStreak.ToString(), true)
+                         .AddField("Highest Creep Killstreak", account.BattleStatistics.CreepStatistics.HighestCreepKillStreak.ToString(), true)
+                         .AddField("Creep Rank placement", account.BattleStatistics.LeaderboardStatistics.LeaderboardPositionCreepKills.ToString(), true)
                          .WithFooter(footer => footer.Text = "©DivineGuardian")
                          .WithCurrentTimestamp();
 
@@ -199,73 +199,75 @@ namespace DiscordBot.Modules.BattleModules
                     var embed = new EmbedBuilder();
                     embed.WithColor(Color.DarkRed)
                          .WithTitle("Boss Stats")
-                         .AddField("Boss Battles Fought", account.BattleStatistics.BossBattlesFought.ToString(), true)
-                         .AddField("Boss Battles Won", account.BattleStatistics.BossBattlesWon.ToString(), true)
-                         .AddField("Boss Battles Lost", account.BattleStatistics.BossBattlesLost.ToString(), true)
-                         .AddField("Current Boss Winstreak", account.BattleStatistics.CurrentBossWinStreak.ToString(), true)
-                         .AddField("Current Boss Killstreak", account.BattleStatistics.CurrentBossKillStreak.ToString(), true)
-                         .AddField("Totally killed Bosses", account.BattleStatistics.AmountOfBossesKilled.ToString(), true)
-                         .AddField("Highest Boss Winstreak", account.BattleStatistics.HighestBossWinStreak.ToString(), true)
-                         .AddField("Highest Boss Killstreak", account.BattleStatistics.HighestBossKillStreak.ToString(), true)
-                         .AddField("Boss Rank placement", account.BattleStatistics.LeaderboardPositionBossKills.ToString(), true)
+                         .AddField("Boss Battles Fought", account.BattleStatistics.BossStatistics.BossBattlesFought.ToString(), true)
+                         .AddField("Boss Battles Won", account.BattleStatistics.BossStatistics.BossBattlesWon.ToString(), true)
+                         .AddField("Boss Battles Lost", account.BattleStatistics.BossStatistics.BossBattlesLost.ToString(), true)
+                         .AddField("Current Boss Winstreak", account.BattleStatistics.BossStatistics.CurrentBossWinStreak.ToString(), true)
+                         .AddField("Current Boss Killstreak", account.BattleStatistics.BossStatistics.CurrentBossKillStreak.ToString(), true)
+                         .AddField("Totally killed Bosses", account.BattleStatistics.BossStatistics.AmountOfBossesKilled.ToString(), true)
+                         .AddField("Highest Boss Winstreak", account.BattleStatistics.BossStatistics.HighestBossWinStreak.ToString(), true)
+                         .AddField("Highest Boss Killstreak", account.BattleStatistics.BossStatistics.HighestBossKillStreak.ToString(), true)
+                         .AddField("Boss Rank placement", account.BattleStatistics.LeaderboardStatistics.LeaderboardPositionBossKills.ToString(), true)
 
                          .WithFooter(footer => footer.Text = "©DivineGuardian")
                          .WithCurrentTimestamp();
 
-                    var creepEmbed = embed.Build();
-                    await ReplyAsync(embed: creepEmbed);
+                    var bossEmbed = embed.Build();
+                    await ReplyAsync(embed: bossEmbed);
                 }
                 else if (stats.Equals("pvp"))
                 {
                     var embed = new EmbedBuilder();
                     embed.WithColor(Color.DarkRed)
                          .WithTitle("PvP Stats")
-                         .AddField("PVP Battles Fought", account.BattleStatistics.PvPBattlesFought.ToString(), true)
-                         .AddField("PVP Battles Won", account.BattleStatistics.PvPBattlesWon.ToString(), true)
-                         .AddField("PVP Battles Lost", account.BattleStatistics.PvPBattlesLost.ToString(), true)
-                         .AddField("Current PVP Winstreak", account.BattleStatistics.CurrentPvpWinStreak.ToString(), true)
-                         .AddField("Current PVP Killstreak", account.BattleStatistics.CurrentPvpKillStreak.ToString(), true)
-                         .AddField("Totally killed Players", account.BattleStatistics.AmountOfPlayersKilled.ToString(), true)
-                         .AddField("Highest PVP Winstreak", account.BattleStatistics.HighestPvpWinStreak.ToString(), true)
-                         .AddField("Highest Players Killstreak", account.BattleStatistics.HighestPvpKillStreak.ToString(), true)
-                         .AddField("PVP Rank placement", account.BattleStatistics.LeaderboardPositionPvpKills.ToString(), true)
+                         .AddField("PVP Battles Fought", account.BattleStatistics.PvpStatistics.PvPBattlesFought.ToString(), true)
+                         .AddField("PVP Battles Won", account.BattleStatistics.PvpStatistics.PvPBattlesWon.ToString(), true)
+                         .AddField("PVP Battles Lost", account.BattleStatistics.PvpStatistics.PvPBattlesLost.ToString(), true)
+                         .AddField("Current PVP Winstreak", account.BattleStatistics.PvpStatistics.CurrentPvpWinStreak.ToString(), true)
+                         .AddField("Current PVP Killstreak", account.BattleStatistics.PvpStatistics.CurrentPvpKillStreak.ToString(), true)
+                         .AddField("Totally killed Players", account.BattleStatistics.PvpStatistics.AmountOfPlayersKilled.ToString(), true)
+                         .AddField("Highest PVP Winstreak", account.BattleStatistics.PvpStatistics.HighestPvpWinStreak.ToString(), true)
+                         .AddField("Highest Players Killstreak", account.BattleStatistics.PvpStatistics.HighestPvpKillStreak.ToString(), true)
+                         .AddField("PVP Rank placement", account.BattleStatistics.LeaderboardStatistics.LeaderboardPositionPvpKills.ToString(), true)
 
 
                          .WithFooter(footer => footer.Text = "©DivineGuardian")
                          .WithCurrentTimestamp();
 
-                    var creepEmbed = embed.Build();
-                    await ReplyAsync(embed: creepEmbed);
+                    var pvpEmbed = embed.Build();
+                    await ReplyAsync(embed: pvpEmbed);
                 }
                 else if (stats.Equals("best"))
                 {
                     List<UserAccount> userAccounts = UserManager.GetAccounts();
 
-                    var levelAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardPositionLevel == 1);
+                    //Filter accoutns by Leaderboard position one
+                    var levelAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardStatistics.LeaderboardPositionLevel == 1);
+                    //Get the remaining object from the list to use its information in the embed
                     var hightestLevelAccount = levelAccountList.SingleOrDefault();
 
-                    var xpAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardPositionXp == 1);
+                    var xpAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardStatistics.LeaderboardPositionXp == 1);
                     var hightestXpAccount = xpAccountList.SingleOrDefault();
 
-                    var skillAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardPositionBattlepoints == 1);
+                    var skillAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardStatistics.LeaderboardPositionBattlepoints == 1);
                     var hightestSkillAccount = skillAccountList.SingleOrDefault();
 
-                    var creepKillAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardPositionCreepKills == 1);
+                    var creepKillAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardStatistics.LeaderboardPositionCreepKills == 1);
                     var hightestCreepKillAccount = creepKillAccountList.SingleOrDefault();
 
-                    var bossKillAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardPositionBossKills == 1);
+                    var bossKillAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardStatistics.LeaderboardPositionBossKills == 1);
                     var hightestBossKillAccount = bossKillAccountList.SingleOrDefault();
 
-                    var pvpKillAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardPositionPvpKills == 1);
+                    var pvpKillAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardStatistics.LeaderboardPositionPvpKills == 1);
                     var hightestPvpKillAccount = pvpKillAccountList.SingleOrDefault();
 
-                    var creepDropAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardPositionCreepDrops == 1);
+                    var creepDropAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardStatistics.LeaderboardPositionCreepDrops == 1);
                     var hightestCreepDropAccount = creepDropAccountList.SingleOrDefault();
 
-                    var bossDropAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardPositionBossDrops == 1);
+                    var bossDropAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardStatistics.LeaderboardPositionBossDrops == 1);
                     var hightestBossDropAccount = bossDropAccountList.SingleOrDefault();
 
-                    var pvpDropAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardPositionPvpDrops == 1);
+                    var pvpDropAccountList = userAccounts.Where(x => x.BattleStatistics.LeaderboardStatistics.LeaderboardPositionPvpDrops == 1);
                     var hightestPvpDropAccount = pvpDropAccountList.SingleOrDefault();
 
                     var embed = new EmbedBuilder();
@@ -274,16 +276,16 @@ namespace DiscordBot.Modules.BattleModules
                          .AddField("Highest Level", $"{hightestLevelAccount.Name} with {hightestLevelAccount.LevelNumber} Levels")
                          .AddField("Highest XP", $"{hightestXpAccount.Name} with {hightestXpAccount.BattleStatistics.Xp}")
                          .AddField("Highest Battlepoints", $"{hightestSkillAccount.Name} with {hightestSkillAccount.BattleStatistics.BattlePoints}")
-                         .AddField("Highest Creeps Killed", $"{hightestCreepKillAccount.Name} with {hightestCreepKillAccount.BattleStatistics.AmountOfCreepsKilled}")
-                         .AddField("Highest Bosses Killed", $"{hightestBossKillAccount.Name} with {hightestBossKillAccount.BattleStatistics.AmountOfBossesKilled}")
-                         .AddField("Highest Players Killed", $"{hightestPvpKillAccount.Name} with {hightestPvpKillAccount.BattleStatistics.AmountOfPlayersKilled}")
-                         .AddField("Highest Creep Drops", $"{hightestCreepDropAccount.Name} with {hightestCreepDropAccount.BattleStatistics.CreepDrops}")
-                         .AddField("Highest Boss Drops", $"{hightestBossDropAccount.Name} with {hightestBossDropAccount.BattleStatistics.BossDrops}")
-                         .AddField("Highest PvP Drops", $"{hightestPvpDropAccount.Name} with {hightestPvpDropAccount.BattleStatistics.PvpDrops}")
-                         .WithFooter(footer => footer.Text = "©RavenplaysGuardianBot")
+                         .AddField("Highest Creeps Killed", $"{hightestCreepKillAccount.Name} with {hightestCreepKillAccount.BattleStatistics.CreepStatistics.AmountOfCreepsKilled}")
+                         .AddField("Highest Bosses Killed", $"{hightestBossKillAccount.Name} with {hightestBossKillAccount.BattleStatistics.BossStatistics.AmountOfBossesKilled}")
+                         .AddField("Highest Players Killed", $"{hightestPvpKillAccount.Name} with {hightestPvpKillAccount.BattleStatistics.PvpStatistics.AmountOfPlayersKilled}")
+                         .AddField("Highest Creep Drops", $"{hightestCreepDropAccount.Name} with {hightestCreepDropAccount.BattleStatistics.DropStatistics.CreepDrops}")
+                         .AddField("Highest Boss Drops", $"{hightestBossDropAccount.Name} with {hightestBossDropAccount.BattleStatistics.DropStatistics.BossDrops}")
+                         .AddField("Highest PvP Drops", $"{hightestPvpDropAccount.Name} with {hightestPvpDropAccount.BattleStatistics.DropStatistics.PvpDrops}")
+                         .WithFooter(footer => footer.Text = "©DivineGuardian")
                          .WithCurrentTimestamp();
-                    var creepEmbed = embed.Build();
-                    await ReplyAsync(embed: creepEmbed);
+                    var highscoreEmbed = embed.Build();
+                    await ReplyAsync(embed: highscoreEmbed);
                 }
             }
         }

@@ -28,5 +28,6 @@ namespace DiscordBot.Core.UserAccounts
         public uint MessageCount { get; set; }
 
         public PlayerStatistics BattleStatistics { get; set; }
+
     }
 }

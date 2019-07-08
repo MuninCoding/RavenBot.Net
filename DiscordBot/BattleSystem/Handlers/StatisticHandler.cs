@@ -38,8 +38,34 @@ namespace DiscordBot.BattleSystem.Handlers
         {
             if (currentCreepWinStreak > highestCreepWinStreak)
             {
-                account.BattleStatistics.HighestCreepWinStreak = account.BattleStatistics.CurrentCreepWinStreak;
-                await context.Channel.SendMessageAsync($"You get a new Creep Winstreak with {account.BattleStatistics.HighestCreepWinStreak}!");
+                account.BattleStatistics.CreepStatistics.HighestCreepWinStreak = account.BattleStatistics.CreepStatistics.CurrentCreepWinStreak;
+                await context.Channel.SendMessageAsync($"You get a new Creep Winstreak with {account.BattleStatistics.CreepStatistics.HighestCreepWinStreak}!");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        internal static async Task<bool> CheckForCreepKillStreak(uint currentCreepKillStreak, uint highestCreepKillStreak, SocketCommandContext context, UserAccount account)
+        {
+            if (currentCreepKillStreak > highestCreepKillStreak)
+            {
+                account.BattleStatistics.CreepStatistics.HighestCreepKillStreak = account.BattleStatistics.CreepStatistics.CurrentCreepKillStreak;
+                await context.Channel.SendMessageAsync($"Your scored a new Enemies {account.BattleStatistics.CreepStatistics.HighestCreepKillStreak} Killingstreak!");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        internal static async Task<bool> CheckForBossWinStreak(uint currentBossWinStreak, uint highestBossWinStreak, SocketCommandContext context, UserAccount account)
+        {
+            if (currentBossWinStreak > highestBossWinStreak)
+            {
+                account.BattleStatistics.BossStatistics.HighestBossWinStreak = account.BattleStatistics.BossStatistics.CurrentBossWinStreak;
+                await context.Channel.SendMessageAsync($"Your scored a new Boss Killingstreak with {account.BattleStatistics.BossStatistics.HighestBossKillStreak} Kills !");
                 return true;
             }
             else
@@ -51,8 +77,8 @@ namespace DiscordBot.BattleSystem.Handlers
         {
             if (currentPvPWinStreak > highestPvPWinStreak)
             {
-                account.BattleStatistics.HighestPvpWinStreak = account.BattleStatistics.CurrentPvpWinStreak;
-                await context.Channel.SendMessageAsync($"You get a new PvP Winstreak with {account.BattleStatistics.HighestPvpWinStreak}!");
+                account.BattleStatistics.PvpStatistics.HighestPvpWinStreak = account.BattleStatistics.PvpStatistics.CurrentPvpWinStreak;
+                await context.Channel.SendMessageAsync($"You get a new PvP Winstreak with {account.BattleStatistics.PvpStatistics.HighestPvpWinStreak}!");
                 return true;
             }
             else
@@ -60,39 +86,13 @@ namespace DiscordBot.BattleSystem.Handlers
                 return false;
             }
 
-        }
-        internal static async Task<bool> CheckForBossWinStreak(uint currentBossWinStreak, uint highestBossWinStreak, SocketCommandContext context, UserAccount account)
-        {
-            if (currentBossWinStreak > highestBossWinStreak)
-            {
-                account.BattleStatistics.HighestBossWinStreak = account.BattleStatistics.CurrentBossWinStreak;
-                await context.Channel.SendMessageAsync($"Your scored a new Boss Killingstreak with {account.BattleStatistics.HighestCreepKillStreak} Kills !");
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        internal static async Task<bool> CheckForEnemiesKilled(uint currentEnemiesKilled, uint highestEnemiesKilled, SocketCommandContext context, UserAccount account)
-        {
-            if (currentEnemiesKilled > highestEnemiesKilled)
-            {
-                account.BattleStatistics.HighestCreepKillStreak = account.BattleStatistics.CurrentCreepKillStreak;
-                await context.Channel.SendMessageAsync($"Your scored a new Enemies {account.BattleStatistics.HighestCreepKillStreak} Killingstreak!");
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
         internal static async Task<bool> CheckForPlayerKills(uint currentPlayerKilled, uint highestPlayerKilled, SocketCommandContext context, UserAccount account)
         {
             if (currentPlayerKilled > highestPlayerKilled)
             {
-                account.BattleStatistics.HighestPvpKillStreak = account.BattleStatistics.CurrentPvpKillStreak;
-                await context.Channel.SendMessageAsync($"Your scored a new Enemies {account.BattleStatistics.HighestCreepKillStreak} Killingstreak!");
+                account.BattleStatistics.PvpStatistics.HighestPvpKillStreak = account.BattleStatistics.PvpStatistics.CurrentPvpKillStreak;
+                await context.Channel.SendMessageAsync($"Your scored a new Enemies {account.BattleStatistics.PvpStatistics.HighestPvpKillStreak} Killingstreak!");
                 return true;
             }
             else
@@ -100,7 +100,6 @@ namespace DiscordBot.BattleSystem.Handlers
                 return false;
             }
         }
-
         internal static void RewriteHighscores()
         {
             //Get all useraccounts
@@ -112,62 +111,58 @@ namespace DiscordBot.BattleSystem.Handlers
             for (int i = 0; i < accountsSortedByLevel.Count; i++)
             {
                 //And set the leaderboard position to index +1 because we want the first place to be 1 not 0
-                accountsSortedByLevel[i].BattleStatistics.LeaderboardPositionLevel = (uint)i + 1;
+                accountsSortedByLevel[i].BattleStatistics.LeaderboardStatistics.LeaderboardPositionLevel = (uint)i + 1;
             }
 
             List<UserAccount> accountsSortedByXp = accounts.OrderByDescending(x => x.BattleStatistics.Xp).ToList();
             for (int i = 0; i < accountsSortedByXp.Count; i++)
             {
-                accountsSortedByXp[i].BattleStatistics.LeaderboardPositionXp = (uint)i + 1;
+                accountsSortedByXp[i].BattleStatistics.LeaderboardStatistics.LeaderboardPositionXp = (uint)i + 1;
             }
 
             List<UserAccount> accountsSortedByBattlepoints = accounts.OrderByDescending(x => x.BattleStatistics.BattlePoints).ToList();
             for (int i = 0; i < accountsSortedByBattlepoints.Count; i++)
             {
-                accountsSortedByBattlepoints[i].BattleStatistics.LeaderboardPositionBattlepoints = (uint)i + 1;
+                accountsSortedByBattlepoints[i].BattleStatistics.LeaderboardStatistics.LeaderboardPositionBattlepoints = (uint)i + 1;
             }
 
-            List<UserAccount> accountsSortedByCreeepKills = accounts.OrderByDescending(x => x.BattleStatistics.AmountOfCreepsKilled).ToList();
+            List<UserAccount> accountsSortedByCreeepKills = accounts.OrderByDescending(x => x.BattleStatistics.CreepStatistics.AmountOfCreepsKilled).ToList();
             for (int i = 0; i < accountsSortedByCreeepKills.Count; i++)
             {
-                accountsSortedByCreeepKills[i].BattleStatistics.LeaderboardPositionCreepKills = (uint)i + 1;
+                accountsSortedByCreeepKills[i].BattleStatistics.LeaderboardStatistics.LeaderboardPositionCreepKills = (uint)i + 1;
             }
 
-            List<UserAccount> accountsSortedByBossKills = accounts.OrderByDescending(x => x.BattleStatistics.AmountOfBossesKilled).ToList();
+            List<UserAccount> accountsSortedByBossKills = accounts.OrderByDescending(x => x.BattleStatistics.BossStatistics.AmountOfBossesKilled).ToList();
             for (int i = 0; i < accountsSortedByBossKills.Count; i++)
             {
-                accountsSortedByBossKills[i].BattleStatistics.LeaderboardPositionBossKills = (uint)i + 1;
+                accountsSortedByBossKills[i].BattleStatistics.LeaderboardStatistics.LeaderboardPositionBossKills = (uint)i + 1;
             }
 
-            List<UserAccount> accountsSortedByPlayerKills = accounts.OrderByDescending(x => x.BattleStatistics.AmountOfPlayersKilled).ToList();
+            List<UserAccount> accountsSortedByPlayerKills = accounts.OrderByDescending(x => x.BattleStatistics.PvpStatistics.AmountOfPlayersKilled).ToList();
             for (int i = 0; i < accountsSortedByPlayerKills.Count; i++)
             {
-                accountsSortedByPlayerKills[i].BattleStatistics.LeaderboardPositionPvpKills = (uint)i + 1;
+                accountsSortedByPlayerKills[i].BattleStatistics.LeaderboardStatistics.LeaderboardPositionPvpKills = (uint)i + 1;
             }
 
-            List<UserAccount> accountsSortedByCreepDrops = accounts.OrderByDescending(x => x.BattleStatistics.CreepDrops).ToList();
+            List<UserAccount> accountsSortedByCreepDrops = accounts.OrderByDescending(x => x.BattleStatistics.DropStatistics.CreepDrops).ToList();
             for (int i = 0; i < accountsSortedByCreepDrops.Count; i++)
             {
-                accountsSortedByCreepDrops[i].BattleStatistics.LeaderboardPositionCreepDrops = (uint)i + 1;
+                accountsSortedByCreepDrops[i].BattleStatistics.LeaderboardStatistics.LeaderboardPositionCreepDrops = (uint)i + 1;
             }
 
-            List<UserAccount> accountsSortedByBossDrops = accounts.OrderByDescending(x => x.BattleStatistics.BossDrops).ToList();
+            List<UserAccount> accountsSortedByBossDrops = accounts.OrderByDescending(x => x.BattleStatistics.DropStatistics.BossDrops).ToList();
             for (int i = 0; i < accountsSortedByBossDrops.Count; i++)
             {
-                accountsSortedByBossDrops[i].BattleStatistics.LeaderboardPositionBossDrops = (uint)i + 1;
+                accountsSortedByBossDrops[i].BattleStatistics.LeaderboardStatistics.LeaderboardPositionBossDrops = (uint)i + 1;
             }
 
-            List<UserAccount> accountsSortedByPvpDrops = accounts.OrderByDescending(x => x.BattleStatistics.PvpDrops).ToList();
+            List<UserAccount> accountsSortedByPvpDrops = accounts.OrderByDescending(x => x.BattleStatistics.DropStatistics.PvpDrops).ToList();
             for (int i = 0; i < accountsSortedByPvpDrops.Count; i++)
             {
-                accountsSortedByPvpDrops[i].BattleStatistics.LeaderboardPositionPvpDrops = (uint)i + 1;
+                accountsSortedByPvpDrops[i].BattleStatistics.LeaderboardStatistics.LeaderboardPositionPvpDrops = (uint)i + 1;
             }
 
             UserManager.SaveAccounts();
         }
-        //internal static async Task<bool> CheckForBestCreepKiller()
-        //{
-
-        //}
     }
 }

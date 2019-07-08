@@ -13,7 +13,7 @@ namespace DiscordBot.BattleSystem.Entities.Shield
 
         public SilberShield()
         {
-            DamageBlock = 5;
+            DamageBlock = 11;
             Name = "SilberShield";
         }
     }
