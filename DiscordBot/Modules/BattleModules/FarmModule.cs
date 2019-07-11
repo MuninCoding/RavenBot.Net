@@ -22,28 +22,39 @@ namespace DiscordBot.Modules.BattleModules
         public async Task Battle()
         {
             await Context.Message.DeleteAsync();
-            int messageCount = 1;
+            uint messageCount = 1;
 
             //Getting Playerstats and creating creeps
             UserAccount account = UserManager.GetAccount(Context.Message.Author);
-            //Getting a list of enemies form the EnemyUtilites class with the level of the user
 
+            //Getting a list of enemies form the EnemyUtilites class with the level of the user
             List<IEnemy> enemies = SpawnHandler.SpawnEnemies(account.BattleStatistics.Level, account.BattleStatistics.Damage, false);
+
+            var embed = new EmbedBuilder();
+            embed.WithColor(Color.Blue)
+                 .WithTitle("Creepwave Statistics");
 
             if (enemies.Count == 1)
             {
-                await ReplyAsync($"A Wild {enemies[0].Name} appeared!");
-                messageCount++;
+                embed.AddField("CreepCount", $"A Wild {enemies[0].Name} appeared!");
             }
             else
             {
-                await ReplyAsync($"{enemies.Count} enemies appeared!");
-                await ReplyAsync($"{enemies[0].Name} is in the first Wave!");
-                await ReplyAsync($"{enemies[1].Name} is in the second Wave!");
-                messageCount += 3;
+                embed.AddField("Creepwave", "-");
+                for (int i = 0; i < enemies.Count; i++)
+                {
+                    embed.AddField($"{enemies[i].Name}", $"{enemies[i].GettingGold} Gold, {enemies[i].GettingXp} XP", true);
+                }
             }
+            var builtEmbed = embed.Build();
 
-            bool isWinner = await FarmHandler.SimulateFight(enemies, account, Context.Channel);
+            await ReplyAsync(embed: builtEmbed);
+
+
+            var fightResult = await FarmHandler.SimulateFight(enemies, account, Context.Channel, messageCount);
+            bool isWinner = fightResult.isWinner;
+            messageCount = fightResult.messageCount;
+
             bool isNewCreepWinStreak = false;
             bool isNewHighestCreepKillStreak = false;
             bool leveledUp = false;
@@ -78,7 +89,8 @@ namespace DiscordBot.Modules.BattleModules
                 account.BattleStatistics.Xp += 20;
                 uint newLevel = account.BattleStatistics.Level;
 
-                leveledUp = await StatisticHandler.CheckForLevelUp(oldLevel, newLevel, Context, account);
+                var levelResult = await StatisticHandler.CheckForLevelUp(oldLevel, newLevel, Context, account, messageCount);
+                leveledUp = levelResult.leveledUp; 
                 messageCount = await ItemHandler.CheckForItemDrop(account, Context, messageCount);
 
                 if (leveledUp)
@@ -99,7 +111,7 @@ namespace DiscordBot.Modules.BattleModules
             UserManager.SaveAccounts();
             StatisticHandler.RewriteHighscores();
             await Task.Delay(1000);
-            var messages = await Context.Channel.GetMessagesAsync(messageCount).FlattenAsync();
+            var messages = await Context.Channel.GetMessagesAsync((int)messageCount).FlattenAsync();
             var messageList = messages.ToList();
             if (leveledUp)
             {
@@ -107,7 +119,6 @@ namespace DiscordBot.Modules.BattleModules
             }
             foreach (var message in messageList)
             {
-                await Task.Delay(10000);
                 await message.DeleteAsync();
             }
         }
