@@ -14,7 +14,7 @@ namespace DiscordBot.BattleSystem.Entities.Weapons
         public Fist()
         {
             Damage = 5;
-            Name = "fist";
+            Name = "Fist";
         }
     }
 }

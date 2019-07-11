@@ -26,6 +26,15 @@ namespace DiscordBot.BattleSystem.Handlers
                     enemies.Add(new Creep());
                     enemies.Add(new Creep2());
                 }
+                else
+                {
+                    enemies.Add(new Creep());
+                    enemies.Add(new Creep2());
+                    enemies.Add(new Creep());
+                    enemies.Add(new Creep2());
+                    enemies.Add(new Creep());
+                    enemies.Add(new Creep2());
+                }
 
             }
             else if(isBossWave && level == 5)

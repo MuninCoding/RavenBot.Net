@@ -54,9 +54,9 @@ namespace DiscordBot.BattleSystem
         public LeaderboardStatistics LeaderboardStatistics { get; set; }
         public DropStatistics DropStatistics { get; set; }
 
-        public string EquipedWeapon { get; set; }
-        public string EquipedShield { get; set; }
-        public string EquipedArmor { get; set; }
+        public string EquipedWeapon => this.Weapon.Name;
+        public string EquipedShield => this.Shield.Name;
+        public string EquipedArmor => this.Armor.Name;
 
         public IWeapon Weapon { get; set; }
         public IShield Shield { get; set; }

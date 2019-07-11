@@ -23,7 +23,7 @@ namespace DiscordBot
 
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
-                LogLevel = LogSeverity.Verbose
+                LogLevel = LogSeverity.Debug
             });
             _client.Log += Log;
             await _client.LoginAsync(TokenType.Bot, ConfigHandler.config.Token);

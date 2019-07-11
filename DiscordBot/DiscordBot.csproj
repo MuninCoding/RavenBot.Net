@@ -239,6 +239,7 @@
     <Compile Include="BattleSystem\Entities\Weapons\DivineRapier.cs" />
     <Compile Include="BattleSystem\Entities\Weapons\Hoe.cs" />
     <Compile Include="BattleSystem\Handlers\FarmHandler.cs" />
+    <Compile Include="BattleSystem\Handlers\ShopHandler.cs" />
     <Compile Include="BattleSystem\Handlers\SpawnHandler.cs" />
     <Compile Include="BattleSystem\Handlers\ItemHandler.cs" />
     <Compile Include="BattleSystem\Entities\Armor\Naked.cs" />
@@ -271,6 +272,7 @@
     <Compile Include="Modules\BattleModules\BattlePointsModule.cs" />
     <Compile Include="Modules\BattleModules\AddItemModule.cs" />
     <Compile Include="Modules\BattleModules\EquipItemModule.cs" />
+    <Compile Include="Modules\BattleModules\ShopModule.cs" />
     <Compile Include="Modules\BattleModules\UserModule.cs" />
     <Compile Include="Modules\BattleModules\FarmModule.cs" />
     <Compile Include="Modules\Misc.cs" />

@@ -12,11 +12,7 @@ namespace DiscordBot.Modules
         {
             await Context.Message.DeleteAsync();
             {
-                var embed = new EmbedBuilder
-                {
-                    Title = "Help Window",
-                    Description = "Displays all commands"
-                };
+                var embed = new EmbedBuilder();
                 // Or with methods
                 //TODO Update the help embed
                 embed.WithColor(Color.Blue)
