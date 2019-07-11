@@ -26,7 +26,7 @@ namespace DiscordBot.Modules.BattleModules
             await channel.SendMessageAsync($"{Context.Message.Author} want to fight with you!Do you want to accept the challenge?");
             await Task.Delay(5000);
             var messages = await channel.GetMessagesAsync(1).FlattenAsync();
-            int messageCount = 1;
+            uint messageCount = 1;
             foreach (var message in messages)
             {
                 
@@ -93,9 +93,10 @@ namespace DiscordBot.Modules.BattleModules
                         uint oldLevel = authorAccount.BattleStatistics.Level;
                         authorAccount.BattleStatistics.Xp += 50;
                         uint newLevel = authorAccount.BattleStatistics.Level;
-                        leveledUp = await StatisticHandler.CheckForLevelUp(oldLevel, newLevel, Context, authorAccount);
-                        if (leveledUp)
-                            messageCount++;
+
+                        var levelResult = await StatisticHandler.CheckForLevelUp(oldLevel, newLevel, Context, authorAccount, messageCount);
+                        leveledUp = levelResult.leveledUp;
+                        messageCount = levelResult.messageCount;
 
                         uint currentPlayerKillStreak = authorAccount.BattleStatistics.PvpStatistics.CurrentPvpKillStreak;
                         authorAccount.BattleStatistics.PvpStatistics.CurrentPvpKillStreak++;
@@ -126,9 +127,10 @@ namespace DiscordBot.Modules.BattleModules
                         uint oldLevel = socketUserAccount.BattleStatistics.Level;
                         socketUserAccount.BattleStatistics.Xp += 50;
                         uint newLevel = socketUserAccount.BattleStatistics.Level;
-                        leveledUp = await StatisticHandler.CheckForLevelUp(oldLevel, newLevel, Context, socketUserAccount);
-                        if (leveledUp)
-                            messageCount++;
+
+                        var levelResult = await StatisticHandler.CheckForLevelUp(oldLevel, newLevel, Context, authorAccount, messageCount);
+                        leveledUp = levelResult.leveledUp;
+                        messageCount = levelResult.messageCount;
 
                         uint currentPlayerKillStreak = socketUserAccount.BattleStatistics.PvpStatistics.CurrentPvpKillStreak;
                         socketUserAccount.BattleStatistics.PvpStatistics.CurrentPvpKillStreak++;
@@ -146,7 +148,7 @@ namespace DiscordBot.Modules.BattleModules
                     }
 
                     UserManager.SaveAccounts();
-                    var message1 = await Context.Channel.GetMessagesAsync(messageCount).FlattenAsync();
+                    var message1 = await Context.Channel.GetMessagesAsync((int)messageCount).FlattenAsync();
                     var messageList = message1.ToList();
                     if (leveledUp)
                     {

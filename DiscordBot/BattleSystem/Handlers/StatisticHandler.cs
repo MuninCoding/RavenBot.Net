@@ -16,9 +16,9 @@ namespace DiscordBot.BattleSystem.Handlers
         /*CheckForLevelUp is a static method 
         returns bool if user leveledUp
         arguments oldLevel of accounts, new Level of accounts, commandcontex and account of the user*/
-        internal static async Task<bool> CheckForLevelUp(uint oldLevel, uint newLevel, SocketCommandContext context, UserAccount account)
+        internal static async Task<(bool leveledUp, uint messageCount)> CheckForLevelUp(uint oldLevel, uint newLevel, SocketCommandContext context, UserAccount account, uint messageCount)
         {
-            await CheckForBossWave(context, account);
+            messageCount = await CheckForBossWave(context, account, messageCount);
 
             if (oldLevel < newLevel)
             {
@@ -31,15 +31,16 @@ namespace DiscordBot.BattleSystem.Handlers
                 embed.AddField("Battle XP", account.BattleStatistics.Xp);
                 var info = embed.Build();
                 await context.Channel.SendMessageAsync(embed: info);
-                return true;
+                messageCount++;
+                return (true, messageCount);
             }
             else
             {
-                return false;
+                return (false,  messageCount);
             }
         }
 
-        private static async Task CheckForBossWave(SocketCommandContext context, UserAccount account)
+        private static async Task<uint> CheckForBossWave(SocketCommandContext context, UserAccount account, uint messageCount)
         {
             bool isNewBossWinStreak = false;
             bool isNewHighestBossKillStreak = false;
@@ -59,8 +60,8 @@ namespace DiscordBot.BattleSystem.Handlers
                     if (message.Content.Equals("yes"))
                     {
                         List<IEnemy>enemies = SpawnHandler.SpawnEnemies(account.BattleStatistics.Level, account.BattleStatistics.Damage, true);
-
-                        wonBossFight = await FarmHandler.SimulateFight(enemies, account, channel);
+                        var fightResult = await FarmHandler.SimulateFight(enemies, account, channel, 0);
+                        wonBossFight = fightResult.isWinner;
 
                         account.BattleStatistics.BossStatistics.BossBattleFoughtOrDeclined = true;
 
@@ -68,52 +69,65 @@ namespace DiscordBot.BattleSystem.Handlers
                         {
                             await channel.SendMessageAsync("You Won this Boss Fight!");
                             await channel.SendMessageAsync("You gained 100 Xp for your Win! Congrats");
-                            //messageCount += 2;
 
                             var oldLevel = account.BattleStatistics.Level;
                             account.BattleStatistics.Xp += 100;
                             var newLevel = account.BattleStatistics.Level;
-                            bool leveledUp = await CheckForLevelUp(oldLevel, newLevel, context, account);
-                            //if (leveledUp)
-                            //    messageCount++;
+
+                            var levelResult = await CheckForLevelUp(oldLevel, newLevel, context, account, messageCount);
+                            bool leveledUp = levelResult.leveledUp;
+                            messageCount = levelResult.messageCount;
+                             
 
                             uint currentBossWinStreak = account.BattleStatistics.BossStatistics.CurrentBossWinStreak;
                             uint highestBossWinStreak = account.BattleStatistics.BossStatistics.HighestBossWinStreak;
                             isNewBossWinStreak = await CheckForBossWinStreak(currentBossWinStreak, highestBossWinStreak, context, account);
-                            //if (isNewBossWinStreak)
-                            //    messageCount++;
+                            if (isNewBossWinStreak)
+                                messageCount++;
 
                             uint currentBossKills = account.BattleStatistics.BossStatistics.CurrentBossKillStreak;
                             uint highestBossKills = account.BattleStatistics.BossStatistics.HighestBossKillStreak;
                             isNewHighestBossKillStreak = await CheckForBossKillStreak(currentBossKills, highestBossKills, context, account);
-                            //if (isNewHighestBossKillStreak)
-                            //    messageCount++;
+                            if (isNewHighestBossKillStreak)
+                                messageCount++;
+
+                            return messageCount;
                         }
                         else
                         {
                             await channel.SendMessageAsync("You lost the Boss battle, Good luck next time!");
-                            //messageCount++;
+                            messageCount++;
+
                             account.BattleStatistics.BossStatistics.BossBattlesFought++;
                             account.BattleStatistics.BossStatistics.BossBattlesLost++;
                             account.BattleStatistics.BossStatistics.CurrentBossWinStreak = 0;
                             account.BattleStatistics.BossStatistics.CurrentBossKillStreak = 0;
+
+                            return messageCount;
                         }
                     }
                     else if (message.Content.Equals("no"))
                     {
                         await channel.SendMessageAsync("You declined the Boss battle, Good luck next time!");
-                        //messageCount++;
+                        messageCount++;
+
                         account.BattleStatistics.BossStatistics.BossBattlesDeclined++;
                         account.BattleStatistics.BossStatistics.CurrentBossWinStreak = 0;
                         account.BattleStatistics.BossStatistics.CurrentBossKillStreak = 0;
                         account.BattleStatistics.BossStatistics.BossBattleFoughtOrDeclined = true;
+
+                        return messageCount;
                     }
                 }
             }
             else if(account.BattleStatistics.Level % 5 == 1)
             {
                 account.BattleStatistics.BossStatistics.BossBattleFoughtOrDeclined = false;
+
+                return messageCount;
             }
+
+            return messageCount;
         }
         internal static async Task<bool> CheckForCreepWinstreak(uint currentCreepWinStreak, uint highestCreepWinStreak, SocketCommandContext context, UserAccount account)
         {
