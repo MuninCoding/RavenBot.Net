@@ -38,35 +38,62 @@ namespace DiscordBot.BattleSystem.Handlers
 
             if (itemTypeString.Equals("weapon"))
             {
-                var itemToAdd = Activator.CreateInstance(itemType);
+                var itemToAdd = (IWeapon)Activator.CreateInstance(itemType);
 
-                userAccount.BattleStatistics.Weapons.Add((IWeapon)itemToAdd);
+                if (!userAccount.BattleStatistics.Weapons.Any(x => x.Name == itemToAdd.Name))
+                {
+                    userAccount.BattleStatistics.Weapons.Add(itemToAdd);
 
-                var botMessage = await context.Channel.SendMessageAsync($"Added {itemTypeString} of type {itemType.ToString()}");
-                await Task.Delay(5000);
-                await botMessage.DeleteAsync();
+                    var botMessage = await context.Channel.SendMessageAsync($"Added {itemTypeString} of type {itemType.ToString()}");
+                    await Task.Delay(5000);
+                    await botMessage.DeleteAsync();
+                }
+                else
+                {
+                    var botMessage = await context.Channel.SendMessageAsync($"{itemTypeString} already in inventory");
+                    await Task.Delay(5000);
+                    await botMessage.DeleteAsync();
+                }
 
             }
             else if (itemTypeString.Equals("shield"))
             {
-                var itemToAdd = Activator.CreateInstance(itemType);
+                var itemToAdd = (IShield)Activator.CreateInstance(itemType);
 
-                userAccount.BattleStatistics.Shields.Add((IShield)itemToAdd);
+                if (!userAccount.BattleStatistics.Shields.Any(x => x.Name == itemToAdd.Name))
+                {
+                    userAccount.BattleStatistics.Shields.Add(itemToAdd);
 
-                var botMessage = await context.Channel.SendMessageAsync($"Added {itemTypeString} of type {itemType.ToString()}");
-                await Task.Delay(5000);
-                await botMessage.DeleteAsync();
-
+                    var botMessage = await context.Channel.SendMessageAsync($"Added {itemTypeString} of type {itemType.ToString()}");
+                    await Task.Delay(5000);
+                    await botMessage.DeleteAsync();
+                }
+                else
+                {
+                    var botMessage = await context.Channel.SendMessageAsync($"{itemTypeString} already in inventory");
+                    await Task.Delay(5000);
+                    await botMessage.DeleteAsync();
+                }
             }
             else if (itemTypeString.Equals("armor"))
             {
-                var itemToAdd = Activator.CreateInstance(itemType);
+                var itemToAdd = (IArmor)Activator.CreateInstance(itemType);
 
-                userAccount.BattleStatistics.Armors.Add((IArmor)itemToAdd);
+                if (!userAccount.BattleStatistics.Armors.Any(x => x.Name == itemToAdd.Name))
+                {
+                    userAccount.BattleStatistics.Armors.Add(itemToAdd);
 
-                var botMessage = await context.Channel.SendMessageAsync($"Added {itemTypeString} of type {itemType.ToString()}");
-                await Task.Delay(5000);
-                await botMessage.DeleteAsync();
+                    var botMessage = await context.Channel.SendMessageAsync($"Added {itemTypeString} of type {itemType.ToString()}");
+                    await Task.Delay(5000);
+                    await botMessage.DeleteAsync();
+                }
+                else
+                {
+                    var botMessage = await context.Channel.SendMessageAsync($"{itemTypeString} already in inventory");
+                    await Task.Delay(5000);
+                    await botMessage.DeleteAsync();
+
+                }
             }
             else
             {
@@ -78,7 +105,7 @@ namespace DiscordBot.BattleSystem.Handlers
             UserManager.SaveAccounts();
         }
 
-        internal static async Task<int> CheckForItemDrop(UserAccount account, SocketCommandContext context, int messageCount)
+        internal static async Task<uint> CheckForItemDrop(UserAccount account, SocketCommandContext context, uint messageCount)
         {
             var generator = new Random();
             double random = generator.NextDouble();
@@ -116,7 +143,6 @@ namespace DiscordBot.BattleSystem.Handlers
                 var itemToAdd = Activator.CreateInstance(itemType);
 
                 userAccount.BattleStatistics.Weapon = (IWeapon)itemToAdd;
-                userAccount.BattleStatistics.EquipedWeapon = itemType.Name;
 
                 var botMessage = await context.Channel.SendMessageAsync($"Equipped {itemTypeString} {itemType.Name}");
                 await Task.Delay(5000);
@@ -128,7 +154,6 @@ namespace DiscordBot.BattleSystem.Handlers
                 var itemToAdd = Activator.CreateInstance(itemType);
 
                 userAccount.BattleStatistics.Shield = (IShield)itemToAdd;
-                userAccount.BattleStatistics.EquipedShield = itemType.Name;
 
                 var botMessage = await context.Channel.SendMessageAsync($"Equipped {itemTypeString} {itemType.Name}");
                 await Task.Delay(5000);
@@ -140,7 +165,6 @@ namespace DiscordBot.BattleSystem.Handlers
                 var itemToAdd = Activator.CreateInstance(itemType);
 
                 userAccount.BattleStatistics.Armor = (IArmor)itemToAdd;
-                userAccount.BattleStatistics.EquipedArmor = itemType.Name;
 
                 var botMessage = await context.Channel.SendMessageAsync($"Equipped {itemTypeString} {itemType.Name}");
                 await Task.Delay(5000);
