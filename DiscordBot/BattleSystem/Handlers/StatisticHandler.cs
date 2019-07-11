@@ -16,6 +16,15 @@ namespace DiscordBot.BattleSystem.Handlers
         /*CheckForLevelUp is a static method 
         returns bool if user leveledUp
         arguments oldLevel of accounts, new Level of accounts, commandcontex and account of the user*/
+        /// <summary>
+        /// Checks if a player leveled up
+        /// </summary>
+        /// <param name="oldLevel">old level of the account</param>
+        /// <param name="newLevel">new level of the account</param>
+        /// <param name="context">command context to send back messages to the channel</param>
+        /// <param name="account">account of the user to check the level up</param>
+        /// <param name="messageCount"></param>
+        /// <returns>bool - if the player leveled up, uint - messageCount after level up messages</returns>
         internal static async Task<(bool leveledUp, uint messageCount)> CheckForLevelUp(uint oldLevel, uint newLevel, SocketCommandContext context, UserAccount account, uint messageCount)
         {
             messageCount = await CheckForBossWave(context, account, messageCount);
