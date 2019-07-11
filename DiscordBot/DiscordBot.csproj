@@ -238,6 +238,7 @@
     <Compile Include="BattleSystem\Entities\Shield\SilberShield.cs" />
     <Compile Include="BattleSystem\Entities\Weapons\DivineRapier.cs" />
     <Compile Include="BattleSystem\Entities\Weapons\Hoe.cs" />
+    <Compile Include="BattleSystem\Handlers\FarmHandler.cs" />
     <Compile Include="BattleSystem\Handlers\SpawnHandler.cs" />
     <Compile Include="BattleSystem\Handlers\ItemHandler.cs" />
     <Compile Include="BattleSystem\Entities\Armor\Naked.cs" />

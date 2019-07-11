@@ -9,6 +9,7 @@ namespace DiscordBot.BattleSystem.Entities
     public interface IShield
     {
         int DamageBlock { get; set; }
+        int DamageReflection { get; set; }
         string Name { get; set; }
     }
 }

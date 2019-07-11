@@ -11,6 +11,8 @@ namespace DiscordBot.BattleSystem.Entities
         float Health { get; set; }
         float Damage { get; set; }
         float Defense { get; set; }
+        float GettingXp { get; set; }
+        float GettingGold { get; set; }
         string Name { get; set; }
     }
 }

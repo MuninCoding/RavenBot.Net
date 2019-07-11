@@ -12,6 +12,8 @@ namespace DiscordBot.BattleSystem.Enemies
         public float Health { get; set; }
         public float Damage { get; set; }
         public float Defense { get; set; }
+        public float GettingXp { get; set; }
+        public float GettingGold { get; set; }
         public string Name { get; set; }
 
         public Creep2()
@@ -25,6 +27,8 @@ namespace DiscordBot.BattleSystem.Enemies
             Damage = randomNumber;
             Defense = 7;
             Name = "Armored Creep";
+            GettingXp = 20;
+            GettingGold = 25;
 
         }
     }

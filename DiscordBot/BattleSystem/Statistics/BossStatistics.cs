@@ -11,6 +11,7 @@ namespace DiscordBot.BattleSystem.Statistics
     public class BossStatistics
     {
         public uint BossBattlesFought { get; set; }
+        public uint BossBattlesDeclined { get; set; }
         public uint BossBattlesWon { get; set; }
         public uint BossBattlesLost { get; set; }
         public uint CurrentBossWinStreak { get; set; }

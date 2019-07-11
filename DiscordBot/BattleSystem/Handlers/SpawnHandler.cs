@@ -11,22 +11,26 @@ namespace DiscordBot.BattleSystem.Handlers
 {
     class SpawnHandler
     {
-        internal static List<IEnemy> SpawnEnemies(uint level, float damage, bool bossBattleFoughtOrDeclined, bool playerWantsToFightBoss)
+        internal static List<IEnemy> SpawnEnemies(uint level, float damage, bool isBossWave)
         {
             List<IEnemy> enemies = new List<IEnemy>();
 
-            if (level <= 2 || damage <= 10)
+            if (!isBossWave)
             {
-                enemies.Add(new Creep());
+                if (level <= 2 || damage <= 10)
+                {
+                    enemies.Add(new Creep());
+                }
+                else if (level <= 5 || damage <= 15)
+                {
+                    enemies.Add(new Creep());
+                    enemies.Add(new Creep2());
+                }
+
             }
-            else if (level == 5 && !bossBattleFoughtOrDeclined && playerWantsToFightBoss)
+            else if(isBossWave && level == 5)
             {
                 enemies.Add(new BossLevel5());
-            }
-            else if (level <= 5 || damage <= 15 )
-            {
-                enemies.Add(new Creep());
-                enemies.Add(new Creep2());
             }
 
             return enemies;

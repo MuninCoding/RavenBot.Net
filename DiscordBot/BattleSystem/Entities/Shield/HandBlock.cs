@@ -9,6 +9,7 @@ namespace DiscordBot.BattleSystem.Entities.Shield
 {
     public class HandBlock : IShield
     {
+        public int DamageReflection { get; set; }
         public int DamageBlock { get; set; }
         public string Name { get; set; }
 

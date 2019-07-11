@@ -16,7 +16,7 @@ namespace DiscordBot.BattleSystem
         {
             get
             {
-                return (uint)Math.Sqrt(Xp / 50);
+                return 1 + (uint)Math.Sqrt(Xp / 50);
             }
         }
 
@@ -44,7 +44,7 @@ namespace DiscordBot.BattleSystem
                 return BaseDefense + Shield.DamageBlock;
             }
         }
-
+        public float Gold { get; set; }
         public double BattlePoints { get; set; }
         public double Xp { get; set; }
 
@@ -53,6 +53,10 @@ namespace DiscordBot.BattleSystem
         public PvpStatistics PvpStatistics { get; set; }
         public LeaderboardStatistics LeaderboardStatistics { get; set; }
         public DropStatistics DropStatistics { get; set; }
+
+        public string EquipedWeapon { get; set; }
+        public string EquipedShield { get; set; }
+        public string EquipedArmor { get; set; }
 
         public IWeapon Weapon { get; set; }
         public IShield Shield { get; set; }
