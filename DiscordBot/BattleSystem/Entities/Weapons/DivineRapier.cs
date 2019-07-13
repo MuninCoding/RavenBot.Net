@@ -9,7 +9,6 @@ namespace DiscordBot.BattleSystem.Entities.Weapons
     public class DivineRapier : IWeapon
     {
         private float damage;
-
         public float Damage
         {
             get
@@ -27,12 +26,13 @@ namespace DiscordBot.BattleSystem.Entities.Weapons
             }
             set { damage = 322; }
         }
-
+        public float PurchasePrice { get; set; }
         public string Name { get; set; }
         public DivineRapier()
         {
             Damage = 322;
             Name = "DivineRapier";
+            PurchasePrice = 1000000;
         }
     }
 }

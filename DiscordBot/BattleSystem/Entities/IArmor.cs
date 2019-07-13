@@ -9,6 +9,7 @@ namespace DiscordBot.BattleSystem.Entities
     public interface IArmor
     {
         int BonusHealth{ get; set; }
+        float PurchasePrice { get; set; }
         string Name { get; set; }
     }
 }

@@ -16,12 +16,12 @@ namespace DiscordBot.BattleSystem.Handlers
            shopsEmbed.WithColor(Color.DarkRed)
                      .WithTitle("Shops")
                      .WithDescription("Below is a list with all currently available Shop´s")
-                     .AddField("Potions", "?help - Shows bot information with all available commands")
-                     .AddField("Weapons", "?sharerank {user} - Shares your rank with the specified user")
-                     .AddField("Armor", "?clear - Clear the chat in the Channel there you write the Message")
-                     .AddField("Shields", "?mute<@playername><MuteState> - Mute player for Voicechannel (MuteState = True|False)")
-                     .AddField("Points", "?kick<@playername><Reason> - Kick a player from Server with a specified reason")
-                     .WithFooter(footer => footer.Text = "©RavenplaysGuardianBot")
+                     .AddField("Potions", "?shop potions - Shows the Potion shop embed")
+                     .AddField("Weapons", "?shop weapons - Shows the Weapon shop embed")
+                     .AddField("Armors", "?shop armors - Shows the Armor shop embed")
+                     .AddField("Shields", "?shop shields- Shows the Shield shop embed")
+                     .AddField("Points", "?shop points - Shows the Battlepoints shop embed")
+                     .WithFooter(footer => footer.Text = "©DivineGuardianBot")
                      .WithCurrentTimestamp();
 
             var shopsInfoEmbed = shopsEmbed.Build();
@@ -33,17 +33,17 @@ namespace DiscordBot.BattleSystem.Handlers
             throw new NotImplementedException();
         }
 
-        internal static Embed WeaponEmbed()
+        internal static Embed WeaponsEmbed()
         {
             throw new NotImplementedException();
         }
 
-        internal static Embed ArmorEmbed()
+        internal static Embed ArmorsEmbed()
         {
             throw new NotImplementedException();
         }
 
-        internal static Embed ShieldEmbed()
+        internal static Embed ShieldsEmbed()
         {
             throw new NotImplementedException();
         }

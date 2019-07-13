@@ -61,6 +61,7 @@ namespace DiscordBot.BattleSystem
         public IWeapon Weapon { get; set; }
         public IShield Shield { get; set; }
         public IArmor Armor { get; set; }
+        public IPotion Potion { get; set; }
 
         public List<IWeapon> Weapons { get; set; }
         public List<IShield> Shields { get; set; }

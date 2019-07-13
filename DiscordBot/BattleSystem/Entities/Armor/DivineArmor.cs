@@ -9,6 +9,7 @@ namespace DiscordBot.BattleSystem.Entities.Armor
     class DivineArmor : IArmor
     {
         public int BonusHealth { get; set; }
+        public float PurchasePrice { get; set; }
         public string Name { get; set; }
         public DivineArmor()
         {

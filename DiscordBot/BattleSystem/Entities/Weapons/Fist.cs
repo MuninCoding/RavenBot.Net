@@ -10,6 +10,7 @@ namespace DiscordBot.BattleSystem.Entities.Weapons
     public class Fist : IWeapon
     {
         public float Damage { get; set; }
+        public float PurchasePrice { get; set; }
         public string Name { get; set; }
         public Fist()
         {

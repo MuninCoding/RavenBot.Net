@@ -37,6 +37,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -234,12 +235,15 @@
     <Compile Include="BattleSystem\Entities\BossEnemies\BossLevel5.cs" />
     <Compile Include="BattleSystem\Entities\Enemies\Creep2.cs" />
     <Compile Include="BattleSystem\Entities\Enemies\Creep3.cs" />
+    <Compile Include="BattleSystem\Entities\IPotion.cs" />
     <Compile Include="BattleSystem\Entities\Shield\VikingShield.cs" />
     <Compile Include="BattleSystem\Entities\Shield\SilberShield.cs" />
     <Compile Include="BattleSystem\Entities\Weapons\DivineRapier.cs" />
     <Compile Include="BattleSystem\Entities\Weapons\Hoe.cs" />
     <Compile Include="BattleSystem\Handlers\FarmHandler.cs" />
-    <Compile Include="BattleSystem\Handlers\ShopHandler.cs" />
+    <Compile Include="BattleSystem\Handlers\ShopEmbedHandler.cs" />
+    <Compile Include="BattleSystem\Handlers\ShopIHandler - Copy.cs" />
+    <Compile Include="BattleSystem\Handlers\ShopItemHandler.cs" />
     <Compile Include="BattleSystem\Handlers\SpawnHandler.cs" />
     <Compile Include="BattleSystem\Handlers\ItemHandler.cs" />
     <Compile Include="BattleSystem\Entities\Armor\Naked.cs" />
@@ -302,5 +306,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

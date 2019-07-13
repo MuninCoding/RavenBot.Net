@@ -10,10 +10,12 @@ namespace DiscordBot.BattleSystem.Entities.Weapons
     {
         public float Damage { get; set; }
         public string Name { get; set; }
+        public float PurchasePrice { get; set; }
         public Bat()
         {
             Damage = 15;
             Name = "Bat";
+            PurchasePrice = 300;
         }
     }
 }

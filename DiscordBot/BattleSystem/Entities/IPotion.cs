@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace DiscordBot.BattleSystem.Entities
 {
-    public interface IWeapon
+    public interface IPotion
     {
-        float Damage{ get; set; }
-        string Name { get; set; }
+        int Health{ get; set; }
         float PurchasePrice { get; set; }
+        string Name { get; set; }
     }
 }

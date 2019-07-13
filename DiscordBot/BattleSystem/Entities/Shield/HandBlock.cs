@@ -11,6 +11,7 @@ namespace DiscordBot.BattleSystem.Entities.Shield
     {
         public int DamageReflection { get; set; }
         public int DamageBlock { get; set; }
+        public float PurchasePrice { get; set; }
         public string Name { get; set; }
 
         public HandBlock()

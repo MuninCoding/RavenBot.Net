@@ -10,6 +10,7 @@ namespace DiscordBot.BattleSystem.Entities
     {
         int DamageBlock { get; set; }
         int DamageReflection { get; set; }
+        float PurchasePrice { get; set; }
         string Name { get; set; }
     }
 }
