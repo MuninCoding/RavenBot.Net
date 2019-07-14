@@ -36,7 +36,7 @@ namespace DiscordBot.BattleSystem.Handlers
                 }
                 else
                 {
-                    await context.Channel.SendMessageAsync($"You have not enough Gold to buy a {type.Name}");
+                    await context.Channel.SendMessageAsync($"You do have not enough Gold to buy a {type.Name}");
                 }
             }
             else if (itemSlot.Equals("armor"))
@@ -62,7 +62,7 @@ namespace DiscordBot.BattleSystem.Handlers
                 }
                 else
                 {
-                    await context.Channel.SendMessageAsync($"You have not enough Gold to buy a {type.Name}");
+                    await context.Channel.SendMessageAsync($"You do have not enough Gold to buy a {type.Name}");
                 }
             }
             else if (itemSlot.Equals("shield"))
@@ -88,7 +88,7 @@ namespace DiscordBot.BattleSystem.Handlers
                 }
                 else
                 {
-                    await context.Channel.SendMessageAsync($"You have not enough Gold to buy a {type.Name}");
+                    await context.Channel.SendMessageAsync($"You do have not enough Gold to buy a {type.Name}");
                 }
             }
             else
