@@ -1,6 +1,7 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
 using DiscordBot.BattleSystem.Entities.Armor;
+using DiscordBot.BattleSystem.Entities.Potions;
 using DiscordBot.BattleSystem.Entities.Shield;
 using DiscordBot.BattleSystem.Entities.Weapons;
 using DiscordBot.BattleSystem.Handlers;
@@ -97,6 +98,23 @@ namespace DiscordBot.Modules.BattleModules
                         break;
                 }
 
+            }
+            else if (itemSlot.Equals("potion"))
+            {
+                switch (itemName)
+                {
+                    case "healing":
+                        await ItemHandler.AddItem(itemSlot, typeof(HealingPotion), Context, user);
+                        break;
+                    case "divine":
+                        await ItemHandler.AddItem(itemSlot, typeof(DivinePotion), Context, user);
+                        break;
+                    default:
+                        await Context.Channel.SendMessageAsync("Potion not found");
+                        await Task.Delay(10000);
+                        await Context.Message.DeleteAsync();
+                        break;
+                }
             }
             else
             {
