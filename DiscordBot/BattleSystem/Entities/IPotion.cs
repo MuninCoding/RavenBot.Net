@@ -8,7 +8,7 @@ namespace DiscordBot.BattleSystem.Entities
 {
     public interface IPotion
     {
-        int Health{ get; set; }
+        int Heal{ get; set; }
         float PurchasePrice { get; set; }
         string Name { get; set; }
     }
