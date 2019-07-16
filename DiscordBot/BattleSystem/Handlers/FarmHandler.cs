@@ -17,10 +17,14 @@ namespace DiscordBot.BattleSystem.Handlers
         {
             bool isFighting = true;
 
-            float playerHealth = account.BattleStatistics.Health;
+            float playerHealth = account.BattleStatistics.BaseHealth;
             float playerDefense = account.BattleStatistics.Defense;
             float playerDamage = account.BattleStatistics.Damage;
 
+            if (playerHealth == 0)
+            {
+
+            }
             //Simulating fight
             do
             {
@@ -32,6 +36,7 @@ namespace DiscordBot.BattleSystem.Handlers
 
                     await channel.SendMessageAsync($"{account.Name} was hit for {enemy.Damage} damage and blocked {playerDefense} damage. {account.Name}`s current Health is {playerHealth}!");
                     messageCount++;
+                    UserManager.SaveAccounts();
                 }
 
                 //If playerhealth is less the 0

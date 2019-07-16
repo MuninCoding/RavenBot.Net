@@ -35,13 +35,15 @@ namespace DiscordBot.BattleSystem.Handlers
 
             //Then we can get the account of the desired user
             var userAccount = UserManager.GetAccount(userToAdd);
-
+            //Check if itemtypeString is equals the given type
             if (itemTypeString.Equals("weapon"))
             {
+                //create a variable to search in the list for valid type
                 var itemToAdd = (IWeapon)Activator.CreateInstance(itemType);
-
+                //check if user account contains item
                 if (!userAccount.BattleStatistics.Weapons.Any(x => x.Name == itemToAdd.Name))
                 {
+                    //user contains not then go and add them
                     userAccount.BattleStatistics.Weapons.Add(itemToAdd);
 
                     var botMessage = await context.Channel.SendMessageAsync($"Added {itemTypeString} of type {itemType.ToString()}");
@@ -95,6 +97,16 @@ namespace DiscordBot.BattleSystem.Handlers
 
                 }
             }
+            else if (itemTypeString.Equals("potion"))
+            {
+                var itemToAdd = (IPotion)Activator.CreateInstance(itemType);
+                
+                    userAccount.BattleStatistics.Potions.Add(itemToAdd);
+
+                    var botMessage = await context.Channel.SendMessageAsync($"Added {itemTypeString} of type {itemType.ToString()}");
+                    await Task.Delay(5000);
+                    await botMessage.DeleteAsync();           
+            }
             else
             {
                 var botMessage = await context.Channel.SendMessageAsync("Item type not found");
@@ -107,8 +119,10 @@ namespace DiscordBot.BattleSystem.Handlers
 
         internal static async Task<uint> CheckForItemDrop(UserAccount account, SocketCommandContext context, uint messageCount)
         {
+            //create a generator for a random double
             var generator = new Random();
             double random = generator.NextDouble();
+            // is the random number under the generated double add them a Item and increase drops for statistics
             if (random <= 0.25)
             {
                 account.BattleStatistics.Weapons.Add(new Bat());
@@ -140,9 +154,9 @@ namespace DiscordBot.BattleSystem.Handlers
 
             if (itemTypeString.Equals("weapon"))
             {
-                var itemToAdd = Activator.CreateInstance(itemType);
+                var itemToEquip = Activator.CreateInstance(itemType);
 
-                userAccount.BattleStatistics.Weapon = (IWeapon)itemToAdd;
+                userAccount.BattleStatistics.Weapon = (IWeapon)itemToEquip;
 
                 var botMessage = await context.Channel.SendMessageAsync($"Equipped {itemTypeString} {itemType.Name}");
                 await Task.Delay(5000);
@@ -151,9 +165,9 @@ namespace DiscordBot.BattleSystem.Handlers
             }
             else if (itemTypeString.Equals("shield"))
             {
-                var itemToAdd = Activator.CreateInstance(itemType);
+                var itemToEquip = Activator.CreateInstance(itemType);
 
-                userAccount.BattleStatistics.Shield = (IShield)itemToAdd;
+                userAccount.BattleStatistics.Shield = (IShield)itemToEquip;
 
                 var botMessage = await context.Channel.SendMessageAsync($"Equipped {itemTypeString} {itemType.Name}");
                 await Task.Delay(5000);
@@ -162,9 +176,9 @@ namespace DiscordBot.BattleSystem.Handlers
             }
             else if (itemTypeString.Equals("armor"))
             {
-                var itemToAdd = Activator.CreateInstance(itemType);
+                var itemToEquip = Activator.CreateInstance(itemType);
 
-                userAccount.BattleStatistics.Armor = (IArmor)itemToAdd;
+                userAccount.BattleStatistics.Armor = (IArmor)itemToEquip;
 
                 var botMessage = await context.Channel.SendMessageAsync($"Equipped {itemTypeString} {itemType.Name}");
                 await Task.Delay(5000);

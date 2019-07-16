@@ -1,5 +1,4 @@
-﻿using DiscordBot.Core.UserAccounts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,18 +6,17 @@ using System.Threading.Tasks;
 
 namespace DiscordBot.BattleSystem.Entities.Potions
 {
-    public class DivinePotion : IPotion
+    public class HealingPotion : IPotion
     {
         public int Heal { get; set; }
         public float PurchasePrice { get; set; }
         public string Name { get; set; }
 
-        public DivinePotion()
+        public HealingPotion()
         {
-            Heal = 1000;
-            PurchasePrice = 500;
-            Name = "Divine Potion";
+            Heal = 50;
+            PurchasePrice = 200;
+            Name = "Healing Potion";
         }
-
     }
 }

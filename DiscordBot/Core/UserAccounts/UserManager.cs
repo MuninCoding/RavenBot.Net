@@ -2,6 +2,7 @@
 using DiscordBot.BattleSystem;
 using DiscordBot.BattleSystem.Entities;
 using DiscordBot.BattleSystem.Entities.Armor;
+using DiscordBot.BattleSystem.Entities.Potions;
 using DiscordBot.BattleSystem.Entities.Shield;
 using DiscordBot.BattleSystem.Entities.Weapons;
 using DiscordBot.BattleSystem.Statistics;
@@ -75,6 +76,7 @@ namespace DiscordBot.Core.UserAccounts
             battleStats.Weapons = new List<IWeapon>() { new Fist() };
             battleStats.Shields = new List<IShield>() { new HandBlock() };
             battleStats.Armors = new List<IArmor>() { new Naked() };
+            battleStats.Potions = new List<IPotion>();
             battleStats.CreepStatistics = new CreepStatistics();
             battleStats.BossStatistics = new BossStatistics();
             battleStats.PvpStatistics = new PvpStatistics();
@@ -98,5 +100,4 @@ namespace DiscordBot.Core.UserAccounts
             return accounts;
         }
     }
-
 }

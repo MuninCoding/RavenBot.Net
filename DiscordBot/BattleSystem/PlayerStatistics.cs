@@ -20,7 +20,9 @@ namespace DiscordBot.BattleSystem
             }
         }
 
+        
         public float BaseHealth { get; set; }
+        public float CurrentHealth { get; set; }
         public float BaseDamage { get; set; }
         public float BaseDefense { get; set; }
         public float Health
@@ -66,5 +68,6 @@ namespace DiscordBot.BattleSystem
         public List<IWeapon> Weapons { get; set; }
         public List<IShield> Shields { get; set; }
         public List<IArmor> Armors { get; set; }
+        public List<IPotion> Potions { get; set; }
     }
 }
