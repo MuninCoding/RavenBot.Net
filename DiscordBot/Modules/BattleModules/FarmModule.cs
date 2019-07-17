@@ -23,93 +23,103 @@ namespace DiscordBot.Modules.BattleModules
         {
             await Context.Message.DeleteAsync();
             uint messageCount = 1;
+            bool leveledUp = false;
 
             //Getting Playerstats and creating creeps
             UserAccount account = UserManager.GetAccount(Context.Message.Author);
 
-            //Getting a list of enemies form the EnemyUtilites class with the level of the user
-            List<IEnemy> enemies = SpawnHandler.SpawnEnemies(account.BattleStatistics.Level, account.BattleStatistics.Damage, false);
-
-            var embed = new EmbedBuilder();
-            embed.WithColor(Color.Blue)
-                 .WithTitle("Creepwave Statistics");
-
-            if (enemies.Count == 1)
+            if (account.BattleStatistics.IsDead)
             {
-                embed.AddField("CreepCount", $"A Wild {enemies[0].Name} appeared!");
+                await Context.Channel.SendMessageAsync($"you are dead!");
+                messageCount++;
             }
             else
             {
-                embed.AddField("Creepwave", "-");
-                for (int i = 0; i < enemies.Count; i++)
+                //Getting a list of enemies form the EnemyUtilites class with the level of the user
+                List<IEnemy> enemies = SpawnHandler.SpawnEnemies(account.BattleStatistics.Level, account.BattleStatistics.Damage, false);
+
+                var embed = new EmbedBuilder();
+                embed.WithColor(Color.Blue)
+                     .WithTitle("Creepwave Statistics");
+
+                if (enemies.Count == 1)
                 {
-                    embed.AddField($"{enemies[i].Name}", $"{enemies[i].GettingGold} Gold, {enemies[i].GettingXp} XP", true);
+                    embed.AddField("CreepCount", $"A Wild {enemies[0].Name} appeared!");
                 }
-            }
-            var builtEmbed = embed.Build();
-
-            await ReplyAsync(embed: builtEmbed);
-
-
-            var fightResult = await FarmHandler.SimulateFight(enemies, account, Context.Channel, messageCount);
-            bool isWinner = fightResult.isWinner;
-            messageCount = fightResult.messageCount;
-
-            bool isNewCreepWinStreak = false;
-            bool isNewHighestCreepKillStreak = false;
-            bool leveledUp = false;
-
-            //Adding Xp and Rewards (?)
-            if (isWinner)
-            {
-                
-                await ReplyAsync($"{account.Name} Won this Fight and earned 20 XP for it!");
-                messageCount++;
-
-                //Increase properties
-                account.BattleStatistics.CreepStatistics.CreepBattlesWon++;
-                account.BattleStatistics.CreepStatistics.CurrentCreepWinStreak++;
-
-                //Check for creep winstreak
-                uint currentCreepWinStreak = account.BattleStatistics.CreepStatistics.CurrentCreepWinStreak;
-                uint highestCreepWinStreak = account.BattleStatistics.CreepStatistics.HighestCreepWinStreak;
-                isNewCreepWinStreak = await StatisticHandler.CheckForCreepWinstreak(currentCreepWinStreak, highestCreepWinStreak, Context, account);
-                if (isNewCreepWinStreak)
-                    messageCount++;
-
-                //Check for highest creep kills
-                uint currentCreepKills = account.BattleStatistics.CreepStatistics.CurrentCreepKillStreak;
-                uint highestCreepKills = account.BattleStatistics.CreepStatistics.HighestCreepKillStreak;
-                isNewHighestCreepKillStreak = await StatisticHandler.CheckForCreepKillStreak(currentCreepKills, highestCreepKills, Context, account);
-                if (isNewHighestCreepKillStreak)
-                    messageCount++;
-
-                //Levelup check
-                uint oldLevel = account.BattleStatistics.Level;
-                account.BattleStatistics.Xp += 20;
-                uint newLevel = account.BattleStatistics.Level;
-
-                var levelResult = await StatisticHandler.CheckForLevelUp(oldLevel, newLevel, Context, account, messageCount);
-                leveledUp = levelResult.leveledUp; 
-                messageCount = await ItemHandler.CheckForItemDrop(account, Context, messageCount);
-
-                if (leveledUp)
+                else
                 {
-                    messageCount++;
+                    embed.AddField("Creepwave", "-");
+                    for (int i = 0; i < enemies.Count; i++)
+                    {
+                        embed.AddField($"{enemies[i].Name}", $"{enemies[i].GettingGold} Gold, {enemies[i].GettingXp} XP", true);
+                    }
                 }
-            }
-            else
-            {
-                await ReplyAsync("Good luck next time.");
-                messageCount++;
-                account.BattleStatistics.CreepStatistics.CreepBattlesLost++;
-                account.BattleStatistics.CreepStatistics.CurrentCreepKillStreak = 0;
-                account.BattleStatistics.CreepStatistics.CurrentCreepWinStreak = 0;
+                var builtEmbed = embed.Build();
+
+                await ReplyAsync(embed: builtEmbed);
+
+
+                var fightResult = await FarmHandler.SimulateFight(enemies, account, Context.Channel, messageCount);
+                bool isWinner = fightResult.isWinner;
+                messageCount = fightResult.messageCount;
+
+                bool isNewCreepWinStreak = false;
+                bool isNewHighestCreepKillStreak = false;
+
+                //Adding Xp and Rewards (?)
+                if (isWinner)
+                {
+
+                    await ReplyAsync($"{account.Name} Won this Fight and earned 20 XP for it!");
+                    messageCount++;
+
+                    //Increase properties
+                    account.BattleStatistics.CreepStatistics.CreepBattlesWon++;
+                    account.BattleStatistics.CreepStatistics.CurrentCreepWinStreak++;
+
+                    //Check for creep winstreak
+                    uint currentCreepWinStreak = account.BattleStatistics.CreepStatistics.CurrentCreepWinStreak;
+                    uint highestCreepWinStreak = account.BattleStatistics.CreepStatistics.HighestCreepWinStreak;
+                    isNewCreepWinStreak = await StatisticHandler.CheckForCreepWinstreak(currentCreepWinStreak, highestCreepWinStreak, Context, account);
+                    if (isNewCreepWinStreak)
+                        messageCount++;
+
+                    //Check for highest creep kills
+                    uint currentCreepKills = account.BattleStatistics.CreepStatistics.CurrentCreepKillStreak;
+                    uint highestCreepKills = account.BattleStatistics.CreepStatistics.HighestCreepKillStreak;
+                    isNewHighestCreepKillStreak = await StatisticHandler.CheckForCreepKillStreak(currentCreepKills, highestCreepKills, Context, account);
+                    if (isNewHighestCreepKillStreak)
+                        messageCount++;
+
+                    //Levelup check
+                    uint oldLevel = account.BattleStatistics.Level;
+                    account.BattleStatistics.Xp += 20;
+                    uint newLevel = account.BattleStatistics.Level;
+
+                    var levelResult = await StatisticHandler.CheckForLevelUp(oldLevel, newLevel, Context, account, messageCount);
+                    leveledUp = levelResult.leveledUp;
+                    messageCount = await ItemHandler.CheckForItemDrop(account, Context, messageCount);
+
+                    if (leveledUp)
+                    {
+                        messageCount++;
+                    }
+                }
+                else
+                {
+                    await ReplyAsync("Good luck next time.");
+                    messageCount++;
+                    account.BattleStatistics.CreepStatistics.CreepBattlesLost++;
+                    account.BattleStatistics.CreepStatistics.CurrentCreepKillStreak = 0;
+                    account.BattleStatistics.CreepStatistics.CurrentCreepWinStreak = 0;
+                }
+
+                account.BattleStatistics.CreepStatistics.CreepBattlesFought++;
+                UserManager.SaveAccounts();
+                StatisticHandler.RewriteHighscores();
+
             }
 
-            account.BattleStatistics.CreepStatistics.CreepBattlesFought++;
-            UserManager.SaveAccounts();
-            StatisticHandler.RewriteHighscores();
             await Task.Delay(1000);
             var messages = await Context.Channel.GetMessagesAsync((int)messageCount).FlattenAsync();
             var messageList = messages.ToList();

@@ -17,14 +17,9 @@ namespace DiscordBot.BattleSystem.Handlers
         {
             bool isFighting = true;
 
-            float playerHealth = account.BattleStatistics.BaseHealth;
             float playerDefense = account.BattleStatistics.Defense;
             float playerDamage = account.BattleStatistics.Damage;
 
-            if (playerHealth == 0)
-            {
-
-            }
             //Simulating fight
             do
             {
@@ -32,18 +27,18 @@ namespace DiscordBot.BattleSystem.Handlers
                 foreach (var enemy in enemies)
                 {
                     //And letting all of them attack the player
-                    playerHealth -= enemy.Damage - playerDefense;
+                    account.BattleStatistics.CurrentHealth -= enemy.Damage - playerDefense;
 
-                    await channel.SendMessageAsync($"{account.Name} was hit for {enemy.Damage} damage and blocked {playerDefense} damage. {account.Name}`s current Health is {playerHealth}!");
+                    await channel.SendMessageAsync($"{account.Name} was hit for {enemy.Damage} damage and blocked {playerDefense} damage. {account.Name}`s current Health is {account.BattleStatistics.CurrentHealth}!");
                     messageCount++;
-                    UserManager.SaveAccounts();
                 }
 
                 //If playerhealth is less the 0
-                if (playerHealth <= 0)
+                if (account.BattleStatistics.CurrentHealth <= 0)
                 {
                     await channel.SendMessageAsync($"{enemies[0].Name} killed you!");
                     messageCount++;
+                    UserManager.SaveAccounts();
 
                     return (false, messageCount);
                 }
@@ -77,6 +72,8 @@ namespace DiscordBot.BattleSystem.Handlers
                 await Task.Delay(5000);
 
             } while (isFighting);
+
+            UserManager.SaveAccounts();
 
             return (true, messageCount);
         }

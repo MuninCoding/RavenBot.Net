@@ -243,6 +243,7 @@
     <Compile Include="BattleSystem\Entities\Weapons\DivineRapier.cs" />
     <Compile Include="BattleSystem\Entities\Weapons\Hoe.cs" />
     <Compile Include="BattleSystem\Handlers\FarmHandler.cs" />
+    <Compile Include="BattleSystem\Handlers\PotionHandler.cs" />
     <Compile Include="BattleSystem\Handlers\ShopEmbedHandler.cs" />
     <Compile Include="BattleSystem\Handlers\ShopItemHandler.cs" />
     <Compile Include="BattleSystem\Handlers\SpawnHandler.cs" />
@@ -287,6 +288,7 @@
     <Compile Include="Modules\MiniGamesModule\RaffleModule.cs" />
     <Compile Include="Modules\HelpModule.cs" />
     <Compile Include="Modules\RoleModule.cs" />
+    <Compile Include="Modules\UsePotionModule.cs" />
     <Compile Include="Modules\XPModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

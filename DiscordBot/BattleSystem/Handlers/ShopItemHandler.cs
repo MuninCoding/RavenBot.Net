@@ -91,6 +91,32 @@ namespace DiscordBot.BattleSystem.Handlers
                     await context.Channel.SendMessageAsync($"You do have not enough Gold to buy a {type.Name}");
                 }
             }
+            else if (itemSlot.Equals("potion"))
+            {
+                var itemToBuy = (IPotion)Activator.CreateInstance(type);
+                if (account.BattleStatistics.Gold >= itemToBuy.PurchasePrice)
+                {
+                    if (account.BattleStatistics.PotionAmount <=5)
+                    {
+                        account.BattleStatistics.Potions.Add(itemToBuy);
+                        account.BattleStatistics.Gold -= itemToBuy.PurchasePrice;
+
+                        var botMessage = await context.Channel.SendMessageAsync($"You bought a {type.Name} for {itemToBuy.PurchasePrice} Gold");
+                        await Task.Delay(5000);
+                        await botMessage.DeleteAsync();
+                    }
+                    else
+                    {
+                        var botMesssage = await context.Channel.SendMessageAsync($"You have already 5 potions you cant buy another one");
+                        await Task.Delay(5000);
+                        await botMesssage.DeleteAsync();
+                    }
+                }
+                else
+                {
+                    await context.Channel.SendMessageAsync($"You do have not enough Gold to buy a {type.Name}");
+                }
+            }
             else
             {
                 var botMessage = await context.Channel.SendMessageAsync("Item type not found");

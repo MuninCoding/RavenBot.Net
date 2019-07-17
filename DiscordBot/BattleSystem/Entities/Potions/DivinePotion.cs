@@ -15,7 +15,6 @@ namespace DiscordBot.BattleSystem.Entities.Potions
 
         public DivinePotion()
         {
-            Heal = 1000;
             PurchasePrice = 500;
             Name = "Divine Potion";
         }

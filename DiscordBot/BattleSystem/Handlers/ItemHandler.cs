@@ -100,12 +100,23 @@ namespace DiscordBot.BattleSystem.Handlers
             else if (itemTypeString.Equals("potion"))
             {
                 var itemToAdd = (IPotion)Activator.CreateInstance(itemType);
-                
+                if (userAccount.BattleStatistics.PotionAmount <=4)
+                {
                     userAccount.BattleStatistics.Potions.Add(itemToAdd);
 
                     var botMessage = await context.Channel.SendMessageAsync($"Added {itemTypeString} of type {itemType.ToString()}");
                     await Task.Delay(5000);
-                    await botMessage.DeleteAsync();           
+                    await botMessage.DeleteAsync();
+
+                }
+                else
+                {
+                    var botMessage = await context.Channel.SendMessageAsync($"You cant add more");
+                    await Task.Delay(5000);
+                    await botMessage.DeleteAsync();
+
+                }
+
             }
             else
             {

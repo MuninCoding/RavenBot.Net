@@ -38,11 +38,11 @@ namespace DiscordBot.Modules.BattleModules
                     await ReplyAsync("Battle was accepted");
                     await channel.SendMessageAsync("Battle was accepted");
 
-                    float player1Health = authorAccount.BattleStatistics.Health;
+                    float player1Health = authorAccount.BattleStatistics.CurrentHealth;
                     float player1Defense = authorAccount.BattleStatistics.Defense;
                     float player1Damage = authorAccount.BattleStatistics.Damage;
 
-                    float player2Health = socketUserAccount.BattleStatistics.Health;
+                    float player2Health = socketUserAccount.BattleStatistics.CurrentHealth;
                     float player2Defense = socketUserAccount.BattleStatistics.Defense;
                     float player2Damage = socketUserAccount.BattleStatistics.Damage;
                    
