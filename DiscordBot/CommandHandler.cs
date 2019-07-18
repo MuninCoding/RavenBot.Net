@@ -34,7 +34,7 @@ namespace DiscordBot
             var context = new SocketCommandContext(_client, msg);
             if (context.User.IsBot) return;
 
-            LevelSystem.AddXpForMessage((SocketGuildUser)context.User, (SocketTextChannel)context.Channel);
+            MessageLevelSystem.AddXpForMessage((SocketGuildUser)context.User, (SocketTextChannel)context.Channel);
             UserAccount account = UserManager.GetAccount(context.User);
             account.MessageCount++;
             UserManager.SaveAccounts();

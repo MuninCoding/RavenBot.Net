@@ -22,153 +22,178 @@ namespace DiscordBot.Modules.BattleModules
             UserAccount socketUserAccount = UserManager.GetAccount(user);
             authorAccount.BattleStatistics.PvpStatistics.PvPChallengesRequests++;
 
-            var channel = await user.GetOrCreateDMChannelAsync();
-            await channel.SendMessageAsync($"{Context.Message.Author} want to fight with you!Do you want to accept the challenge?");
-            await Task.Delay(5000);
-            var messages = await channel.GetMessagesAsync(1).FlattenAsync();
-            uint messageCount = 1;
-            foreach (var message in messages)
+            //get player properties too check for current health if health bool from any player lower then 0 create a message 
+            float player1Health = authorAccount.BattleStatistics.CurrentHealth;
+            float player1Defense = authorAccount.BattleStatistics.Defense;
+            float player1Damage = authorAccount.BattleStatistics.Damage;
+            bool player1IsDead = authorAccount.BattleStatistics.IsDead;
+
+            float player2Health = socketUserAccount.BattleStatistics.CurrentHealth;
+            float player2Defense = socketUserAccount.BattleStatistics.Defense;
+            float player2Damage = socketUserAccount.BattleStatistics.Damage;
+            bool player2IsDead = socketUserAccount.BattleStatistics.IsDead;
+            //check player`s CurrentHealth 
+            if (!player1IsDead)
             {
-                
-                if (message.Content.Equals("yes"))
+                if (!player2IsDead)
                 {
-                    authorAccount.BattleStatistics.PvpStatistics.PvPBattlesFought++;
-                    socketUserAccount.BattleStatistics.PvpStatistics.PvPBattlesFought++;
-                    socketUserAccount.BattleStatistics.PvpStatistics.PvPBattlesAccepted++;
-                    await ReplyAsync("Battle was accepted");
-                    await channel.SendMessageAsync("Battle was accepted");
 
-                    float player1Health = authorAccount.BattleStatistics.CurrentHealth;
-                    float player1Defense = authorAccount.BattleStatistics.Defense;
-                    float player1Damage = authorAccount.BattleStatistics.Damage;
-
-                    float player2Health = socketUserAccount.BattleStatistics.CurrentHealth;
-                    float player2Defense = socketUserAccount.BattleStatistics.Defense;
-                    float player2Damage = socketUserAccount.BattleStatistics.Damage;
-                   
-                    bool authorIsWinner = true;
-                    bool isFighting = true;
-                    bool leveledUp = false;
-                    bool isNewKillstreak = false;
-                    bool isNewWinStreak = false;
-
-
-                    //StartFight();
-                    await ReplyAsync("Battle Beginns");
-                    messageCount++;
-                    await channel.SendMessageAsync("Battle Beginns");
-                    do
+                    //if player health >0 create a DM Message channel 
+                    var channel = await user.GetOrCreateDMChannelAsync();
+                    await channel.SendMessageAsync($"{Context.Message.Author} want to fight with you!Do you want to accept the challenge?");
+                    await Task.Delay(5000);
+                    var messages = await channel.GetMessagesAsync(1).FlattenAsync();
+                    uint messageCount = 1;
+                    foreach (var message in messages)
                     {
-                        await Task.Delay(3000);
-                        player1Health -= player2Damage - player1Defense;
-                        if (player1Health <= 0)
+
+                        if (message.Content.Equals("yes"))
                         {
-                            await ReplyAsync("You died!");
+                            authorAccount.BattleStatistics.PvpStatistics.PvPBattlesFought++;
+                            socketUserAccount.BattleStatistics.PvpStatistics.PvPBattlesFought++;
+                            socketUserAccount.BattleStatistics.PvpStatistics.PvPBattlesAccepted++;
+                            await ReplyAsync("Battle was accepted");
+                            await channel.SendMessageAsync("Battle was accepted");
+
+                            bool authorIsWinner = true;
+                            bool isFighting = true;
+                            bool leveledUp = false;
+                            bool isNewKillstreak = false;
+                            bool isNewWinStreak = false;
+
+
+                            //StartFight();
+                            await ReplyAsync("Battle Beginns");
                             messageCount++;
-                            isFighting = false;
-                            authorIsWinner = false;
-                            continue;
+                            await channel.SendMessageAsync("Battle Beginns");
+                            do
+                            {
+                                await Task.Delay(3000);
+                                player1Health -= player2Damage - player1Defense;
+                                if (player1Health <= 0)
+                                {
+                                    await ReplyAsync("You died!");
+                                    messageCount++;
+                                    isFighting = false;
+                                    authorIsWinner = false;
+                                    continue;
+                                }
+
+                                player2Health -= player1Damage - player2Defense;
+                                await ReplyAsync($"{authorAccount}´s current Health is {player1Health}!");
+                                await ReplyAsync($"{socketUserAccount}´s current Health is {player2Health}!");
+                                messageCount += 2;
+                                isFighting = !(player1Health <= 0 || player2Health <= 0);
+
+                            } while (isFighting);
+
+                            if (authorIsWinner)
+                            {
+                                await ReplyAsync("You won this Fight");
+                                messageCount++;
+                                await channel.SendMessageAsync("You lost this Fight sorry!");
+
+                                authorAccount.BattleStatistics.PvpStatistics.AmountOfPlayersKilled++;
+                                authorAccount.BattleStatistics.PvpStatistics.PvPBattlesWon++;
+                                socketUserAccount.BattleStatistics.PvpStatistics.PvPBattlesLost++;
+                                socketUserAccount.BattleStatistics.PvpStatistics.CurrentPvpWinStreak = 0;
+                                socketUserAccount.BattleStatistics.PvpStatistics.CurrentPvpKillStreak = 0;
+
+                                uint oldLevel = authorAccount.BattleStatistics.Level;
+                                authorAccount.BattleStatistics.Xp += 50;
+                                uint newLevel = authorAccount.BattleStatistics.Level;
+
+                                var levelResult = await StatisticHandler.CheckForLevelUp(oldLevel, newLevel, Context, authorAccount, messageCount);
+                                leveledUp = levelResult.leveledUp;
+                                messageCount = levelResult.messageCount;
+
+                                uint currentPlayerKillStreak = authorAccount.BattleStatistics.PvpStatistics.CurrentPvpKillStreak;
+                                authorAccount.BattleStatistics.PvpStatistics.CurrentPvpKillStreak++;
+                                uint highestPlayerKillStreak = authorAccount.BattleStatistics.PvpStatistics.HighestPvpKillStreak;
+                                isNewKillstreak = await StatisticHandler.CheckForPlayerKills(currentPlayerKillStreak, highestPlayerKillStreak, Context, authorAccount);
+                                if (isNewKillstreak)
+                                    messageCount++;
+
+                                uint currentWinStreak = authorAccount.BattleStatistics.PvpStatistics.CurrentPvpWinStreak;
+                                authorAccount.BattleStatistics.PvpStatistics.CurrentPvpWinStreak++;
+                                uint highestWinStreak = authorAccount.BattleStatistics.PvpStatistics.HighestPvpWinStreak;
+                                isNewWinStreak = await StatisticHandler.CheckForPvpWinstreak(currentWinStreak, highestWinStreak, Context, authorAccount);
+                                if (isNewWinStreak)
+                                    messageCount++;
+                            }
+                            else
+                            {
+                                await channel.SendMessageAsync("You won this Fight!");
+                                await ReplyAsync("You lost Sorry!");
+                                messageCount++;
+
+                                socketUserAccount.BattleStatistics.PvpStatistics.AmountOfPlayersKilled++;
+                                socketUserAccount.BattleStatistics.PvpStatistics.PvPBattlesWon++;
+                                authorAccount.BattleStatistics.PvpStatistics.PvPBattlesLost++;
+                                authorAccount.BattleStatistics.PvpStatistics.CurrentPvpWinStreak = 0;
+                                authorAccount.BattleStatistics.PvpStatistics.CurrentPvpKillStreak = 0;
+
+                                uint oldLevel = socketUserAccount.BattleStatistics.Level;
+                                socketUserAccount.BattleStatistics.Xp += 50;
+                                uint newLevel = socketUserAccount.BattleStatistics.Level;
+
+                                var levelResult = await StatisticHandler.CheckForLevelUp(oldLevel, newLevel, Context, authorAccount, messageCount);
+                                leveledUp = levelResult.leveledUp;
+                                messageCount = levelResult.messageCount;
+
+                                uint currentPlayerKillStreak = socketUserAccount.BattleStatistics.PvpStatistics.CurrentPvpKillStreak;
+                                socketUserAccount.BattleStatistics.PvpStatistics.CurrentPvpKillStreak++;
+                                uint highestPlayerKillStreak = socketUserAccount.BattleStatistics.PvpStatistics.HighestPvpKillStreak;
+                                isNewKillstreak = await StatisticHandler.CheckForCreepKillStreak(currentPlayerKillStreak, highestPlayerKillStreak, Context, socketUserAccount);
+                                if (isNewKillstreak)
+                                    messageCount++;
+
+                                uint currentWinStreak = socketUserAccount.BattleStatistics.PvpStatistics.CurrentPvpWinStreak;
+                                socketUserAccount.BattleStatistics.PvpStatistics.CurrentPvpWinStreak++;
+                                uint highestWinStreak = socketUserAccount.BattleStatistics.PvpStatistics.HighestPvpWinStreak;
+                                isNewWinStreak = await StatisticHandler.CheckForPvpWinstreak(currentWinStreak, highestWinStreak, Context, socketUserAccount);
+                                if (isNewWinStreak)
+                                    messageCount++;
+                            }
+
+                            UserManager.SaveAccounts();
+                            var message1 = await Context.Channel.GetMessagesAsync((int)messageCount).FlattenAsync();
+                            var messageList = message1.ToList();
+                            if (leveledUp)
+                            {
+                                messageList.RemoveAt(0);
+                            }
+                            foreach (var text in messageList)
+                            {
+                                await Task.Delay(60000);
+                                await text.DeleteAsync();
+                            }
                         }
-
-                        player2Health -= player1Damage - player2Defense;
-                        await ReplyAsync($"{authorAccount}´s current Health is {player1Health}!");
-                        await ReplyAsync($"{socketUserAccount}´s current Health is {player2Health}!");
-                        messageCount += 2;
-                        isFighting = !(player1Health <= 0 || player2Health <= 0);
-
-                    } while (isFighting);
-
-                    if (authorIsWinner)
-                    {
-                        await ReplyAsync("You won this Fight");
-                        messageCount++;
-                        await channel.SendMessageAsync("You lost this Fight sorry!");
-
-                        authorAccount.BattleStatistics.PvpStatistics.AmountOfPlayersKilled++;
-                        authorAccount.BattleStatistics.PvpStatistics.PvPBattlesWon++; 
-                        socketUserAccount.BattleStatistics.PvpStatistics.PvPBattlesLost++;
-                        socketUserAccount.BattleStatistics.PvpStatistics.CurrentPvpWinStreak = 0;
-                        socketUserAccount.BattleStatistics.PvpStatistics.CurrentPvpKillStreak = 0;
-
-                        uint oldLevel = authorAccount.BattleStatistics.Level;
-                        authorAccount.BattleStatistics.Xp += 50;
-                        uint newLevel = authorAccount.BattleStatistics.Level;
-
-                        var levelResult = await StatisticHandler.CheckForLevelUp(oldLevel, newLevel, Context, authorAccount, messageCount);
-                        leveledUp = levelResult.leveledUp;
-                        messageCount = levelResult.messageCount;
-
-                        uint currentPlayerKillStreak = authorAccount.BattleStatistics.PvpStatistics.CurrentPvpKillStreak;
-                        authorAccount.BattleStatistics.PvpStatistics.CurrentPvpKillStreak++;
-                        uint highestPlayerKillStreak = authorAccount.BattleStatistics.PvpStatistics.HighestPvpKillStreak;
-                        isNewKillstreak = await StatisticHandler.CheckForPlayerKills(currentPlayerKillStreak, highestPlayerKillStreak, Context, authorAccount);
-                        if (isNewKillstreak)
-                            messageCount++;
-
-                        uint currentWinStreak = authorAccount.BattleStatistics.PvpStatistics.CurrentPvpWinStreak;
-                        authorAccount.BattleStatistics.PvpStatistics.CurrentPvpWinStreak++;
-                        uint highestWinStreak = authorAccount.BattleStatistics.PvpStatistics.HighestPvpWinStreak;
-                        isNewWinStreak = await StatisticHandler.CheckForPvpWinstreak(currentWinStreak, highestWinStreak, Context, authorAccount);
-                        if (isNewWinStreak)
-                            messageCount++;
-                    }
-                    else
-                    {
-                        await channel.SendMessageAsync("You won this Fight!");
-                        await ReplyAsync("You lost Sorry!");
-                        messageCount++;
-
-                        socketUserAccount.BattleStatistics.PvpStatistics.AmountOfPlayersKilled++;
-                        socketUserAccount.BattleStatistics.PvpStatistics.PvPBattlesWon++;
-                        authorAccount.BattleStatistics.PvpStatistics.PvPBattlesLost++;
-                        authorAccount.BattleStatistics.PvpStatistics.CurrentPvpWinStreak = 0;
-                        authorAccount.BattleStatistics.PvpStatistics.CurrentPvpKillStreak = 0;
-
-                        uint oldLevel = socketUserAccount.BattleStatistics.Level;
-                        socketUserAccount.BattleStatistics.Xp += 50;
-                        uint newLevel = socketUserAccount.BattleStatistics.Level;
-
-                        var levelResult = await StatisticHandler.CheckForLevelUp(oldLevel, newLevel, Context, authorAccount, messageCount);
-                        leveledUp = levelResult.leveledUp;
-                        messageCount = levelResult.messageCount;
-
-                        uint currentPlayerKillStreak = socketUserAccount.BattleStatistics.PvpStatistics.CurrentPvpKillStreak;
-                        socketUserAccount.BattleStatistics.PvpStatistics.CurrentPvpKillStreak++;
-                        uint highestPlayerKillStreak = socketUserAccount.BattleStatistics.PvpStatistics.HighestPvpKillStreak;
-                        isNewKillstreak = await StatisticHandler.CheckForCreepKillStreak(currentPlayerKillStreak, highestPlayerKillStreak, Context, socketUserAccount);
-                        if (isNewKillstreak)
-                            messageCount++;
-                        
-                        uint currentWinStreak = socketUserAccount.BattleStatistics.PvpStatistics.CurrentPvpWinStreak;
-                        socketUserAccount.BattleStatistics.PvpStatistics.CurrentPvpWinStreak++;
-                        uint highestWinStreak = socketUserAccount.BattleStatistics.PvpStatistics.HighestPvpWinStreak;
-                        isNewWinStreak = await StatisticHandler.CheckForPvpWinstreak(currentWinStreak, highestWinStreak, Context, socketUserAccount);
-                        if (isNewWinStreak)
-                            messageCount++;
-                    }
-
-                    UserManager.SaveAccounts();
-                    var message1 = await Context.Channel.GetMessagesAsync((int)messageCount).FlattenAsync();
-                    var messageList = message1.ToList();
-                    if (leveledUp)
-                    {
-                        messageList.RemoveAt(0);
-                    }
-                    foreach (var text in messageList)
-                    {
-                        await Task.Delay(60000);
-                        await text.DeleteAsync();
+                        else
+                        {
+                            var botMsg = await ReplyAsync("Battle was declined");
+                            await Task.Delay(30000);
+                            await botMsg.DeleteAsync();
+                            await channel.SendMessageAsync("Battle was declined");
+                            socketUserAccount.BattleStatistics.PvpStatistics.PvPBattlesDeclined++;
+                            UserManager.SaveAccounts();
+                        }
                     }
                 }
                 else
                 {
-                    var botMsg = await ReplyAsync("Battle was declined");
+                    var botMsg = await ReplyAsync("player is not alive yet!!");
                     await Task.Delay(30000);
                     await botMsg.DeleteAsync();
-                    await channel.SendMessageAsync("Battle was declined");
-                    socketUserAccount.BattleStatistics.PvpStatistics.PvPBattlesDeclined++;
-                    UserManager.SaveAccounts();
+
                 }
+            }
+            else
+            {
+                var botMsg = await ReplyAsync("You are not alive!!");
+                await Task.Delay(30000);
+
+                await botMsg.DeleteAsync();
             }
         }
     }

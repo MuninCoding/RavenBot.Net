@@ -12,6 +12,7 @@ namespace DiscordBot.Core.UserAccounts
     {
         public ulong ID { get; set; }
         public string Name { get; set; }
+        public int Battletag { get; set; }
 
         public uint XP { get; set; }
         public uint LevelNumber

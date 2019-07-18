@@ -63,8 +63,8 @@ namespace DiscordBot.Modules.BattleModules
                 bool isWinner = fightResult.isWinner;
                 messageCount = fightResult.messageCount;
 
-                bool isNewCreepWinStreak = false;
-                bool isNewHighestCreepKillStreak = false;
+                bool isNewCreepWinStreak;
+                bool isNewHighestCreepKillStreak;
 
                 //Adding Xp and Rewards (?)
                 if (isWinner)
@@ -117,7 +117,6 @@ namespace DiscordBot.Modules.BattleModules
                 account.BattleStatistics.CreepStatistics.CreepBattlesFought++;
                 UserManager.SaveAccounts();
                 StatisticHandler.RewriteHighscores();
-
             }
 
             await Task.Delay(1000);

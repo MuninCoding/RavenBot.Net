@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DiscordBot.Core.LevelSystem
 {
-    internal static class LevelSystem
+    internal static class MessageLevelSystem
     {
         internal static async void AddXpForMessage(SocketGuildUser user, SocketTextChannel channel)
         {

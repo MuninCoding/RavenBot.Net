@@ -288,7 +288,7 @@
     <Compile Include="Modules\MiniGamesModule\RaffleModule.cs" />
     <Compile Include="Modules\HelpModule.cs" />
     <Compile Include="Modules\RoleModule.cs" />
-    <Compile Include="Modules\UsePotionModule.cs" />
+    <Compile Include="Modules\BattleModules\UsePotionModule.cs" />
     <Compile Include="Modules\XPModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

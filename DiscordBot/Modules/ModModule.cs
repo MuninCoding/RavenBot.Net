@@ -76,10 +76,10 @@ namespace DiscordBot.Modules
         }
 
         [Command("clear")]
-        [Summary("Clear messages from a channel. Ammount can be specified as argument. Defaults to 10, Maximum is 100")]
+        [Summary("Clear messages from a channel. Ammount can be specified as argument. Defaults to 100")]
         [RequireUserPermission(GuildPermission.ManageMessages)]
         [RequireBotPermission(GuildPermission.ManageMessages)]
-        public async Task DeleteMessageAsync(int amount = 10, bool pinned = false)
+        public async Task DeleteMessageAsync(int amount = 100, bool pinned = false)
         {
             const int delay = 5000;
             if (amount <= 0)
@@ -175,7 +175,6 @@ namespace DiscordBot.Modules
                 await ReplyAsync("You can not mute or unmute an administrator");
             }
         }
-
 
         [Command("kick")]
         [Summary("Kicks a user from the server")]
