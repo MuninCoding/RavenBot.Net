@@ -103,7 +103,7 @@ namespace DiscordBot.Modules.BattleModules
                     var pvpEmbed = embed.Build();
                     await ReplyAsync(embed: pvpEmbed);
                 }
-                else if (stats.Equals("best"))
+                else if (stats.Equals("best"))                      
                 {
                     List<UserAccount> userAccounts = UserManager.GetAccounts();
 

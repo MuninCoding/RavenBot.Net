@@ -237,7 +237,7 @@
     <Compile Include="BattleSystem\Entities\Enemies\Creep3.cs" />
     <Compile Include="BattleSystem\Entities\IPotion.cs" />
     <Compile Include="BattleSystem\Entities\Potions\DivinePotion.cs" />
-    <Compile Include="BattleSystem\Entities\Potions\HealingPotion.cs" />
+    <Compile Include="BattleSystem\Entities\Potions\BigHealingPotion.cs" />
     <Compile Include="BattleSystem\Entities\Shield\VikingShield.cs" />
     <Compile Include="BattleSystem\Entities\Shield\SilberShield.cs" />
     <Compile Include="BattleSystem\Entities\Weapons\DivineRapier.cs" />

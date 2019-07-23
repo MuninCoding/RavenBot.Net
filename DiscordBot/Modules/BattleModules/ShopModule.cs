@@ -136,6 +136,7 @@ namespace DiscordBot.Modules.BattleModules
                 }
 
             }
+            // todo
             else if (itemSlot.Equals("points"))
             {
                 await Context.Channel.SendMessageAsync("Not Implemented yet");

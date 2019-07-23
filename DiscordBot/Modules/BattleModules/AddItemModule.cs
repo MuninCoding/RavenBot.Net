@@ -104,7 +104,7 @@ namespace DiscordBot.Modules.BattleModules
                 switch (itemName)
                 {
                     case "healing":
-                        await ItemHandler.AddItem(itemSlot, typeof(HealingPotion), Context, user);
+                        await ItemHandler.AddItem(itemSlot, typeof(BigHealingPotion), Context, user);
                         break;
                     case "divine":
                         await ItemHandler.AddItem(itemSlot, typeof(DivinePotion), Context, user);

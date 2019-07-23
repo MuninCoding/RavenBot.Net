@@ -24,8 +24,14 @@ namespace DiscordBot.Modules.BattleModules
                 case "divine":
                     await PotionHandler.DivinePotion(account, Context);
                     break;
-                case "healing":
-                    await PotionHandler.HealingPotion(account, Context);
+                case "bighealing":
+                    await PotionHandler.BigHealingPotion(account, Context);
+                    break;
+                case "midhealing":
+                    await PotionHandler.MidHealingPotion(account, Context);
+                    break;
+                case "lilhealing":
+                    await PotionHandler.LilHealingPotion(account, Context);
                     break;
                 default:
                     break;

@@ -27,7 +27,7 @@ namespace DiscordBot.BattleSystem.Handlers
             var shopsInfoEmbed = shopsEmbed.Build();
             return shopsInfoEmbed;
         }
-
+        //todo
         internal static Embed PotionsEmbed()
         {
             throw new NotImplementedException();

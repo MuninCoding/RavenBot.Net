@@ -6,17 +6,16 @@ using System.Threading.Tasks;
 
 namespace DiscordBot.BattleSystem.Entities.Potions
 {
-    public class HealingPotion : IPotion
+    public class BigHealingPotion : IPotion
     {
         public int Heal { get; set; }
         public float PurchasePrice { get; set; }
         public string Name { get; set; }
 
-        public HealingPotion()
+        public BigHealingPotion()
         {
-            Heal = 50;
             PurchasePrice = 200;
-            Name = "Healing Potion";
+            Name = "Big Healing Potion";
         }
     }
 }
